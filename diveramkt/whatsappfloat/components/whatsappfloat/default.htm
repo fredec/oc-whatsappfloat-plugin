@@ -1,0 +1,48 @@
+{% set obj = __SELF__ %}
+{% set numero=obj.numero %}
+{% set telefone=obj.telefone %}
+
+{% if numero or telefone %}
+<div class="botoes_floats" style="display: none;">
+
+	{% if numero %}
+	{% if obj.device == 'mobile' %}
+	<!--  set link_whats='https://api.whatsapp.com/send?phone=55'~numero|only_numbers -->
+	{% set link_whats='https://api.whatsapp.com/send?phone=55'~numero %}
+	{% else %}
+	<!--  set link_whats='https://web.whatsapp.com/send?phone=55'~numero|only_numbers -->
+	{% set link_whats='https://web.whatsapp.com/send?phone=55'~numero %}
+	{% endif %}
+
+	<div class="link_botao whats {{ telefone ?'bot_top':'' }}">
+		<div class="Vcenter">
+			<div>
+				<a href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
+					<span class="txt">
+						<i class="fa fa-whatsapp"></i>
+						<span class="mobi">WhatsApp</span>
+						<span class="desk">Atendimento via WhatsApp</span>
+					</span>
+				</a>
+			</div>
+		</div>
+		<a class="abrir_link" href="{{link_whats}}" title="Atendimento via WhatsApp" target="_blank"></a>
+	</div>
+
+	{% endif %}
+
+	{% if telefone %}
+	<div class="link_botao tel" style="{{obj.settings.color_tel?'background: '~obj.settings.color_tel:''}}">
+		<div class="Vcenter">
+			<div>
+				<a href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
+					<span class="txt"><i class="fa fa-phone"></i> {{obj.settings.tel}}</span>
+				</a>
+			</div>
+		</div>
+		<a class="abrir_link" href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank"></a>
+	</div>
+	{% endif %}
+
+</div>
+{% endif %}

@@ -1,0 +1,10 @@
+plugin:
+    name: 'diveramkt.whatsappfloat::lang.plugin.name'
+    description: 'diveramkt.whatsappfloat::lang.plugin.description'
+    author: Diveramkt
+    icon: oc-icon-whatsapp
+    homepage: ''
+permissions:
+    manage_whatsapp:
+        tab: 'diveramkt.whatsappfloat::lang.plugin.name'
+        label: 'Gerenciar Whatsapp Float'

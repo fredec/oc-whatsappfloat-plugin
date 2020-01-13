@@ -1,0 +1,13 @@
+fields:
+    numero:
+        label: 'Número do whatsapp'
+        span: auto
+        type: text
+    tel:
+        label: 'Número do telefone'
+        span: left
+        type: text
+    color_tel:
+        label: Cor do botão do telefone
+        span: auto
+        type: colorpicker
