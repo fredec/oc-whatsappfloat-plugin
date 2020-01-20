@@ -114,6 +114,9 @@
 	position: relative;display: table-cell;vertical-align: middle;margin-top: 50%;
 	#margin-top: 0;#float: left;#width: 100%;/*EXPLORER*/
 }
+@media(max-width: 767px){
+	.botoes_floats > div.box_mensagem{display: none!important;}
+}
 @media(max-width: 600px){
 	.mobi{display: inline;}
 	.desk{display: none;}
