@@ -3,11 +3,52 @@ fields:
         label: 'Número do whatsapp'
         span: auto
         type: text
+    color_whatsapp:
+        label: 'Cor do botão do Whatsapp'
+        span: right
+        type: colorpicker
     tel:
         label: 'Número do telefone'
         span: left
         type: text
     color_tel:
-        label: Cor do botão do telefone
+        label: 'Cor do botão do telefone'
         span: auto
         type: colorpicker
+tabs:
+    fields:
+        active_mensagem:
+            label: 'Ativar mensagem'
+            span: auto
+            type: switch
+            tab: Mensagem
+        background_balao:
+            label: 'Cor de Fundo do balão'
+            span: auto
+            type: colorpicker
+            tab: Mensagem
+        foto_mensagem:
+            label: Foto
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload
+            tab: Mensagem
+        mensagem:
+            label: 'Mensagem (Padrão: Precisando de Ajuda ?)'
+            size: ''
+            span: auto
+            type: textarea
+            tab: Mensagem
+        versao_awesome:
+            label: 'Versão ícones awesome'
+            options:
+                4.7.0: '<= 4.7.0'
+                5.1.0: 5.1.0
+            showSearch: true
+            span: auto
+            type: dropdown
+            tab: Configurações

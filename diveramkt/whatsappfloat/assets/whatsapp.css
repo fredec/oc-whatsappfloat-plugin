@@ -1,11 +1,25 @@
+/*SETA PONTOS CADEAIS*/
+.seta_base{ display: inline-block; vertical-align: middle; margin-right: 10px; width: 0; height: 0; }
+.seta_base_esquerda{ border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 5px solid blue; }
+.seta_base_direita{ border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 5px solid #3576BA; }
+.seta_base_cima{ border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 5px solid black;}
+.seta_base_baixo{ border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #f00; }
+
+/*SETA DIAGONAIS*/
+.diagonal_seta{ border: solid 40px transparent; width: 0; height: 0; display: inline-block; }
+.bottom_right { border-right: none; border-top: none; border-bottom: solid 40px #888; }
+.bottom_left { border-left: solid 40px #555; border-bottom: solid 40px #555; }
+.top_right { border-right: solid 40px #555; border-top: solid 40px #555; }
+.top_left { border-left: solid 40px #888; border-top: solid 40px #888; }
+
 .botoes_floats {
 	position: fixed;
 	right: 10px;
 	bottom: 10px;
-	bottom: 77px;
-	z-index: 9999;
+	z-index: 99999;
 	display: block!important;
 }
+
 .botoes_floats > div {
 	position: relative;
 	display: table;
@@ -14,6 +28,56 @@
 	padding: 10px 15px;
 	border-radius: 15px;
 }
+
+@keyframes animate_balao {
+	0% { bottom: 0; }
+	40% { bottom: 0; opacity: 0;}
+	48% { bottom: 105%; opacity: 1 }
+	50% { bottom: 100%; opacity: 1 }
+	90% { bottom: 100%; opacity: 1;}
+	100% { bottom: 0; }
+}
+
+.botoes_floats > div.box_mensagem{
+	position: absolute;
+	right: 0;
+	bottom: 100%;
+	width: auto;
+	margin-bottom: 25px;
+	border-radius: 10px;
+
+	/*bottom: 0;
+	opacity: 0;
+	animation: animate_balao 10s infinite ease-in-out;*/
+}
+.botoes_floats > div.box_mensagem .seta_base_baixo{
+	position: absolute;
+	top: 100%;
+	right: 10px;
+	border-left-width: 15px;
+	border-right-width: 15px;
+	border-top-width: 15px;
+	border-top-color: #0DC152;
+}
+
+.botoes_floats .foto_mensagem img{max-width: 100%;}
+.botoes_floats .foto_mensagem{
+	position: relative;
+	float: left;
+	width: 60px;
+	height: 60px;
+	overflow: hidden;
+	border-radius: 50px;
+}
+.botoes_floats .box_mensagem p{margin-bottom: 0;color: white;font-size: 125%;line-height: 25px;}
+.botoes_floats .texto_mensagem{
+	position: relative;
+	max-width: 150px;
+	float: right;
+}
+.botoes_floats .texto_mensagem .Vcenter{position: relative;width: 100%;height: 60px;}
+.botoes_floats .foto_mensagem+.texto_mensagem{width: 100px;padding-left: 10px;}
+
 .link_botao a{
 	float: left;
 	bottom: 0;
@@ -24,9 +88,9 @@
 
 .link_botao a span.txt{
 	position: relative;
-	padding-left: 25px;
+	padding-left: 30px;
 }
-.link_botao .fa{
+.link_botao .fa, .link_botao .fab{
 	position: absolute;
 	left: 0;
 	top: 50%;
@@ -51,7 +115,6 @@
 	#margin-top: 0;#float: left;#width: 100%;/*EXPLORER*/
 }
 @media(max-width: 600px){
-	body{margin-bottom: 48px;}
 	.mobi{display: inline;}
 	.desk{display: none;}
 	.botoes_floats{

@@ -2,6 +2,8 @@
 namespace Diveramkt\Whatsappfloat;
 // namespace diveramkt\whatsappfloat;
 
+use Diveramkt\Whatsappfloat\Components\Whatsappfloat;
+
 use System\Classes\PluginBase;
 
 class Plugin extends PluginBase
@@ -30,5 +32,9 @@ class Plugin extends PluginBase
 				'permissions' => ['Whatsappfloat.manage_whatsapp']
 			]
 		];
+	}
+
+	public function boot(){
+		
 	}
 }

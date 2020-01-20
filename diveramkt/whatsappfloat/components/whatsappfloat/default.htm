@@ -1,9 +1,36 @@
 {% set obj = __SELF__ %}
 {% set numero=obj.numero %}
 {% set telefone=obj.telefone %}
+{% set fa_icone=obj.icones_fonte %}
 
 {% if numero or telefone %}
+
 <div class="botoes_floats" style="display: none;">
+
+	{% if obj.settings.active_mensagem %}
+
+	<div class="box_mensagem" style="{{obj.settings.background_balao?'background: '~obj.settings.background_balao:''}}">
+		<div class="seta_base seta_base_baixo" style="{{obj.settings.background_balao?'border-top-color: '~obj.settings.background_balao:''}}"></div>
+		{% if obj.settings.foto_mensagem.path %}
+		<div class="foto_mensagem">
+			{% if obj.settings.foto_mensagem.path_resize %}
+			<img src="{{obj.settings.foto_mensagem.path_resize}}" />
+			{% else %}
+			<img src="{{obj.settings.foto_mensagem.path|resize(60,60,{mode: 'crop'})}}" />
+			{% endif %}
+		</div>
+		{% endif %}
+		<div class="texto_mensagem">
+			<div class="Vcenter">
+				<div>
+					<p>{{obj.settings.mensagem|raw}}</p>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	{% endif %}
+
 
 	{% if numero %}
 	{% if obj.device == 'mobile' %}
@@ -14,12 +41,12 @@
 	{% set link_whats='https://web.whatsapp.com/send?phone=55'~numero %}
 	{% endif %}
 
-	<div class="link_botao whats {{ telefone ?'bot_top':'' }}">
+	<div class="link_botao whats {{ telefone ?'bot_top':'' }}" style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
 		<div class="Vcenter">
 			<div>
 				<a href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
 					<span class="txt">
-						<i class="fa fa-whatsapp"></i>
+						<i class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
 						<span class="mobi">WhatsApp</span>
 						<span class="desk">Atendimento via WhatsApp</span>
 					</span>
@@ -36,7 +63,7 @@
 		<div class="Vcenter">
 			<div>
 				<a href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
-					<span class="txt"><i class="fa fa-phone"></i> {{obj.settings.tel}}</span>
+					<span class="txt"><i class="{{fa_icone.numero}} fa-phone"></i> {{obj.settings.tel}}</span>
 				</a>
 			</div>
 		</div>
