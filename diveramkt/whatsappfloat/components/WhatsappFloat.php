@@ -23,7 +23,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 
 		$defaultFields = Settings::instance();
 		$uploadedFile = $defaultFields->foto_mensagem;
-		$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css');
+		$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado');
 		$defaultFields = $defaultFields->toArray();
 
 		if (!empty($defaultFields)) {

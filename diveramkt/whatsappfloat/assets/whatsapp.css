@@ -83,6 +83,7 @@
 	bottom: 0;
 	color: white;
 }
+.link_botao a span{color: white;}
 .botoes_floats > .bot_top{border-radius: 15px 15px 0 0;}
 .bot_top + div{border-radius: 0 0 15px 15px;margin-top: 2px;}
 
