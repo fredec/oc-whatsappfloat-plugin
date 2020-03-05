@@ -3,20 +3,39 @@ fields:
         label: 'Número do whatsapp'
         span: auto
         type: text
-    color_whatsapp:
-        label: 'Cor do botão do Whatsapp'
+    text_padrao:
+        label: 'Texto padrão para enviar no whatsapp'
         span: right
-        type: colorpicker
-    tel:
-        label: 'Número do telefone'
+        type: text
+    legenda_whats:
+        label: 'Legenda do botão (Padrão: Atendimento via WhatsApp)'
         span: left
         type: text
-    color_tel:
-        label: 'Cor do botão do telefone'
-        span: auto
+    legenda_whats_mobile:
+        label: 'Legenda do botão mobile (Padrão: WhatsApp)'
+        span: right
+        type: text
+    color_whatsapp:
+        label: 'Cor do botão do Whatsapp'
+        span: full
         type: colorpicker
 tabs:
     fields:
+        tel:
+            label: 'Número do telefone'
+            span: left
+            type: text
+            tab: Botão de Telefone
+        legenda_tel:
+            label: 'Legenda do Botão'
+            span: right
+            type: text
+            tab: Botão de Telefone
+        color_tel:
+            label: 'Cor do botão do telefone'
+            span: full
+            type: colorpicker
+            tab: Botão de Telefone
         active_mensagem:
             label: 'Ativar mensagem'
             span: auto

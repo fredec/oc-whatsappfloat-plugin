@@ -32,14 +32,19 @@
 	{% endif %}
 
 
+	{% set text_whats='&text='~obj.settings.text_padrao %}
+
 	{% if numero %}
 	{% if obj.device == 'mobile' %}
 	<!--  set link_whats='https://api.whatsapp.com/send?phone=55'~numero|only_numbers -->
-	{% set link_whats='https://api.whatsapp.com/send?phone=55'~numero %}
+	{% set link_whats='https://api.whatsapp.com/send?phone=55' %}
 	{% else %}
 	<!--  set link_whats='https://web.whatsapp.com/send?phone=55'~numero|only_numbers -->
-	{% set link_whats='https://web.whatsapp.com/send?phone=55'~numero %}
+	{% set link_whats='https://web.whatsapp.com/send?phone=55' %}
 	{% endif %}
+
+	{% set link_whats=link_whats~numero~text_whats %}
+
 
 	<div class="link_botao whats {{ telefone ?'bot_top':'' }}" style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
 		<div class="Vcenter">
@@ -47,8 +52,8 @@
 				<a href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
 					<span class="txt">
 						<i class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
-						<span class="mobi">WhatsApp</span>
-						<span class="desk">Atendimento via WhatsApp</span>
+						<span class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
+						<span class="desk">{{obj.settings.legenda_whats}}</span>
 					</span>
 				</a>
 			</div>
@@ -63,7 +68,7 @@
 		<div class="Vcenter">
 			<div>
 				<a href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
-					<span class="txt"><i class="{{fa_icone.numero}} fa-phone"></i> {{obj.settings.tel}}</span>
+					<span class="txt"><i class="{{fa_icone.numero}} fa-phone"></i> {{obj.settings.legenda_telefone}}</span>
 				</a>
 			</div>
 		</div>

@@ -56,7 +56,16 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$this->settings = (object)$this->settings;
 		$this->numero=''; $this->telefone='';
 		if(isset($this->settings->numero) && $this->settings->numero) $this->numero=preg_replace("/[^0-9]/", "", $this->settings->numero);
-		if(isset($this->settings->tel) && $this->settings->tel) $this->telefone=preg_replace("/[^0-9]/", "", $this->settings->tel);
+
+		$this->settings->legenda_telefone='';
+		if(isset($this->settings->tel) && $this->settings->tel){
+			$this->settings->legenda_telefone=$this->settings->tel;
+			$this->telefone=preg_replace("/[^0-9]/", "", $this->settings->tel);
+
+			if(isset($this->settings->legenda_tel) && str_replace(' ', '', $this->settings->legenda_tel) != ''){
+				$this->settings->legenda_telefone=$this->settings->legenda_tel;
+			}
+		}
 
 		// /////////////CLASS ICONES BOTÕES
 		$this->icones_fonte['numero']='fa'; $this->icones_fonte['whatsapp']='fa';
@@ -69,6 +78,16 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		}
 
 		if($this->mobile()) $this->device = 'mobile'; else $this->device = 'desktop';
+
+		if(!isset($this->settings->legenda_whats) || str_replace(' ', '', $this->settings->legenda_whats) == ''){
+			$this->settings->legenda_whats='Atendimento via WhatsApp';
+		}
+		if(!isset($this->settings->legenda_whats_mobile) || str_replace(' ', '', $this->settings->legenda_whats_mobile) == ''){
+			$this->settings->legenda_whats_mobile='WhatsApp';
+		}
+		if(!isset($this->settings->text_padrao) || str_replace(' ', '', $this->settings->text_padrao) == ''){
+			$this->settings->text_padrao='';
+		}
 
 		// $detect = new Mobile_Detect;
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
