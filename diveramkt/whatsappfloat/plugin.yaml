@@ -5,6 +5,6 @@ plugin:
     icon: oc-icon-whatsapp
     homepage: ''
 permissions:
-    manage_whatsapp:
+    Whatsappfloat.manage_whatsapp:
         tab: 'diveramkt.whatsappfloat::lang.plugin.name'
         label: 'Gerenciar Whatsapp Float'
