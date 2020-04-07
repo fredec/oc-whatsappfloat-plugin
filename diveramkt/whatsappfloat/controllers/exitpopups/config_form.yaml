@@ -1,0 +1,11 @@
+name: ExitPopups
+modelClass: Diveramkt\Floatingbanner\Models\ExitPopup
+form: $/diveramkt/floatingbanner/models/exitpopup/fields.yaml
+defaultRedirect: 'diveramkt/floatingbanner/exitpopups/:id'
+create:
+    redirect: diveramkt/floatingbanner/exitpopups/update/1
+    redirectClose: diveramkt/floatingbanner/exitpopups/1
+update:
+    redirect: diveramkt/floatingbanner/exitpopups/1
+    redirectClose: diveramkt/floatingbanner/exitpopups/1
+preview: {  }

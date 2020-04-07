@@ -1,0 +1,4 @@
+title: ExitPopups
+modelClass: Diveramkt\Floatingbanner\Models\ExitPopup
+toolbar:
+    buttons: reorder_toolbar

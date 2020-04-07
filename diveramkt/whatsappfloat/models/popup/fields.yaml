@@ -1,0 +1,36 @@
+fields:
+    title:
+        label: 'diveramkt.floatingbanner::lang.popup.title'
+        span: auto
+        required: 1
+        type: text
+    image:
+        label: 'diveramkt.floatingbanner::lang.popup.image'
+        mode: image
+        span: auto
+        required: 1
+        type: mediafinder
+    data_entrada:
+        label: 'Data de Entrada'
+        mode: datetime
+        span: left
+        type: datepicker
+    data_saida:
+        label: 'Data de Saída'
+        mode: datetime
+        span: left
+        type: datepicker
+    link:
+        label: 'diveramkt.floatingbanner::lang.popup.link'
+        span: left
+        type: text
+    description:
+        label: 'diveramkt.floatingbanner::lang.popup.description'
+        size: ''
+        span: left
+        type: textarea
+        comment: 'diveramkt.floatingbanner::lang.popup.description_comment'
+    dias_oculto:
+        label: 'Dias ocultos (após fechado)'
+        span: left
+        type: number

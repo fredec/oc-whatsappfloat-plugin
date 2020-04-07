@@ -1,0 +1,11 @@
+columns:
+    title:
+        label: 'diveramkt.floatingbanner::lang.popup.title'
+        type: text
+        searchable: true
+        sortable: true
+    enabled:
+        label: 'diveramkt.floatingbanner::lang.popup.enabled'
+        type: switch
+        searchable: true
+        sortable: true

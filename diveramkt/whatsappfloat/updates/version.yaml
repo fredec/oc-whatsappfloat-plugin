@@ -1,11 +1,14 @@
 1.0.1:
     - 'Initialize plugin.'
 1.0.2:
-    - 'Created table diveramkt_whatsappfloat_tel'
-    - builder_table_create_diveramkt_whatsappfloat_tel.php
+    - 'Created table diveramkt_floatingbanner_popup'
+    - builder_table_create_diveramkt_floatingbanner_popup.php
 1.0.3:
-    - 'Updated table diveramkt_whatsappfloat_tel'
-    - builder_table_update_diveramkt_whatsappfloat_tel.php
+    - 'Created table diveramkt_floatingbanner_exitpopup'
+    - builder_table_create_diveramkt_floatingbanner_exitpopup.php
 1.0.4:
-    - 'Updated table diveramkt_whatsappfloat_tel'
-    - builder_table_update_diveramkt_whatsappfloat_tel_2.php
+    - 'Updated table diveramkt_floatingbanner_exitpopup'
+    - builder_table_update_diveramkt_floatingbanner_exitpopup.php
+1.0.5:
+    - 'Updated table diveramkt_floatingbanner_popup'
+    - builder_table_update_diveramkt_floatingbanner_popup.php

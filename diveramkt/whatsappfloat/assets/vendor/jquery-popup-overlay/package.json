@@ -1,0 +1,38 @@
+{
+  "name": "jquery-popup-overlay",
+  "version": "2.1.1",
+  "description": "Lightweight modal popup overlay for jquery",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -c-1",
+    "start:ci": "http-server -c-1 --silent",
+    "dev": "npm start -- -o",
+    "test": "start-server-and-test start http://localhost:8080 test:cypress",
+    "test:cypress": "cypress run",
+    "test:watch": "npm start & cypress open",
+    "lint": "eslint . *.js"
+  },
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vast-engineering/jquery-popup-overlay.git"
+  },
+  "keywords": [
+    "jquery",
+    "popup",
+    "overlay",
+    "modal"
+  ],
+  "author": "Vast",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^3.1.2",
+    "eslint": "^5.9.0",
+    "http-server": "^0.11.1",
+    "pre-commit": "^1.2.2",
+    "start-server-and-test": "^1.0.1"
+  }
+}
