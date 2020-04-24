@@ -1,0 +1,37 @@
+<form class="validate validate-tooltip ligamosform_float" data-legenda="form_contato" data-request="{{ __SELF__ }}::onFormSubmitLigamos" data-request-flash data-request-update="'{{ __SELF__ }}::form_ligamos': '.atualizar_form_ligamos_float'">
+	<!-- data-request-update="@form/contato: '.atualizar_form_contato_float'" -->
+	{{ form_token() }}
+
+	<h2 class="titulo_">Ligamos para você</h2>
+	<div class="row">
+		<div class="col-md-12">
+			<label class="input_label">
+				<p>Seu nome</p>
+				<input name="nome" type="text" id="name" data-validate="required" required="required">
+				<!-- <input class="input_placeholder" type="text" placeholder="Seu nome"> -->
+			</label>
+		</div>
+		<div class="col-md-12">
+			<label class="input_label">
+				<p>Seu telefone</p>
+				<input type="tel" name="telefone" data-validate="phone" required="required">
+				<!-- <input class="input_placeholder" type="text" placeholder="Seu telefone"> -->
+			</label>
+		</div>
+		<div class="col-xs-12">
+			<!--  partial '@recaptcha'  -->
+			<!--  partial 'plugins/martin/forms/components/partials/recaptcha'  -->
+		</div>
+
+		<div class="col-xs-12">
+			<div id="{{ __SELF__ }}_forms_flash"></div>
+			<!-- <div class="alert alert-danger" data-validate-error>
+				<p data-message></p>
+			</div> -->
+			<div class="div_input_loading">
+				<button type="submit" class="button btn"><i class="fa fa-phone-square"></i> Enviar</button>
+				<span data-attach-loading class="lod_"></span>
+			</div>
+		</div>
+	</div>
+</form>

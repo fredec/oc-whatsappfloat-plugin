@@ -1,15 +1,24 @@
+
+
 {% set obj = __SELF__ %}
-{% set numero=obj.numero %}
+
+{% set form_contato=obj.settings.ativar_form_contato %}
+{% set form_ligamos=obj.settings.ativar_form_ligamos %}
+{% set form_externo=obj.settings.ativar_form_externo %}
+
+{% set numero_whats=obj.numero_whats %}
 {% set telefone=obj.telefone %}
+
 {% set fa_icone=obj.icones_fonte %}
+{% set quant_botoes=obj.quant_botoes %}
 
-{% if numero or telefone %}
+{% if quant_botoes %}
 
-<div class="botoes_floats" style="display: none;">
+<div class="botoes_floats formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} " style="display: none;bottom: {{obj.settings.margin_bottom}};">
 
 	{% if obj.settings.active_mensagem %}
-
-	<div class="box_mensagem" style="{{obj.settings.background_balao?'background: '~obj.settings.background_balao:''}}">
+	<div class="box_mensagem blocos esconder_alvo" style="{{obj.settings.background_balao?'background: '~obj.settings.background_balao:''}}">
+		<a href="#" class="fa fa-close link_fechar"></a>
 		<div class="seta_base seta_base_baixo" style="{{obj.settings.background_balao?'border-top-color: '~obj.settings.background_balao:''}}"></div>
 		{% if obj.settings.foto_mensagem.path %}
 		<div class="foto_mensagem">
@@ -32,49 +41,198 @@
 	{% endif %}
 
 
-	{% set text_whats='&text='~obj.settings.text_padrao %}
+	<div class="botoes_ botoes_{{quant_botoes==1?'one':'mult'}}">
+		{% set text_whats='&text='~obj.settings.text_padrao %}
 
-	{% if numero %}
-	{% if obj.device == 'mobile' %}
-	<!--  set link_whats='https://api.whatsapp.com/send?phone=55'~numero|only_numbers -->
-	{% set link_whats='https://api.whatsapp.com/send?phone=55' %}
-	{% else %}
-	<!--  set link_whats='https://web.whatsapp.com/send?phone=55'~numero|only_numbers -->
-	{% set link_whats='https://web.whatsapp.com/send?phone=55' %}
-	{% endif %}
+		{% if numero_whats %}
+		{% if obj.device == 'mobile' %}
+		{% set link_whats='https://api.whatsapp.com/send?phone=55' %}
+		{% else %}
+		{% set link_whats='https://web.whatsapp.com/send?phone=55' %}
+		{% endif %}
 
-	{% set link_whats=link_whats~numero~text_whats %}
+		{% set link_whats=link_whats~numero_whats~text_whats %}
 
+		<!-- {{ telefone ?'bot_top':'' }} -->
+		<div class="{{obj.settings.botao_mobile_whatsapp}} link_botao_whatsappfloat whats " style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
+			<div class="Vcenter center_link">
+				<div>
+					<a href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
+						<span class="txt">
+							<i class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
+							<span class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
+							<span class="desk">{{obj.settings.legenda_whats}}</span>
+						</span>
+					</a>
+				</div>
+			</div>
+			<a class="abrir_link" href="{{link_whats}}" title="Atendimento via WhatsApp" target="_blank"></a>
+		</div>
 
-	<div class="link_botao whats {{ telefone ?'bot_top':'' }}" style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
-		<div class="Vcenter">
-			<div>
-				<a href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
-					<span class="txt">
-						<i class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
-						<span class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
-						<span class="desk">{{obj.settings.legenda_whats}}</span>
-					</span>
-				</a>
+		{% endif %}
+
+		{% if telefone %}
+		<div class="link_botao_whatsappfloat tel" style="{{obj.settings.color_tel?'background: '~obj.settings.color_tel:''}}">
+			<div class="Vcenter center_link">
+				<div>
+					<a href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
+						<span class="txt"><i class="{{fa_icone.numero}} fa-phone"></i> {{obj.settings.legenda_telefone}}</span>
+					</a>
+				</div>
+			</div>
+			<a class="abrir_link" href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank"></a>
+		</div>
+		{% endif %}
+
+		{% if form_contato %}
+		<div class="link_botao_whatsappfloat botao_form_contato" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
+			<div class="Vcenter center_link">
+				<div>
+					<a class="clique_modal_float" href="#" title="{{obj.legenda_contato}}">
+						<span class="txt"><i class="{{fa_icone.numero}} fa-envelope"></i> {{obj.settings.legenda_contato}}</span>
+					</a>
+				</div>
+			</div>
+			<a class="abrir_link clique_modal_float" href="#" title="{{obj.settings.legenda_contato}}"></a>
+
+			<div class="modal_form_float">
+				<div class="fundo abrir_link"></div>
+				<div class="Vcenter">
+					<div>
+						<div class="blocos" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
+							<a href="#" class="fa fa-close" title="Fechar"></a>
+							<!--  partial '@form/contato'  -->
+							<div class="atualizar_form_contato_float">
+								{% partial __SELF__~'::form_contato' %}
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<a class="abrir_link" href="{{link_whats}}" title="Atendimento via WhatsApp" target="_blank"></a>
-	</div>
+		{% endif %}
 
-	{% endif %}
+		{% if form_ligamos %}
+		<div class="link_botao_whatsappfloat botao_form_ligamos" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
+			<div class="Vcenter center_link">
+				<div>
+					<a class="clique_modal_float" href="#" title="{{obj.legenda_ligamos}}">
+						<span class="txt"><i class="{{fa_icone.numero}} fa-tty"></i> {{obj.settings.legenda_ligamos}}</span>
+					</a>
+				</div>
+			</div>
+			<a class="abrir_link clique_modal_float" href="#" title="{{obj.settings.legenda_ligamos}}"></a>
 
-	{% if telefone %}
-	<div class="link_botao tel" style="{{obj.settings.color_tel?'background: '~obj.settings.color_tel:''}}">
-		<div class="Vcenter">
-			<div>
-				<a href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
-					<span class="txt"><i class="{{fa_icone.numero}} fa-phone"></i> {{obj.settings.legenda_telefone}}</span>
-				</a>
+			<div class="modal_form_float">
+				<div class="fundo abrir_link"></div>
+				<div class="Vcenter">
+					<div>
+						<div class="blocos" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
+							<a href="#" class="fa fa-close" title="Fechar"></a>
+							<!--  partial '@form/contato'  -->
+							<div class="atualizar_form_ligamos_float">
+								{% partial __SELF__~'::form_ligamos' %}
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<a class="abrir_link" href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank"></a>
+		{% endif %}
+
+		{% if form_externo %}
+		<div class="link_botao_whatsappfloat botao_form_externo" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+			<div class="Vcenter center_link">
+				<div>
+					<a class="clique_modal_float" href="#" title="{{obj.legenda_ligamos}}">
+						<span class="txt"><i class="{{fa_icone.numero}} fa-check-circle"></i> {{obj.settings.legenda_form_externo}}</span>
+					</a>
+				</div>
+			</div>
+			<a class="abrir_link clique_modal_float" href="#" title="{{obj.settings.legenda_ligamos}}"></a>
+
+			<div class="modal_form_float">
+				<div class="fundo abrir_link"></div>
+				<div class="Vcenter">
+					<div>
+						<div class="blocos" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+							<a href="#" class="fa fa-close" title="Fechar"></a>
+							<!--  partial '@form/contato'  -->
+							<div class="atualizar_form_externo_float">
+								{% partial __SELF__~'::form_externo'
+								action=obj.settings.link_form_externo
+								titulo=obj.settings.legenda_form_externo
+								nome=obj.settings.input_nome_form_externo
+								email=obj.settings.input_email_form_externo
+								telefone=obj.settings.input_telefone_form_externo
+								%}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
 	</div>
-	{% endif %}
+
+	{% put scripts %}
+	<script type="text/javascript">
+		// .clique_modal_float
+		// modal_visivel
+		for (bots of document.querySelectorAll('.botoes_floats .clique_modal_float')) {
+			bots.onclick = function(e){
+				e.preventDefault();
+				if(bots.querySelector('.modal_form_float.modal_visivel') == null){
+					this.closest('.link_botao_whatsappfloat').querySelector('.modal_form_float').classList.add("modal_visivel");
+					// bots.querySelector('.modal_form_float').classList.add("modal_visivel");
+				}else{
+					this.closest('.link_botao_whatsappfloat').querySelector('.modal_form_float').classList.remove("modal_visivel");
+					// bots.querySelector('.modal_form_float').classList.remove("modal_visivel");
+				}
+			};
+		}
+
+		for (bots of document.querySelectorAll('.botoes_floats .modal_form_float .fa-close')) {
+			bots.onclick = function(e){
+				e.preventDefault();
+				this.closest('.modal_form_float').classList.remove('modal_visivel');
+			}
+		}
+		for (bots of document.querySelectorAll('.botoes_floats .modal_form_float .fundo')) {
+			bots.onclick = function(e){
+				e.preventDefault();
+				this.closest('.modal_form_float').classList.remove('modal_visivel');
+			}
+		}
+
+		if(document.querySelector('.box_mensagem') != null){
+			window.onload = function(){
+
+				var d = new Date();
+				var balao_mensagem=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+
+				var balao_mensagemveri=JSON.parse(localStorage.getItem('balao_mensagem_whatsapp')) || [];
+				if(balao_mensagemveri != balao_mensagem) mostrar_balao();
+
+				document.querySelector('.box_mensagem .link_fechar').onclick = function(e){
+					e.preventDefault();
+					this.closest('div').classList.remove('mostrar_alvo');
+
+					localStorage.setItem('balao_mensagem_whatsapp',JSON.stringify(balao_mensagem));
+				}
+
+				function mostrar_balao(){
+					setTimeout(function(){
+						document.querySelector('.box_mensagem').classList.add('mostrar_alvo');
+					}, 1000);
+				}
+
+			}
+		}
+
+	</script>
+	{% endput %}
 
 </div>
 {% endif %}

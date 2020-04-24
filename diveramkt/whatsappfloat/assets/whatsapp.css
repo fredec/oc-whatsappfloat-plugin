@@ -12,22 +12,49 @@
 .top_right { border-right: solid 40px #555; border-top: solid 40px #555; }
 .top_left { border-left: solid 40px #888; border-top: solid 40px #888; }
 
+.esconder_alvo{
+	opacity: 0;
+	transform: scale(0);-webkit-transform: scale(0);-moz-transform: scale(0);-ms-transform: scale(0);-o-transform: scale(0);
+}
+.esconder_alvo.mostrar_alvo{
+	opacity: 1;
+	transform: scale(1);-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);-o-transform: scale(1);
+}
+
+.modal_form_float .fundo, .modal_form_float, .modal_form_float .Vcenter, .botoes_floats.formato_1 .botoes_ > div, .esconder_alvo{
+	transition: all 0.3s ease;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-ms-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+}
+
 .botoes_floats {
 	position: fixed;
-	right: 10px;
+	/*right: 10px;*/
+	right: 0;
 	bottom: 10px;
-	z-index: 99999;
+	z-index: 9999;
 	display: block!important;
 }
 
-.botoes_floats > div {
+.botoes_floats .botoes_ > div, .botoes_floats .blocos{
 	position: relative;
 	display: table;
 	background: #0DC152;
 	width: 100%;
 	padding: 10px 15px;
-	border-radius: 15px;
+	/*border-radius: 15px;*/
 }
+.botoes_floats.botoes_redondos .botoes_ > div{border-radius: 15px 0 0 15px;}
+.botoes_floats.botoes_quadrados .botoes_ > div{border-radius: 0;}
+.botoes_floats .botoes_ > div{margin-top: 2px;}
+/*.botoes_floats .botoes_mult{}*/
+/*.botoes_floats .botoes_mult > div:first-child{border-bottom-left-radius: 0;border-bottom-right-radius: 0;}*/
+/*.botoes_floats .botoes_mult > div+div{border-radius: 0;}*/
+/*.botoes_floats .botoes_mult > div:last-child{border-radius: 0 0 15px 15px;}*/
+
+
 
 @keyframes animate_balao {
 	0% { bottom: 0; }
@@ -37,14 +64,15 @@
 	90% { bottom: 100%; opacity: 1;}
 	100% { bottom: 0; }
 }
-
 .botoes_floats > div.box_mensagem{
 	position: absolute;
+	/*right: 10px;*/
 	right: 0;
 	bottom: 100%;
 	width: auto;
 	margin-bottom: 25px;
 	border-radius: 10px;
+	padding: 10px;
 
 	/*bottom: 0;
 	opacity: 0;
@@ -59,47 +87,59 @@
 	border-top-width: 15px;
 	border-top-color: #0DC152;
 }
-
 .botoes_floats .foto_mensagem img{max-width: 100%;}
 .botoes_floats .foto_mensagem{
 	position: relative;
-	float: left;
+	/*float: left;*/
 	width: 60px;
 	height: 60px;
+	margin: 0 auto;
 	overflow: hidden;
 	border-radius: 50px;
+
+	position: absolute;
+	left: 50%;
+	top: 0;
+	margin-top: -30px;
+	margin-left: -30px;
 }
-.botoes_floats .box_mensagem p{margin-bottom: 0;color: white;font-size: 125%;line-height: 25px;}
+.botoes_floats .box_mensagem p{margin-bottom: 0;color: white;font-size: 100%;line-height: 18px;text-align: center;}
 .botoes_floats .texto_mensagem{
 	position: relative;
 	max-width: 150px;
 	float: right;
 }
-.botoes_floats .texto_mensagem .Vcenter{position: relative;width: 100%;height: 60px;}
-.botoes_floats .foto_mensagem+.texto_mensagem{width: 100px;padding-left: 10px;}
+.botoes_floats .texto_mensagem .Vcenter{position: relative;width: 100%;height: 50px;}
+.botoes_floats .foto_mensagem+.texto_mensagem{
+	/*padding-left: 10px;*/
+	width: 100px;
+	margin-top: 20px;
+}
 
-.link_botao a{
+
+
+.link_botao_whatsappfloat .center_link a, .link_botao_whatsappfloat .center_link a span{
 	float: left;
 	bottom: 0;
 	color: white;
+	width: 100%;
 }
-.link_botao a span{color: white;}
-.botoes_floats > .bot_top{border-radius: 15px 15px 0 0;}
-.bot_top + div{border-radius: 0 0 15px 15px;margin-top: 2px;}
+.link_botao_whatsappfloat a span{color: white;}
+/*.botoes_floats > .bot_top{border-radius: 15px 15px 0 0;}*/
 
-.link_botao a span.txt{
+.link_botao_whatsappfloat a span.txt{
 	position: relative;
 	padding-left: 30px;
 }
-.link_botao .fa, .link_botao .fab{
+.link_botao_whatsappfloat a .fa, .link_botao_whatsappfloat a .fab{
 	position: absolute;
 	left: 0;
 	top: 50%;
 	margin-top: -10.5px;
 	color: white;font-size: 135%;
 }
-/*.link_botao .abrir_link{display: none;}*/
-.link_botao .abrir_link{
+/*.link_botao_whatsappfloat .abrir_link{display: none;}*/
+.link_botao_whatsappfloat .abrir_link{
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -110,38 +150,169 @@
 }
 
 .mobi{display: none;}
-.Vcenter{position: relative;display: table;height: 100%;width: 100%;}
-.Vcenter>div:first-child{
+.botoes_floats .Vcenter{position: relative;display: table;height: 100%;width: 100%;}
+.botoes_floats .Vcenter>div:first-child{
 	position: relative;display: table-cell;vertical-align: middle;margin-top: 50%;
 	#margin-top: 0;#float: left;#width: 100%;/*EXPLORER*/
 }
-@media(max-width: 767px){
-	.botoes_floats > div.box_mensagem{display: none!important;}
+.botoes_floats label.Vcenter{margin-bottom: 0;font-weight: normal;}
+
+
+.modal_form_float .fundo{background: black;opacity: 0;}
+.modal_form_float.modal_visivel .fundo{opacity: 0.5;}
+.modal_form_float{
+	position: fixed;
+	right: 100%;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	visibility: hidden;
+	z-index: 9;
 }
+.modal_form_float.modal_visivel{visibility: visible;}
+
+.modal_form_float .Vcenter{
+	width: 90%;max-width: 400px;margin: 0 auto;opacity: 0;
+	transform: scale(0);-webkit-transform: scale(0);-moz-transform: scale(0);-ms-transform: scale(0);-o-transform: scale(0);
+}
+.modal_form_float.modal_visivel .Vcenter{opacity: 1;transform: scale(1);-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);-o-transform: scale(1);}
+
+.modal_form_float .blocos{
+	/*background: black;*/
+	/*padding: 20px;*/
+	/*padding: 30px 40px;*/
+	/*border-radius: 5px;*/
+	padding: 40px 50px;
+	border-radius: 5px;
+}
+
+.modal_form_float .titulo_{
+	position: relative;
+	margin: 0;
+	margin-bottom: 10px;
+	color: white;
+	line-height: 30px;
+}
+.modal_form_float .div_input_loading{margin-top: 5px;}
+.modal_form_float label{width: 100%;color: white;}
+.modal_form_float label p{color: white;margin-bottom: 0;}
+.modal_form_float input, .modal_form_float textarea{
+	width: 100%;
+	padding: 5px;
+	font-weight: normal;
+	float: left;
+	color: black;
+	/*border-radius: 2.5px;*/
+	padding: 5px 10px;
+	border-radius: 2px;
+}
+
+.modal_form_float .div_input_loading button .fa{position: relative;color: black;}
+.modal_form_float .div_input_loading button{padding: 6px 20px;}
+.modal_form_float .fa-close, .link_fechar, .modal_form_float .fa-close:hover, .link_fechar:hover{
+	position: absolute;
+	right: -7.5px;
+	top: -7.5px;
+	float: right;
+	height: 23px;
+	padding: 3px 5px;
+	border: solid white 1px;
+	border-radius: 50%;
+	color: white;
+	background: black;
+}
+.horizontal_right .box_mensagem .link_fechar{
+	left: -7.5px;
+	right: auto;
+}
+
+.div_input_loading{position: relative;display: table;margin: 0 auto;outline-color: solid red 1px;}
+.div_input_loading .oc-loading, .loading_select .oc-loading{
+	position: absolute;
+	right: 5px;
+	top: 50%;
+	margin-top: -11.5px;
+	color: white;
+	z-index: 9999;
+}
+.loading_select .oc-loading{color: black;right: 8px;}
+.div_input_loading .oc-loading{cursor: progress;}
+.div_input_loading:hover .oc-loading{color: white;}
+.modal_form_float .oc-loading, .modal_form_float .div_input_loading:hover .oc-loading{color: black;}
+
+.stripe-loading-indicator{z-index: 99999;}
+
+.botoes_floats.horizontal_left{left: 0;right: auto;}
+.botoes_floats.horizontal_left > div.box_mensagem{left: 0;right: auto;}
+.botoes_floats.horizontal_left > div.box_mensagem .seta_base_baixo{left: 10px;right: auto;}
+.horizontal_left.botoes_floats.botoes_redondos .botoes_ > div{border-radius: 0 15px 15px 0;}
+
+/*/////////////////FORMATO 1*/
+.botoes_floats.formato_1{left: 100%;right: auto;}
+.botoes_floats.formato_1 > div.box_mensagem{right: 100%;}
+.botoes_floats.formato_1 .botoes_ > div{white-space: nowrap;right: 45px;}
+.botoes_floats.formato_1 .botoes_ > div:hover{right: 100%;}
+.formato_1 .botoes_{}
+
+.botoes_floats.formato_1.horizontal_left{right: 100%;left: auto;}
+.botoes_floats.formato_1.horizontal_left > div.box_mensagem{left: 100%;}
+.botoes_floats.formato_1.horizontal_left .botoes_ > div{white-space: nowrap;left: 45px;}
+.botoes_floats.formato_1.horizontal_left .botoes_ > div:hover{left: 100%;}
+
+.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat .center_link .fa,.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat .center_link .fab{
+	right: 0;
+	left: auto;
+}
+.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat a span.txt{padding-right: 30px;}
+.formato_1.horizontal_left .link_botao_whatsappfloat a,.formato_1.horizontal_left .link_botao_whatsappfloat a span{
+	float: right;
+}
+/*/////////////////FORMATO 1*/
+
+/*/////////////////FORMATO 2*/
+.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{position: relative;left: 0;top: 0;text-align: center;width: 100%;margin-bottom: 5px;}
+.botoes_floats.formato_2 .botoes_ > div{width: 90px;display: block;padding: 0;}
+.botoes_floats.formato_2 .botoes_ .Vcenter{min-height: 60px;}
+.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link a{width: 100%;}
+.botoes_floats.formato_2 .link_botao_whatsappfloat a span.txt{padding: 5px;text-align: center;font-size: 70%;width: 100%;}
+.botoes_floats.formato_2 .link_botao_whatsappfloat span.txt{line-height: 10px;}
+/*/////////////////FORMATO 2*/
+
+
+/*@media(max-width: 767px){}*/
 @media(max-width: 600px){
+	/*.botoes_floats .botoes_ > div{width: 100%;right: auto!important;left: auto!important;float: left;}*/
+	/*.botoes_floats{right: auto!important;left: auto!important;}*/
+	/*.botoes_floats .botoes_ > div{margin-top: 0;}*/
+
+	.botoes_floats .botoes_ > div.xs12{width: 100%;}
+	.botoes_floats .botoes_ > div.xs11{width: 91.666666%;} .botoes_floats .botoes_ > div.xs10{width: 83.333333%;} .botoes_floats .botoes_ > div.xs9{width: 75%;} .botoes_floats .botoes_ > div.xs8{width: 66.666666%;} .botoes_floats .botoes_ > div.xs7{width: 58.333333%;}
+	.botoes_floats .botoes_ > div.xs6{width: 50%;} .botoes_floats .botoes_ > div.xs4{width: 33.333333%;} .botoes_floats .botoes_ > div.xs3{width: 25%;} .botoes_floats .botoes_ > div.xs2{width: 16.666666%;} .botoes_floats .botoes_ > div.xs1{width: 8.333333%;}
+
 	.mobi{display: inline;}
 	.desk{display: none;}
-	.botoes_floats{
+	/*.botoes_floats{
 		width: 100%;
 		left: 0;
 		bottom: 0;
 	}
 	footer{margin-bottom: 40px;}
-	.link_botao a{display: table;margin: 0 auto;float: none;white-space: nowrap;}
-	.link_botao{
+	.link_botao_whatsappfloat a{display: table;margin: 0 auto;float: none;white-space: nowrap;}
+	.link_botao_whatsappfloat{
 		width: 100%;
 		text-align: center;
 		background: #0DC152;
 		border-radius: 0!important;
 	}
-	.link_botao.bot_top, .link_botao.bot_top + div{
+	.link_botao_whatsappfloat.bot_top, .link_botao_whatsappfloat.bot_top + div{
 		width: 50%;
 		margin: 0;
 		display: table;
 		float: left;
-		/*height: 68px;*/
+		}*/
+		.botoes_floats > div.box_mensagem{display: none!important;}
 	}
-}
-@media(max-width: 350px){
-	.link_botao.bot_top, .link_botao.bot_top + div{width: 100%;}
-}
+	@media(max-width: 350px){
+		/*.link_botao_whatsappfloat.bot_top, .link_botao_whatsappfloat.bot_top + div{width: 100%;}*/
+	}
