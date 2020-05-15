@@ -1,4 +1,0 @@
-title: Popups
-modelClass: Diveramkt\Floatingbanner\Models\Popup
-toolbar:
-    buttons: reorder_toolbar

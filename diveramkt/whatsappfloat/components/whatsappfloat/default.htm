@@ -1,5 +1,4 @@
 
-
 {% set obj = __SELF__ %}
 
 {% set form_contato=obj.settings.ativar_form_contato %}
@@ -14,7 +13,7 @@
 
 {% if quant_botoes %}
 
-<div class="botoes_floats formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} " style="display: none;bottom: {{obj.settings.margin_bottom}};">
+<div class="botoes_floats formato_mobile_{{ quant_botoes > 2 ?obj.settings.formato_mobile:''}} formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} " style="display: none;bottom: {{obj.settings.margin_bottom}};">
 
 	{% if obj.settings.active_mensagem %}
 	<div class="box_mensagem blocos esconder_alvo" style="{{obj.settings.background_balao?'background: '~obj.settings.background_balao:''}}">
@@ -41,10 +40,20 @@
 	{% endif %}
 
 
-	<div class="botoes_ botoes_{{quant_botoes==1?'one':'mult'}}">
+	<div class="botoes_ botoes_quant_{{quant_botoes}} botoes_{{quant_botoes==1?'one':'mult'}}">
 		{% set text_whats='&text='~obj.settings.text_padrao %}
 
-		{% if numero_whats %}
+		{% for bot in obj.settings.ordem %}
+
+		{% if obj.settings.formato_mobile == 'aolado' %}
+		
+		{% if quant_botoes == 1 %} {% set tamanho_mobile='12' %} {% elseif quant_botoes == 2 %} {% set tamanho_mobile='6' %} {% else %} {% set tamanho_mobile='' %} {% endif %}
+
+		{% else %}
+		{% set tamanho_mobile=bot.tamanho_mobile %}
+		{% endif %}
+
+		{% if numero_whats and bot.botao == 'Whatsapp' %}
 		{% if obj.device == 'mobile' %}
 		{% set link_whats='https://api.whatsapp.com/send?phone=55' %}
 		{% else %}
@@ -53,13 +62,12 @@
 
 		{% set link_whats=link_whats~numero_whats~text_whats %}
 
-		<!-- {{ telefone ?'bot_top':'' }} -->
-		<div class="{{obj.settings.botao_mobile_whatsapp}} link_botao_whatsappfloat whats " style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
+		<div class="link_botao_whatsappfloat whats {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
 			<div class="Vcenter center_link">
 				<div>
 					<a href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
+						<i class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
 						<span class="txt">
-							<i class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
 							<span class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
 							<span class="desk">{{obj.settings.legenda_whats}}</span>
 						</span>
@@ -71,12 +79,13 @@
 
 		{% endif %}
 
-		{% if telefone %}
-		<div class="link_botao_whatsappfloat tel" style="{{obj.settings.color_tel?'background: '~obj.settings.color_tel:''}}">
+		{% if telefone and bot.botao == 'Telefone' %}
+		<div class="link_botao_whatsappfloat tel {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_tel?'background: '~obj.settings.color_tel:''}}">
 			<div class="Vcenter center_link">
 				<div>
 					<a href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
-						<span class="txt"><i class="{{fa_icone.numero}} fa-phone"></i> {{obj.settings.legenda_telefone}}</span>
+						<i class="{{fa_icone.numero}} fa-phone"></i>
+						<span class="txt">{{obj.settings.legenda_telefone}}</span>
 					</a>
 				</div>
 			</div>
@@ -84,155 +93,104 @@
 		</div>
 		{% endif %}
 
-		{% if form_contato %}
-		<div class="link_botao_whatsappfloat botao_form_contato" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
+		{% if form_contato and bot.botao == 'Contato' %}
+		<div class="link_botao_whatsappfloat botao_form_contato {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
 			<div class="Vcenter center_link">
 				<div>
-					<a class="clique_modal_float" href="#" title="{{obj.legenda_contato}}">
-						<span class="txt"><i class="{{fa_icone.numero}} fa-envelope"></i> {{obj.settings.legenda_contato}}</span>
+					<a class="clique_modal_float" data-form=".modal_form_contato" href="#" title="{{obj.legenda_contato}}">
+						<i class="{{fa_icone.numero}} fa-envelope"></i>
+						<span class="txt">{{obj.settings.legenda_contato}}</span>
 					</a>
 				</div>
 			</div>
-			<a class="abrir_link clique_modal_float" href="#" title="{{obj.settings.legenda_contato}}"></a>
-
-			<div class="modal_form_float">
-				<div class="fundo abrir_link"></div>
-				<div class="Vcenter">
-					<div>
-						<div class="blocos" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
-							<a href="#" class="fa fa-close" title="Fechar"></a>
-							<!--  partial '@form/contato'  -->
-							<div class="atualizar_form_contato_float">
-								{% partial __SELF__~'::form_contato' %}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<a class="abrir_link clique_modal_float" data-form=".modal_form_contato" href="#" title="{{obj.settings.legenda_contato}}"></a>
 		</div>
 		{% endif %}
 
-		{% if form_ligamos %}
-		<div class="link_botao_whatsappfloat botao_form_ligamos" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
+		{% if form_ligamos and bot.botao == 'Ligamos' %}
+		<div class="link_botao_whatsappfloat botao_form_ligamos {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
 			<div class="Vcenter center_link">
 				<div>
-					<a class="clique_modal_float" href="#" title="{{obj.legenda_ligamos}}">
-						<span class="txt"><i class="{{fa_icone.numero}} fa-tty"></i> {{obj.settings.legenda_ligamos}}</span>
+					<a class="clique_modal_float" data-form=".modal_form_ligamos" href="#" title="{{obj.legenda_ligamos}}">
+						<!-- <i class="{{fa_icone.numero}} fa-phone-square"></i> -->
+						<img src="{{ '/plugins/diveramkt/whatsappfloat/assets/imagens/tel-ligamos.png'|resize(30) }}" class="fa img_icone">
+						<span class="txt">{{obj.settings.legenda_ligamos}}</span>
 					</a>
 				</div>
 			</div>
-			<a class="abrir_link clique_modal_float" href="#" title="{{obj.settings.legenda_ligamos}}"></a>
+			<a class="abrir_link clique_modal_float" data-form=".modal_form_ligamos" href="#" title="{{obj.settings.legenda_ligamos}}"></a>
 
-			<div class="modal_form_float">
-				<div class="fundo abrir_link"></div>
-				<div class="Vcenter">
-					<div>
-						<div class="blocos" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
-							<a href="#" class="fa fa-close" title="Fechar"></a>
-							<!--  partial '@form/contato'  -->
-							<div class="atualizar_form_ligamos_float">
-								{% partial __SELF__~'::form_ligamos' %}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 		{% endif %}
 
-		{% if form_externo %}
-		<div class="link_botao_whatsappfloat botao_form_externo" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+		{% if form_externo and bot.botao == 'Form_externo' %}
+		<div class="link_botao_whatsappfloat botao_form_externo {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
 			<div class="Vcenter center_link">
 				<div>
-					<a class="clique_modal_float" href="#" title="{{obj.legenda_ligamos}}">
-						<span class="txt"><i class="{{fa_icone.numero}} fa-check-circle"></i> {{obj.settings.legenda_form_externo}}</span>
+					<a class="clique_modal_float" data-form=".modal_form_externo" href="#" title="{{obj.legenda_form_externo}}">
+						<i class="{{fa_icone.numero}} fa-calculator"></i>
+						<span class="txt"> {{obj.settings.legenda_form_externo}}</span>
 					</a>
 				</div>
 			</div>
-			<a class="abrir_link clique_modal_float" href="#" title="{{obj.settings.legenda_ligamos}}"></a>
-
-			<div class="modal_form_float">
-				<div class="fundo abrir_link"></div>
-				<div class="Vcenter">
-					<div>
-						<div class="blocos" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
-							<a href="#" class="fa fa-close" title="Fechar"></a>
-							<!--  partial '@form/contato'  -->
-							<div class="atualizar_form_externo_float">
-								{% partial __SELF__~'::form_externo'
-								action=obj.settings.link_form_externo
-								titulo=obj.settings.legenda_form_externo
-								nome=obj.settings.input_nome_form_externo
-								email=obj.settings.input_email_form_externo
-								telefone=obj.settings.input_telefone_form_externo
-								%}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<a class="abrir_link clique_modal_float" data-form=".modal_form_externo" href="#" title="{{obj.settings.legenda_form_externo}}"></a>
 		</div>
 		{% endif %}
+
+		{% endfor %}
 
 	</div>
 
-	{% put scripts %}
-	<script type="text/javascript">
-		// .clique_modal_float
-		// modal_visivel
-		for (bots of document.querySelectorAll('.botoes_floats .clique_modal_float')) {
-			bots.onclick = function(e){
-				e.preventDefault();
-				if(bots.querySelector('.modal_form_float.modal_visivel') == null){
-					this.closest('.link_botao_whatsappfloat').querySelector('.modal_form_float').classList.add("modal_visivel");
-					// bots.querySelector('.modal_form_float').classList.add("modal_visivel");
-				}else{
-					this.closest('.link_botao_whatsappfloat').querySelector('.modal_form_float').classList.remove("modal_visivel");
-					// bots.querySelector('.modal_form_float').classList.remove("modal_visivel");
-				}
-			};
-		}
+	<div class="modal_form_float modal_form_contato">
+		<div class="fundo abrir_link"></div>
+		<div class="Vcenter">
+			<div>
+				<div class="blocos" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
+					<a href="#" class="fa fa-close" title="Fechar"></a>
+					<!--  partial '@form/contato'  -->
+					<div class="atualizar_form_contato_float">
+						{% partial __SELF__~'::form_contato' %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-		for (bots of document.querySelectorAll('.botoes_floats .modal_form_float .fa-close')) {
-			bots.onclick = function(e){
-				e.preventDefault();
-				this.closest('.modal_form_float').classList.remove('modal_visivel');
-			}
-		}
-		for (bots of document.querySelectorAll('.botoes_floats .modal_form_float .fundo')) {
-			bots.onclick = function(e){
-				e.preventDefault();
-				this.closest('.modal_form_float').classList.remove('modal_visivel');
-			}
-		}
+	<div class="modal_form_float modal_form_externo">
+		<div class="fundo abrir_link"></div>
+		<div class="Vcenter">
+			<div>
+				<div class="blocos" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+					<a href="#" class="fa fa-close" title="Fechar"></a>
+					<!--  partial '@form/contato'  -->
+					<div class="atualizar_form_externo_float">
+						{% partial __SELF__~'::form_externo'
+						action=obj.settings.link_form_externo
+						titulo=obj.settings.legenda_form_externo
+						nome=obj.settings.input_nome_form_externo
+						email=obj.settings.input_email_form_externo
+						telefone=obj.settings.input_telefone_form_externo
+						%}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-		if(document.querySelector('.box_mensagem') != null){
-			window.onload = function(){
-
-				var d = new Date();
-				var balao_mensagem=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
-
-				var balao_mensagemveri=JSON.parse(localStorage.getItem('balao_mensagem_whatsapp')) || [];
-				if(balao_mensagemveri != balao_mensagem) mostrar_balao();
-
-				document.querySelector('.box_mensagem .link_fechar').onclick = function(e){
-					e.preventDefault();
-					this.closest('div').classList.remove('mostrar_alvo');
-
-					localStorage.setItem('balao_mensagem_whatsapp',JSON.stringify(balao_mensagem));
-				}
-
-				function mostrar_balao(){
-					setTimeout(function(){
-						document.querySelector('.box_mensagem').classList.add('mostrar_alvo');
-					}, 1000);
-				}
-
-			}
-		}
-
-	</script>
-	{% endput %}
+	<div class="modal_form_float modal_form_ligamos">
+		<div class="fundo abrir_link"></div>
+		<div class="Vcenter">
+			<div>
+				<div class="blocos" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
+					<a href="#" class="fa fa-close" title="Fechar"></a>
+					<!--  partial '@form/contato'  -->
+					<div class="atualizar_form_ligamos_float">
+						{% partial __SELF__~'::form_ligamos' %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 {% endif %}

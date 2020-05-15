@@ -21,10 +21,11 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 	}
 
 	public function iniciar_settings(){
-		$defaultFields = Settings::instance();
-		$uploadedFile = $defaultFields->foto_mensagem;
+		// $defaultFields = Settings::instance();
+		$settings = Settings::instance();
+		$uploadedFile = $settings->foto_mensagem;
 		// return;
-		$defaultFields = $defaultFields->toArray();
+		$defaultFields = $settings->toArray();
 		$class=get_declared_classes();
 
 		if (!empty($defaultFields)) {
@@ -52,13 +53,70 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 
 		}
 
-		$this->settings = (object)$this->settings;
+		$this->settings = $settings;
+		// $this->settings = (object)$this->settings;
+	}
+
+	public function diasemana($data, $mes=false, $dia=false) {
+		if(!$mes && !$dia){
+			$ano = substr($data, 0, 4); $mes = substr($data, 5, 2); $dia = substr($data, 8, 2);
+		}else $ano=$data;
+		$diasemana = date("w", mktime(0,0,0,$mes,$dia,$ano) );
+
+		return $diasemana;
+		// switch($diasemana) {
+		// 	case"0": $diasemana = "Domingo";       break;
+		// 	case"1": $diasemana = "Segunda-Feira"; break;
+		// 	case"2": $diasemana = "Terça-Feira";   break;
+		// 	case"3": $diasemana = "Quarta-Feira";  break;
+		// 	case"4": $diasemana = "Quinta-Feira";  break;
+		// 	case"5": $diasemana = "Sexta-Feira";   break;
+		// 	case"6": $diasemana = "Sábado";        break;
+		// }
+		// return $diasemana;
 	}
 
 	public function onRun(){
 		$setin = new Settings;
 		$class=get_declared_classes();
 		$this->iniciar_settings();
+
+		if(!isset($this->settings->enabled) or !$this->settings->enabled) return;
+
+		if(isset($this->settings->enabled_horarios) && $this->settings->enabled_horarios){
+			$horarios='';
+			switch($this->diasemana(date('Y-m-d'))) {
+				case"0": $horarios=$this->settings->horarios_domingo; break;
+				case"1": $horarios=$this->settings->horarios_segunda; break;
+				case"2": $horarios=$this->settings->horarios_terca; break;
+				case"3": $horarios=$this->settings->horarios_quarta; break;
+				case"4": $horarios=$this->settings->horarios_quinta; break;
+				case"5": $horarios=$this->settings->horarios_sexta; break;
+				case"6": $horarios=$this->settings->horarios_sabado; break;
+			}
+
+			if(is_array($horarios) && count($horarios) > 0){
+				$horario=false;
+				foreach ($horarios as $key => $value) {
+					$inicio=explode(' ', $value['horario_inicio']); $inicio=end($inicio);
+					$fim=explode(' ', $value['horario_fim']); $fim=end($fim);
+					if(date('H:i:s') >= $inicio && date('H:i:s') <= $fim) $horario=true;
+				}
+				if(!$horario) return;
+			}else return;
+		}
+
+		if(!isset($this->settings->formato_mobile) or !$this->settings->formato_mobile) $this->settings->formato_mobile='aolado';
+		if(!isset($this->settings->ordem) or !$this->settings->ordem){
+			$ordem_padrao=array();
+			$id=0; $ordem_padrao[$id]['botao']='Whatsapp'; $ordem_padrao[$id]['tamanho_mobile']='12';
+			$id=1; $ordem_padrao[$id]['botao']='Telefone'; $ordem_padrao[$id]['tamanho_mobile']='12';
+			$id=2; $ordem_padrao[$id]['botao']='Contato'; $ordem_padrao[$id]['tamanho_mobile']='12';
+			$id=3; $ordem_padrao[$id]['botao']='Ligamos'; $ordem_padrao[$id]['tamanho_mobile']='12';
+			$id=4; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
+			$this->settings->ordem=$ordem_padrao;
+			$this->settings->save();
+		}
 
 		// //////////////BOTÃO WHATSAPP
 		$this->numero_whats=''; $this->telefone='';
@@ -145,7 +203,10 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $detect = new Mobile_Detect;
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
-		if($this->quant_botoes) $this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado');
+		if($this->quant_botoes){
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado5');
+			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js');
+		}
 	}
 
 	public function mobile(){

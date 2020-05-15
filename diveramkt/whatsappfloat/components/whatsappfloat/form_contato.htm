@@ -3,88 +3,36 @@
 	{{ form_token() }}
 
 	<h2 class="titulo_">Fale Conosco</h2>
-	<div class="row">
-		<div class="col-md-12">
-			<label class="input_label">
-				<p>Seu nome</p>
-				<input name="nome" type="text" id="nome" data-validate="required" required="required">
-				<!-- <input class="input_placeholder" type="text" placeholder="Seu nome"> -->
-			</label>
-		</div>
-		<div class="col-md-12">
-			<label class="input_label">
-				<!-- <label for="telefone">Seu Telefone</label> -->
-				<p>Seu telefone</p>
-				<input type="tel" id="telefone" name="telefone" data-validate="phone" required="required">
-				<!-- <input class="input_placeholder" type="text" placeholder="Seu telefone"> -->
-			</label>
-		</div>
-		<div class="col-md-12">
-			<label class="input_label">
-				<!-- <label for="email">Seu E-mail</label> -->
-				<p>Seu E-mail</p>
-				<input name="email" type="text" id="email" required="required" data-validate="email">
-			</label>
-		</div>
-		<div class="col-md-12">
-			<label class="input_label">
-				<!-- <label for="mensagem">Digite sua mensagem</label> -->
-				<p>Digite sua mensagem</p>
-				<textarea rows="4" name="mensagem" id="mensagem" required="required" data-validate="required"></textarea>
-				<!-- placeholder="Digite sua mensagem" -->
-				<!-- <textarea rows="4" placeholder="Digite sua mensagem" class="input_placeholder"></textarea> -->
-			</label>
-		</div>
-		<div class="col-xs-12">
-			<!--  partial '@recaptcha'   -->
-			<!--  partial 'plugins/martin/forms/components/partials/recaptcha'  -->
-		</div>
+	<label class="input_label">
+		<p>Seu nome</p>
+		<input name="nome" type="text" id="nome_contato_float" data-validate="required" required="required">
+		<!-- <label for="nome_contato_float">Seu nome</label> -->
+	</label>
+	<label class="input_label">
+		<p>Seu telefone</p>
+		<input type="tel" id="telefone_contato_float" name="telefone" data-validate="phone" required="required">
+		<!-- <label for="telefone_contato_float">Seu telefone</label> -->
+	</label>
+	<label class="input_label">
+		<p>Seu E-mail</p>
+		<input name="email" type="text" id="email_contato_float" required="required" data-validate="email">
+		<!-- <label for="email_contato_float">Seu E-mail</label> -->
+	</label>
+	<label class="input_label">
+		<!-- <label for="mensagem">Digite sua mensagem</label> -->
+		<p>Digite sua mensagem</p>
+		<textarea rows="4" name="mensagem" id="mensagem_contato_float" required="required" data-validate="required"></textarea>
+		<!-- <label for="mensagem_contato_float">Digite sua mensagem</label> -->
+		<!-- placeholder="Digite sua mensagem" -->
+	</label>
+	<!--  partial '@recaptcha'   -->
+	<!--  partial 'plugins/martin/forms/components/partials/recaptcha'  -->
 
-		<div class="col-xs-12">
-			<div id="{{ __SELF__ }}_forms_flash"></div>
-			<!-- <div class="alert alert-danger" data-validate-error>
-				<p data-message></p>
-			</div> -->
-			<div class="div_input_loading">
-				<button type="submit" class="button btn"><i class="fa fa-envelope"></i> Enviar</button>
-				<span data-attach-loading class="lod_"></span>
-			</div>
-		</div>
+	<div id="{{ __SELF__ }}_forms_flash"></div>
+	<!-- <div class="alert alert-danger" data-validate-error><p data-message></p></div> -->
+	<div class="div_input_loading">
+		<span data-attach-loading class="lod_"></span>
+		<button type="submit" class="button btn"><i class="fa fa-envelope"></i> Enviar</button>
 	</div>
+
 </form>
-
-<!-- <script type="text/javascript"> -->
-	<!-- // $(document).ready(function(){
-		// if($('.form_float_whats').attr('class') != undefined){
-			// var form_float=[];
-			// $('.form_float_whats').submit(function(e){
-			// 	e.preventDefault();
-
-			// 	form_float['data-legenda']=this;
-
-			// 	$(this).find('.div_input_loading .lod_').addClass('oc-loading');
-			// 	$(this).request('{{ __SELF__ }}::onFormSubmit', {
-			// // update: {'listObituarios/default': '.lista_obituarios'},
-			// beforeUpdate: function() {},
-			// complete: function(response){
-			// 	if(response.responseJSON != undefined){
-			// 		if(response.responseJSON['X_OCTOBER_ERROR_MESSAGE'] != undefined) alert(response.responseJSON['X_OCTOBER_ERROR_MESSAGE']);
-			// 	}else if(response.responseText != undefined){
-			// 		alert(response.responseText.split("[]")[0]);
-			// 	}
-			// 	// $.each(response.responseJSON, function(index, val) {
-			// 	// 	alert(index+' '+val);
-			// 	// });
-
-			// 	$(form_float['data-legenda']).find('.div_input_loading .lod_').removeClass('oc-loading');
-			// },
-			// error: function(text){
-			// 	// alert('Ocorreu um Erro.');
-			// }
-			// 	// loading: '.loading'
-			// })
-
-			// })
-		// }
-		// }) -->
-<!-- </script> -->

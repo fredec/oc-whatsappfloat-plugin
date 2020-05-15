@@ -40,4 +40,9 @@ class Settings extends Model
 		$this->default_sharpen = 0;
 	}
 
+	public function getIconeFonteOptions(){
+		$icon=array();
+		return $icon;
+	}
+
 }

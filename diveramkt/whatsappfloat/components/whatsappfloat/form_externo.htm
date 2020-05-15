@@ -3,40 +3,30 @@
 	{{ form_token() }}
 
 	<h2 class="titulo_">{{ titulo }}</h2>
-	<div class="row">
-		{% if nome %}
-		<div class="col-md-12">
-			<label class="input_label">
-				<p>Seu nome</p>
-				<input name="{{nome}}" type="text" id="name" data-validate="required" required="required">
-				<!-- <input class="input_placeholder" type="text" placeholder="Seu nome"> -->
-			</label>
-		</div>
-		{% endif %}
-		{% if telefone %}
-		<div class="col-md-12">
-			<label class="input_label">
-				<p>Seu telefone</p>
-				<input type="tel" name="{{telefone}}" data-validate="phone" required="required">
-				<!-- <input class="input_placeholder" type="text" placeholder="Seu telefone"> -->
-			</label>
-		</div>
-		{% endif %}
-		{% if email %}
-		<div class="col-md-12">
-			<label class="input_label">
-				<p>Seu e-mail</p>
-				<input name="{{email}}" type="text" id="email" required="required" data-validate="email">
-				<!-- placeholder="Seu Email"  -->
-			</label>
-		</div>
-		{% endif %}
+	{% if nome %}
+	<label class="input_label">
+		<p>Seu nome</p>
+		<input name="{{nome}}" type="text" id="name" data-validate="required" required="required">
+		<!-- <input class="input_placeholder" type="text" placeholder="Seu nome"> -->
+	</label>
+	{% endif %}
+	{% if telefone %}
+	<label class="input_label">
+		<p>Seu telefone</p>
+		<input type="tel" name="{{telefone}}" data-validate="phone" required="required">
+		<!-- <input class="input_placeholder" type="text" placeholder="Seu telefone"> -->
+	</label>
+	{% endif %}
+	{% if email %}
+	<label class="input_label">
+		<p>Seu e-mail</p>
+		<input name="{{email}}" type="text" id="email" required="required" data-validate="email">
+		<!-- placeholder="Seu Email"  -->
+	</label>
+	{% endif %}
 
-		<div class="col-xs-12">
-			<div class="div_input_loading">
-				<button type="submit" class="button btn"><i class="fa fa-check-circle"></i> Enviar</button>
-				<span data-attach-loading class="lod_"></span>
-			</div>
-		</div>
+	<div class="div_input_loading">
+		<button type="submit" class="button btn"><i class="fa fa-check-circle"></i> Enviar</button>
+		<span data-attach-loading class="lod_"></span>
 	</div>
 </form>

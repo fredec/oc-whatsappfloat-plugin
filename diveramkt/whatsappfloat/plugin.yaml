@@ -4,7 +4,7 @@ plugin:
     author: Diveramkt
     icon: oc-icon-whatsapp
     homepage: ''
-permissions:
-    Whatsappfloat.manage_whatsapp:
-        tab: 'diveramkt.whatsappfloat::lang.plugin.name'
-        label: 'Gerenciar Whatsapp Float'
+# permissions:
+#     Whatsappfloat.manage_whatsapp:
+#         tab: 'diveramkt.whatsappfloat::lang.plugin.name'
+#         label: 'Gerenciar Whatsapp Float'
