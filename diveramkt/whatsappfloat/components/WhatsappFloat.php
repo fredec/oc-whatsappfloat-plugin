@@ -10,6 +10,8 @@ use Diveramkt\WhatsappFloat\Classes\Image;
 
 use Diveramkt\WhatsappFloat\Classes\formContato;
 
+use stdclass;
+
 class WhatsappFloat extends \Cms\Classes\ComponentBase
 {
 	public function componentDetails()
@@ -36,11 +38,13 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			}
 		}
 
-		if(isset($uploadedFile->attributes)){
+		$this->settings = $settings;
 
+		if(isset($uploadedFile->attributes)){
 			$foto=$uploadedFile->getPath();
-			$this->settings['foto_mensagem'] = $uploadedFile->attributes;
-			$this->settings['foto_mensagem']['path']=$foto;
+			$this->settings->foto_mensagem=new stdclass;
+			// $this->settings->foto_mensagem=$uploadedFile->attributes;
+			$this->settings->foto_mensagem->path=$foto;
 
 			if(!in_array('ToughDeveloper\ImageResizer\Plugin', $class)){
 				$image = new Image($foto);
@@ -48,12 +52,21 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				$options['extension']='jpg';
 				$options['mode']='crop';
 			// $foto=$image->resize(60, 60, $options)->render();
-				$this->settings['foto_mensagem']['path_resize']=$image->resize(60, 60, $options);
+				// $this->settings['foto_mensagem']['path_resize']=$image->resize(60, 60, $options);
+				$this->settings->foto_mensagem->path_resize=$image->resize(60, 60, $options);
 			}
-
 		}
 
-		$this->settings = $settings;
+		switch($this->diasemana(date('Y-m-d'))) {
+			case"0": $this->settings->dia_semana='domingo'; break;
+			case"1": $this->settings->dia_semana='segunda'; break;
+			case"2": $this->settings->dia_semana='terca'; break;
+			case"3": $this->settings->dia_semana='quarta'; break;
+			case"4": $this->settings->dia_semana='quinta'; break;
+			case"5": $this->settings->dia_semana='sexta'; break;
+			case"6": $this->settings->dia_semana='sabado'; break;
+		}
+
 		// $this->settings = (object)$this->settings;
 	}
 
@@ -107,7 +120,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		}
 
 		if(!isset($this->settings->formato_mobile) or !$this->settings->formato_mobile) $this->settings->formato_mobile='aolado';
-		if(!isset($this->settings->ordem) or !$this->settings->ordem){
+		if(!isset($this->settings->ordem) or !$this->settings->ordem or $this->settings->ordem[0]['botao'] == ''){
 			$ordem_padrao=array();
 			$id=0; $ordem_padrao[$id]['botao']='Whatsapp'; $ordem_padrao[$id]['tamanho_mobile']='12';
 			$id=1; $ordem_padrao[$id]['botao']='Telefone'; $ordem_padrao[$id]['tamanho_mobile']='12';
@@ -116,70 +129,188 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			$id=4; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
 			$this->settings->ordem=$ordem_padrao;
 			$this->settings->save();
+			$this->settings->ordem=$ordem_padrao;
 		}
 
 		// //////////////BOTÃO WHATSAPP
 		$this->numero_whats=''; $this->telefone='';
-		if(isset($this->settings->numero) && $this->settings->numero){
-			$this->quant_botoes+=1;
-			$this->numero_whats=preg_replace("/[^0-9]/", "", $this->settings->numero);
+		// $this->settings->ativar_whatsapp=1;
+		if(isset($this->settings->numero) && $this->settings->numero && $this->settings->ativar_whatsapp){
 
-			if(!isset($this->settings->legenda_whats) || str_replace(' ', '', $this->settings->legenda_whats) == ''){
-				$this->settings->legenda_whats='Atendimento via WhatsApp';
+			if($this->settings->habilitar_programacao_whatsapp){
+				if(!count($this->settings->programacao_whatsapp)) $this->settings->ativar_whatsapp=0;
+				else{
+					$this->settings->ativar_whatsapp=0;
+					foreach ($this->settings->programacao_whatsapp as $key => $value) {
+						if($this->settings->ativar_whatsapp) continue;
+						if($this->settings->dia_semana == $value['dia']){
+							$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
+							$fim=explode(' ', $value['fim']); $fim=end($fim);
+							if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->ativar_whatsapp=1;
+						}
+					}
+				}
 			}
-			if(!isset($this->settings->legenda_whats_mobile) || str_replace(' ', '', $this->settings->legenda_whats_mobile) == ''){
-				$this->settings->legenda_whats_mobile='WhatsApp';
-			}
-			if(!isset($this->settings->text_padrao) || str_replace(' ', '', $this->settings->text_padrao) == ''){
-				$this->settings->text_padrao='';
+
+			if($this->settings->ativar_whatsapp){
+				$this->quant_botoes+=1;
+				$this->numero_whats=preg_replace("/[^0-9]/", "", $this->settings->numero);
+
+				if(!isset($this->settings->legenda_whats) || str_replace(' ', '', $this->settings->legenda_whats) == ''){
+					$this->settings->legenda_whats='Atendimento via WhatsApp';
+				}
+				if(!isset($this->settings->legenda_whats_mobile) || str_replace(' ', '', $this->settings->legenda_whats_mobile) == ''){
+					$this->settings->legenda_whats_mobile='WhatsApp';
+				}
+				if(!isset($this->settings->text_padrao) || str_replace(' ', '', $this->settings->text_padrao) == ''){
+					$this->settings->text_padrao='';
+				}
 			}
 		}
 		// //////////////BOTÃO WHATSAPP
 
 		// //////////////BOTÃO TELEFONE
 		$this->settings->legenda_telefone='';
-		if(isset($this->settings->tel) && $this->settings->tel){
-			$this->quant_botoes+=1;
-			$this->settings->legenda_telefone=$this->settings->tel;
-			$this->telefone=preg_replace("/[^0-9]/", "", $this->settings->tel);
+		// $this->settings->ativar_telefone=1;
+		if(isset($this->settings->tel) && $this->settings->tel && $this->settings->ativar_telefone){
 
-			if(isset($this->settings->legenda_tel) && str_replace(' ', '', $this->settings->legenda_tel) != ''){
-				$this->settings->legenda_telefone=$this->settings->legenda_tel;
+			if($this->settings->habilitar_programacao_telefone){
+				if(!count($this->settings->programacao_telefone)) $this->settings->ativar_telefone=0;
+				else{
+					$this->settings->ativar_telefone=0;
+					foreach ($this->settings->programacao_telefone as $key => $value) {
+						if($this->settings->ativar_telefone) continue;
+						if($this->settings->dia_semana == $value['dia']){
+							$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
+							$fim=explode(' ', $value['fim']); $fim=end($fim);
+							if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->ativar_telefone=1;
+						}
+					}
+				}
+			}
+			if($this->settings->ativar_telefone){
+				$this->quant_botoes+=1;
+				$this->settings->legenda_telefone=$this->settings->tel;
+				$this->telefone=preg_replace("/[^0-9]/", "", $this->settings->tel);
+
+				if(isset($this->settings->legenda_tel) && str_replace(' ', '', $this->settings->legenda_tel) != ''){
+					$this->settings->legenda_telefone=$this->settings->legenda_tel;
+				}
 			}
 		}
 		// //////////////BOTÃO TELEFONE
 
 		// //////////////BOTÃO FORMULÁRIO DE CONTATO
 		if(in_array('Martin\Forms\Plugin', $class) && isset($this->settings->ativar_form_contato) && $this->settings->ativar_form_contato && isset($this->settings->destino_contato) && $this->settings->destino_contato && str_replace(' ','',$this->settings->destino_contato) != ''){
-			$this->quant_botoes+=1;
-			if(!isset($this->settings->legenda_contato) || !$this->settings->legenda_contato) $this->settings->legenda_contato='Fale Conosco';
+
+			if($this->settings->habilitar_programacao_contato){
+				if(!count($this->settings->programacao_contato)) $this->settings->ativar_form_contato=0;
+				else{
+					$this->settings->ativar_form_contato=0;
+					foreach ($this->settings->programacao_contato as $key => $value) {
+						if($this->settings->ativar_form_contato) continue;
+						if($this->settings->dia_semana == $value['dia']){
+							$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
+							$fim=explode(' ', $value['fim']); $fim=end($fim);
+							if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->ativar_form_contato=1;
+						}
+					}
+				}
+			}
+
+			if($this->settings->ativar_form_contato){
+				$this->quant_botoes+=1;
+				if(!isset($this->settings->legenda_contato) || !$this->settings->legenda_contato) $this->settings->legenda_contato='Fale Conosco';
+			}
 		}else $this->settings->ativar_form_contato=0;
 		// //////////////BOTÃO FORMULÁRIO DE CONTATO
 
 		// //////////////BOTÃO FORMULÁRIO LIGAMOS PARA VOCÊ
 		if(in_array('Martin\Forms\Plugin', $class) && isset($this->settings->ativar_form_ligamos) && $this->settings->ativar_form_ligamos && isset($this->settings->destino_ligamos) && $this->settings->destino_ligamos && str_replace(' ','',$this->settings->destino_ligamos) != ''){
-			$this->quant_botoes+=1;
-			if(!isset($this->settings->legenda_ligamos) || !$this->settings->legenda_ligamos) $this->settings->legenda_ligamos='Ligamos para você';
+
+			if($this->settings->habilitar_programacao_ligamos){
+				if(!count($this->settings->programacao_ligamos)) $this->settings->ativar_form_ligamos=0;
+				else{
+					$this->settings->ativar_form_ligamos=0;
+					foreach ($this->settings->programacao_ligamos as $key => $value) {
+						if($this->settings->ativar_form_ligamos) continue;
+						if($this->settings->dia_semana == $value['dia']){
+							$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
+							$fim=explode(' ', $value['fim']); $fim=end($fim);
+							if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->ativar_form_ligamos=1;
+						}
+					}
+				}
+			}
+
+			if($this->settings->ativar_form_ligamos){			
+				$this->quant_botoes+=1;
+				if(!isset($this->settings->legenda_ligamos) || !$this->settings->legenda_ligamos) $this->settings->legenda_ligamos='Ligamos para você';
+
+				$this->settings->icone_ligamos=new stdclass;
+				$this->settings->icone_ligamos->path='/plugins/diveramkt/whatsappfloat/assets/imagens/tel-ligamos.png';
+
+				if(!in_array('ToughDeveloper\ImageResizer\Plugin', $class)){
+					$image = new Image($this->settings->icone_ligamos);
+					$options = [];
+					$options['extension']='png';
+				// $options['mode']='crop';
+					$this->settings->icone_ligamos->path_resize=$image->resize(30, auto, $options);
+				// $this->settings->icone_ligamos->path_resize=$image->resize(30, auto);
+				}
+			}
+
 		}else $this->settings->ativar_form_ligamos=0;
 		// //////////////BOTÃO FORMULÁRIO LIGAMOS PARA VOCÊ
 
 		// //////////////BOTÃO FORMULÁRIO LIGAMOS PARA VOCÊ
 		if(isset($this->settings->ativar_form_externo) && $this->settings->ativar_form_externo && isset($this->settings->legenda_form_externo) && $this->settings->legenda_form_externo && isset($this->settings->link_form_externo) && $this->settings->link_form_externo){
 
-			if(!isset($this->settings->input_name_form_externo) || !$this->settings->input_name_form_externo) $this->settings->input_name_form_externo=false;
-			if(!isset($this->settings->input_email_form_externo) || !$this->settings->input_email_form_externo) $this->settings->input_email_form_externo=false;
-			if(!isset($this->settings->input_telefone_form_externo) || !$this->settings->input_telefone_form_externo) $this->settings->input_telefone_form_externo=false;
+			if($this->settings->habilitar_programacao_externo){
+				if(!count($this->settings->programacao_externo)) $this->settings->ativar_form_externo=0;
+				else{
+					$this->settings->ativar_form_externo=0;
+					foreach ($this->settings->programacao_externo as $key => $value) {
+						if($this->settings->ativar_form_externo) continue;
+						if($this->settings->dia_semana == $value['dia']){
+							$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
+							$fim=explode(' ', $value['fim']); $fim=end($fim);
+							if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->ativar_form_externo=1;
+						}
+					}
+				}
+			}
 
-			if($this->settings->input_name_form_externo || $this->settings->input_email_form_externo || $this->settings->input_email_form_externo){
-				$this->quant_botoes+=1;
+			if($this->settings->ativar_form_externo){
+				if(!isset($this->settings->input_name_form_externo) || !$this->settings->input_name_form_externo) $this->settings->input_name_form_externo=false;
+				if(!isset($this->settings->input_email_form_externo) || !$this->settings->input_email_form_externo) $this->settings->input_email_form_externo=false;
+				if(!isset($this->settings->input_telefone_form_externo) || !$this->settings->input_telefone_form_externo) $this->settings->input_telefone_form_externo=false;
 
-				if(!strpos("[".$this->settings->link_form_externo."]", "http://") && !strpos("[".$this->settings->link_form_externo."]", "https://")) $this->settings->link_form_externo='http://'.$this->settings->link_form_externo;
+				if($this->settings->input_name_form_externo || $this->settings->input_email_form_externo || $this->settings->input_email_form_externo){
+					$this->quant_botoes+=1;
 
-			}else $this->settings->ativar_form_externo=0;
+					if(!strpos("[".$this->settings->link_form_externo."]", "http://") && !strpos("[".$this->settings->link_form_externo."]", "https://")) $this->settings->link_form_externo='http://'.$this->settings->link_form_externo;
+
+				}else $this->settings->ativar_form_externo=0;
+			}
 		}else $this->settings->ativar_form_externo=0;
 		// //////////////BOTÃO FORMULÁRIO LIGAMOS PARA VOCÊ
 
 		// /////////MENSAGEM PADRÃO BALÃO
+		if($this->settings->habilitar_programacao_mensagem){
+			if(!count($this->settings->programacao_mensagem)) $this->settings->active_mensagem=0;
+			else{
+				$this->settings->active_mensagem=0;
+				foreach ($this->settings->programacao_mensagem as $key => $value) {
+					if($this->settings->active_mensagem) continue;
+					if($this->settings->dia_semana == $value['dia']){
+						$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
+						$fim=explode(' ', $value['fim']); $fim=end($fim);
+						if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->active_mensagem=1;
+					}
+				}
+			}
+		}
 		if((isset($this->settings->mensagem) && str_replace(' ','',$this->settings->mensagem) == '') || !isset($this->settings->mensagem)){
 			$this->settings->mensagem='Precisando de Ajuda ?';
 		}
@@ -204,8 +335,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado5');
-			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js');
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado6');
+			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?atualizado1');
 		}
 	}
 

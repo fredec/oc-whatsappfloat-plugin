@@ -42,7 +42,6 @@ fields:
         span: left
         type: dropdown
 tabs:
-    stretch: 0
     fields:
         active_mensagem:
             label: 'Ativar mensagem'
@@ -70,9 +69,51 @@ tabs:
             span: auto
             type: textarea
             tab: Mensagem
+        habilitar_programacao_mensagem:
+            label: 'Habilitar programação da mensagem'
+            span: auto
+            type: switch
+            tab: Mensagem
+        programacao_mensagem:
+            label: 'Programação Mensagem'
+            prompt: 'Acrescentar novo horário'
+            span: full
+            type: repeater
+            tab: Mensagem
+            form:
+                fields:
+                    dia:
+                        label: 'Dia da semana'
+                        options:
+                            domingo: 'Domingo'
+                            segunda: 'Segunda Feira'
+                            terca: 'Terça Feira'
+                            quarta: 'Quarta Feira'
+                            quinta: 'Quinta Feira'
+                            sexta: 'Sexta Feira'
+                            sabado: 'Sábado'
+                        span: full
+                        type: dropdown
+                    inicio:
+                        label: 'Data de Ínicio'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+                    fim:
+                        label: 'Data de Fim'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+        ativar_whatsapp:
+            label: 'Ativar'
+            span: left
+            type: switch
+            tab: 'Botão de Whatsapp'
         numero:
             label: 'Número do whatsapp'
-            span: auto
+            span: left
             type: text
             tab: 'Botão de Whatsapp'
         text_padrao:
@@ -95,6 +136,48 @@ tabs:
             span: full
             type: colorpicker
             tab: 'Botão de Whatsapp'
+        habilitar_programacao_whatsapp:
+            label: 'Habilitar programação do whatsapp'
+            span: auto
+            type: switch
+            tab: 'Botão de Whatsapp'
+        programacao_whatsapp:
+            label: 'Programação Whatsapp'
+            prompt: 'Acrescentar novo horário'
+            span: full
+            type: repeater
+            tab: 'Botão de Whatsapp'
+            form:
+                fields:
+                    dia:
+                        label: 'Dia da semana'
+                        options:
+                            domingo: 'Domingo'
+                            segunda: 'Segunda Feira'
+                            terca: 'Terça Feira'
+                            quarta: 'Quarta Feira'
+                            quinta: 'Quinta Feira'
+                            sexta: 'Sexta Feira'
+                            sabado: 'Sábado'
+                        span: full
+                        type: dropdown
+                    inicio:
+                        label: 'Data de Ínicio'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+                    fim:
+                        label: 'Data de Fim'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+        ativar_telefone:
+            label: 'Ativar'
+            span: left
+            type: switch
+            tab: 'Botão de Telefone'
         tel:
             label: 'Número do telefone'
             span: left
@@ -110,6 +193,43 @@ tabs:
             span: full
             type: colorpicker
             tab: 'Botão de Telefone'
+        habilitar_programacao_telefone:
+            label: 'Habilitar programação do telefone'
+            span: auto
+            type: switch
+            tab: 'Botão de Telefone'
+        programacao_telefone:
+            label: 'Programação Telefone'
+            prompt: 'Acrescentar novo horário'
+            span: full
+            type: repeater
+            tab: 'Botão de Telefone'
+            form:
+                fields:
+                    dia:
+                        label: 'Dia da semana'
+                        options:
+                            domingo: 'Domingo'
+                            segunda: 'Segunda Feira'
+                            terca: 'Terça Feira'
+                            quarta: 'Quarta Feira'
+                            quinta: 'Quinta Feira'
+                            sexta: 'Sexta Feira'
+                            sabado: 'Sábado'
+                        span: full
+                        type: dropdown
+                    inicio:
+                        label: 'Data de Ínicio'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+                    fim:
+                        label: 'Data de Fim'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
         destino_contato:
             label: 'Destinos(Separar por vírgula)'
             span: left
@@ -160,6 +280,43 @@ tabs:
             span: full
             type: colorpicker
             tab: 'Formulário de contato'
+        habilitar_programacao_contato:
+            label: 'Habilitar programação do contato'
+            span: auto
+            type: switch
+            tab: 'Formulário de contato'
+        programacao_contato:
+            label: 'Programação Contato'
+            prompt: 'Acrescentar novo horário'
+            span: full
+            type: repeater
+            tab: 'Formulário de contato'
+            form:
+                fields:
+                    dia:
+                        label: 'Dia da semana'
+                        options:
+                            domingo: 'Domingo'
+                            segunda: 'Segunda Feira'
+                            terca: 'Terça Feira'
+                            quarta: 'Quarta Feira'
+                            quinta: 'Quinta Feira'
+                            sexta: 'Sexta Feira'
+                            sabado: 'Sábado'
+                        span: full
+                        type: dropdown
+                    inicio:
+                        label: 'Data de Ínicio'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+                    fim:
+                        label: 'Data de Fim'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
         destino_ligamos:
             label: 'Destinos(Separar por vírgula)'
             span: left
@@ -199,6 +356,43 @@ tabs:
             span: full
             type: colorpicker
             tab: 'Formulário Ligamos para você'
+        habilitar_programacao_ligamos:
+            label: 'Habilitar programação Ligamos'
+            span: auto
+            type: switch
+            tab: 'Formulário Ligamos para você'
+        programacao_ligamos:
+            label: 'Programação Ligamos'
+            prompt: 'Acrescentar novo horário'
+            span: full
+            type: repeater
+            tab: 'Formulário Ligamos para você'
+            form:
+                fields:
+                    dia:
+                        label: 'Dia da semana'
+                        options:
+                            domingo: 'Domingo'
+                            segunda: 'Segunda Feira'
+                            terca: 'Terça Feira'
+                            quarta: 'Quarta Feira'
+                            quinta: 'Quinta Feira'
+                            sexta: 'Sexta Feira'
+                            sabado: 'Sábado'
+                        span: full
+                        type: dropdown
+                    inicio:
+                        label: 'Data de Ínicio'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+                    fim:
+                        label: 'Data de Fim'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
         legenda_form_externo:
             label: Legenda
             span: left
@@ -234,6 +428,43 @@ tabs:
             span: full
             type: colorpicker
             tab: 'Formulário Externo'
+        habilitar_programacao_externo:
+            label: 'Habilitar programação externo'
+            span: auto
+            type: switch
+            tab: 'Formulário Externo'
+        programacao_externo:
+            label: 'Programação Externo'
+            prompt: 'Acrescentar novo horário'
+            span: full
+            type: repeater
+            tab: 'Formulário Externo'
+            form:
+                fields:
+                    dia:
+                        label: 'Dia da semana'
+                        options:
+                            domingo: 'Domingo'
+                            segunda: 'Segunda Feira'
+                            terca: 'Terça Feira'
+                            quarta: 'Quarta Feira'
+                            quinta: 'Quinta Feira'
+                            sexta: 'Sexta Feira'
+                            sabado: 'Sábado'
+                        span: full
+                        type: dropdown
+                    inicio:
+                        label: 'Data de Ínicio'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+                    fim:
+                        label: 'Data de Fim'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
         repeater1:
             label: 'Botões link'
             prompt: 'Acrescentar novo botão'
@@ -272,13 +503,13 @@ secondaryTabs:
             span: left
             default: 0
             type: switch
-            tab: Programação
+            tab: 'Programação Geral'
         horarios_domingo:
             label: 'Horários de Domingo'
             prompt: 'Acrescentar novo horário'
             span: full
             type: repeater
-            tab: Programação
+            tab: 'Programação Geral'
             form:
                 fields:
                     horario_inicio:
@@ -286,17 +517,19 @@ secondaryTabs:
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
                     horario_fim:
                         label: Terminar
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
         horarios_segunda:
             label: 'Horários de Segunda Feira'
             prompt: 'Acrescentar novo horário'
             span: full
             type: repeater
-            tab: Programação
+            tab: 'Programação Geral'
             form:
                 fields:
                     horario_inicio:
@@ -304,17 +537,19 @@ secondaryTabs:
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
                     horario_fim:
                         label: Terminar
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
         horarios_terca:
             label: 'Horários de Terça Feira'
             prompt: 'Acrescentar novo horário'
             span: full
             type: repeater
-            tab: Programação
+            tab: 'Programação Geral'
             form:
                 fields:
                     horario_inicio:
@@ -322,17 +557,19 @@ secondaryTabs:
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
                     horario_fim:
                         label: Terminar
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
         horarios_quarta:
             label: 'Horários de Quarta Feira'
             prompt: 'Acrescentar novo horário'
             span: full
             type: repeater
-            tab: Programação
+            tab: 'Programação Geral'
             form:
                 fields:
                     horario_inicio:
@@ -340,17 +577,19 @@ secondaryTabs:
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
                     horario_fim:
                         label: Terminar
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
         horarios_quinta:
             label: 'Horários de Quinta Feira'
             prompt: 'Acrescentar novo horário'
             span: full
             type: repeater
-            tab: Programação
+            tab: 'Programação Geral'
             form:
                 fields:
                     horario_inicio:
@@ -358,17 +597,19 @@ secondaryTabs:
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
                     horario_fim:
                         label: Terminar
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
         horarios_sexta:
             label: 'Horários de Sexta Feira'
             prompt: 'Acrescentar novo horário'
             span: full
             type: repeater
-            tab: Programação
+            tab: 'Programação Geral'
             form:
                 fields:
                     horario_inicio:
@@ -376,17 +617,19 @@ secondaryTabs:
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
                     horario_fim:
                         label: Terminar
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
         horarios_sabado:
             label: 'Horários de Sábado'
             prompt: 'Acrescentar novo horário'
             span: full
             type: repeater
-            tab: Programação
+            tab: 'Programação Geral'
             form:
                 fields:
                     horario_inicio:
@@ -394,11 +637,13 @@ secondaryTabs:
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
                     horario_fim:
                         label: Terminar
                         mode: time
                         span: auto
                         type: datepicker
+                        ignoreTimezone: true
         formato_mobile:
             label: 'Formato Mobile'
             options:
