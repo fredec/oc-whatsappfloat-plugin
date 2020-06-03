@@ -335,8 +335,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado6');
-			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?atualizado1');
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado7');
+			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?atualizado2');
 		}
 	}
 
@@ -428,11 +428,12 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$form_enviar->properties['recaptcha_type']= "image";
 		$form_enviar->properties['recaptcha_size']= "normal";
 
-		$form_enviar->alias='faleConoscoFloat';
+		$form_enviar->alias='faleConoscoWhastappFloat';
 		$form_enviar->name='genericForm';
 		$form_enviar->assetPath='/plugins/diveramkt/whatsappfloat';
 
 		$form_enviar->inline_errors='display';
+
 
 		return $form_enviar->onFormSubmit();
 		// $envio=$form_enviar->onFormSubmit();

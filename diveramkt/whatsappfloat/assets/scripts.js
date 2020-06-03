@@ -21,15 +21,32 @@
 
 		function ativar_scripts(){
 
-			for (bots of document.querySelectorAll('.botoes_floats .clique_modal_float')) {
-				bots.onclick = function(e){
-					e.preventDefault();
-
-					if(document.querySelector(this.getAttribute('data-form')+'.modal_visivel') == null){
-						document.querySelector(this.getAttribute('data-form')).classList.add("modal_visivel");
-					}else{
-						document.querySelector(this.getAttribute('data-form')).classList.remove("modal_visivel");
+			var Vcenter_float=document.querySelectorAll('.botoes_floats .link_botao_whatsappfloat .Vcenter');
+			var Vcenter_height_float=0;
+			function altura_botoes_mobile(){
+				if(Vcenter_float.length && window.innerWidth <= 600){
+					for (cur of Vcenter_float) {
+						if(cur.offsetHeight > Vcenter_height_float) Vcenter_height_float=cur.offsetHeight;
 					}
+					for (cur of Vcenter_float) { cur.style.height=Vcenter_height_float+'px'; }
+				}else{
+					for (cur of Vcenter_float) { cur.style.height='auto'; }
+				}
+		}
+		if(Vcenter_float.length){
+			altura_botoes_mobile();
+		}
+
+
+		for (bots of document.querySelectorAll('.botoes_floats .clique_modal_float')) {
+			bots.onclick = function(e){
+				e.preventDefault();
+
+				if(document.querySelector(this.getAttribute('data-form')+'.modal_visivel') == null){
+					document.querySelector(this.getAttribute('data-form')).classList.add("modal_visivel");
+				}else{
+					document.querySelector(this.getAttribute('data-form')).classList.remove("modal_visivel");
+				}
 
 				// if(bots.querySelector('.modal_form_float.modal_visivel') == null){
 				// 	this.closest('.link_botao_whatsappfloat').querySelector('.modal_form_float').classList.add("modal_visivel");
@@ -141,6 +158,7 @@
 			window.onresize = function (oEvent) {
 				botoes_float_abaixo();
 				botoes_mobile();
+				altura_botoes_mobile();
 			}
 
 		}

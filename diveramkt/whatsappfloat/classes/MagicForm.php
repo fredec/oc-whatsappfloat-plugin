@@ -9,7 +9,8 @@ use October\Rain\Exception\ApplicationException;
 use October\Rain\Exception\ValidationException;
 use October\Rain\Support\Facades\Flash;
 use Martin\Forms\Classes\BackendHelpers;
-use Martin\Forms\Classes\SendMail;
+// use Martin\Forms\Classes\SendMail;
+use Diveramkt\WhatsappFloat\Classes\SendMail;
 use Martin\Forms\Models\Record;
 use Martin\Forms\Models\Settings;
 
@@ -196,9 +197,21 @@ abstract class MagicForm extends ComponentBase {
             $record->save(null, post('_session_key'));
         }
 
+        // $arquivo = "valores_campos.txt";
+        // $fp = fopen($arquivo, "w+");
+        // fwrite($fp, serialize($this->getProperties()).' - '.serialize($post));
+        // fclose($fp);
+
         // SEND NOTIFICATION EMAIL
         if ($this->property('mail_enabled')) {
             SendMail::sendNotification($this->getProperties(), $post, $record, $record->files);
+
+            // Mail::sendTo($hom->email, 'jadapax.homenagem::mail.avisocomentarioliberado', [
+            //     'link_acesso'   => '<a href="'.$link.'">Acessar sua homenagem com novo comentário.</a>',
+            // ], function ($message){
+
+            // }
+
         }
 
         // SEND AUTORESPONSE EMAIL
@@ -221,6 +234,7 @@ abstract class MagicForm extends ComponentBase {
         if (BackendHelpers::isTranslatePlugin()) {
             $message = \RainLab\Translate\Models\Message::trans($message);
         }
+
 
         // $post = post();
         // $rules = (array)$this->property('rules');

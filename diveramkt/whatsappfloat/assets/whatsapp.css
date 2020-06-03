@@ -231,6 +231,7 @@
 	padding: 5px 10px;
 	border-radius: 2px;
 	/*border: none;*/
+	background: white;
 }
 
 .modal_form_float .div_input_loading button .fa{position: relative;color: black;}
@@ -392,17 +393,17 @@
 	.botoes_floats .botoes_ > div .Vcenter{height: 35px;width: auto;margin: 0 auto;min-height: 0!important;}
 	/*.botoes_floats.formato_2 .botoes_ .Vcenter{*/
 		/*height: 40px;*/
-	/*}*/
-	.botoes_floats .botoes_ > div.xs12 .Vcenter{height: auto;}
-	.botoes_floats.botoes_redondos .botoes_ > div{border-radius: 0;}
-	.link_botao_whatsappfloat a span.txt{padding-left: 25px;line-height: 15px;font-size: 90%;
-		/*word-wrap: anywhere;*/
-		word-break: break-word;
-	}
+		/*}*/
+		.botoes_floats .botoes_ > div.xs12 .Vcenter{height: auto;}
+		.botoes_floats.botoes_redondos .botoes_ > div{border-radius: 0;}
+		.link_botao_whatsappfloat a span.txt{padding-left: 25px;line-height: 15px;font-size: 90%;
+			/*word-wrap: anywhere;*/
+			word-break: break-word;
+		}
 
-	.mobi{display: inline;}
-	.desk{display: none;}
-	.botoes_floats > div.box_mensagem{display: none!important;}
+		.mobi{display: inline;}
+		.desk{display: none;}
+		.botoes_floats > div.box_mensagem{display: none!important;}
 
 	/*.botoes_floats{
 		left: 0!important;
@@ -423,7 +424,7 @@
 			transform: translateX(0)!important; -webkit-transform: translateX(0)!important; -moz-transform: translateX(0)!important; -ms-transform: translateX(0)!important; -o-transform: translateX(0)!important;
 		}
 
-		.botoes_floats.formato_1 .botoes_ > div{clear: none;}
+		.botoes_floats.formato_1 .botoes_ > div{clear: none;float: left;}
 		.botoes_floats.formato_1 .botoes_ > div.xs12{padding: 12.5px!important;}
 		.botoes_floats .botoes_ > div.xs12{width: 100%!important;}
 		.botoes_floats .botoes_ > div.xs11{width: 91.666666%!important;} .botoes_floats .botoes_ > div.xs10{width: 83.333333%!important;} .botoes_floats .botoes_ > div.xs9{width: 75%!important;} .botoes_floats .botoes_ > div.xs8{width: 66.666666%!important;} .botoes_floats .botoes_ > div.xs7{width: 58.333333%!important;}
@@ -466,6 +467,8 @@
 		.formato_mobile_aolado .botoes_quant_2 > div{width: 50%!important;} .formato_mobile_aolado .botoes_quant_3 > div{width: 33.333333%!important;} .formato_mobile_aolado .botoes_quant_4 > div{width: 25%!important;} .formato_mobile_aolado .botoes_quant_5 > div{width: 20%!important;}
 		.formato_mobile_aolado .botoes_quant_6 > div{width: 16.666666%!important;} .formato_mobile_aolado .botoes_quant_7 > div{width: 14.285714%!important;} .formato_mobile_aolado .botoes_quant_8 > div{width: 12.5%!important;} .formato_mobile_aolado .botoes_quant_9 > div{width: 11.111111%!important;} .formato_mobile_aolado .botoes_quant_10 > div{width: 20%!important;}
 		.botoes_floats.formato_mobile_aolado .botoes_ > div .img_icone{max-width: 25px;max-height: 25px;transform: translateY(0); -webkit-transform: translateY(0); -moz-transform: translateY(0); -ms-transform: translateY(0); -o-transform: translateY(0);}
+
+		.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{margin-bottom: 0;}
 	}
 	@media(max-width: 350px){
 		/*.link_botao_whatsappfloat.bot_top, .link_botao_whatsappfloat.bot_top + div{width: 100%;}*/

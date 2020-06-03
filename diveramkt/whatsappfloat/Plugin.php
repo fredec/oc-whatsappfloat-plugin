@@ -37,6 +37,13 @@ class Plugin extends PluginBase
 		];
 	}
 
+	public function registerMailTemplates() {
+		return [
+			'diveramkt.whatsappfloat::mail.notification' => 'Notificar quando um formulário é enviado',
+			'diveramkt.whatsappfloat::mail.autoresponse' => 'Resposta automática quando um formulário é enviado',
+		];
+	}
+
 	public function registerPermissions()
 	{
 		return [
