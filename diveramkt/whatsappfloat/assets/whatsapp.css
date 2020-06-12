@@ -21,7 +21,8 @@
 	transform: scale(1);-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);-o-transform: scale(1);
 }
 
-.modal_form_float .fundo, .modal_form_float, .modal_form_float .Vcenter, .botoes_floats.formato_1 .botoes_ > div, .esconder_alvo{
+.modal_form_float .fundo, .modal_form_float, .modal_form_float .Vcenter, .botoes_floats.formato_1 .botoes_ > div, .esconder_alvo,
+.botoes_floats.formato_2 .botoes_ > div{
 	transition: all 0.3s ease;
 	-webkit-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
@@ -273,6 +274,7 @@
 	width: 100%;
 	height: 100%;
 	z-index: 9;
+	margin-top: 0;
 }
 .div_input_loading .oc-loading:after{
 	position: absolute;
@@ -346,6 +348,9 @@
 /*/////////////////FORMATO 2*/
 .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{position: relative;left: 0;top: 0;text-align: center;width: 100%;margin-bottom: 5px;}
 .botoes_floats.formato_2 .botoes_ > div{width: 90px;display: block;padding: 5px 0;}
+.botoes_floats.formato_2.horizontal_right .botoes_ > div:hover{padding-right: 10px;width: 100px;margin-left: -10px;}
+.botoes_floats.formato_2.horizontal_left .botoes_ > div:hover{width: 100px;margin-right: -10px;padding-left: 10px;}
+
 .botoes_floats.formato_2 .botoes_ .Vcenter{min-height: 60px;}
 .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link a, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .link_click{width: 100%;}
 .botoes_floats.formato_2 .link_botao_whatsappfloat a, .botoes_floats.formato_2 .link_botao_whatsappfloat .link_click{text-align: center;}
@@ -469,6 +474,12 @@
 		.botoes_floats.formato_mobile_aolado .botoes_ > div .img_icone{max-width: 25px;max-height: 25px;transform: translateY(0); -webkit-transform: translateY(0); -moz-transform: translateY(0); -ms-transform: translateY(0); -o-transform: translateY(0);}
 
 		.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{margin-bottom: 0;}
+
+		.botoes_floats.formato_2.horizontal_left .botoes_ > div:hover, .botoes_floats.formato_2.horizontal_right .botoes_ > div:hover{
+			margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;
+			margin-top: -5px;
+			padding-bottom: 10px;
+		}
 	}
 	@media(max-width: 350px){
 		/*.link_botao_whatsappfloat.bot_top, .link_botao_whatsappfloat.bot_top + div{width: 100%;}*/

@@ -2,6 +2,10 @@
 	<!-- data-request-update="@form/contato: '.atualizar_form_contato_float'" -->
 	{{ form_token() }}
 
+	<input name="pagina" type="hidden" value="{{this.page.title}}">
+	<input name="titulo_da_pagina" type="hidden">
+	<input name="url_da_pagina" type="hidden">
+
 	<h2 class="titulo_">Fale Conosco</h2>
 	<label class="input_label">
 		<p>Seu nome</p>

@@ -404,7 +404,7 @@ tabs:
             type: switch
             tab: 'Formulário Externo'
         link_form_externo:
-            label: 'Link externo'
+            label: 'Link externo ou emails de destino'
             span: left
             type: text
             tab: 'Formulário Externo'

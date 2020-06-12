@@ -1,4 +1,3 @@
-
 {% set obj = __SELF__ %}
 
 {% set form_contato=obj.settings.ativar_form_contato %}
@@ -170,13 +169,7 @@
 						<a href="#" class="fa fa-close" title="Fechar"></a>
 						<!--  partial '@form/contato'  -->
 						<div class="atualizar_form_externo_float">
-							{% partial __SELF__~'::form_externo'
-							action=obj.settings.link_form_externo
-							titulo=obj.settings.legenda_form_externo
-							nome=obj.settings.input_nome_form_externo
-							email=obj.settings.input_email_form_externo
-							telefone=obj.settings.input_telefone_form_externo
-							%}
+							{% partial __SELF__~'::form_externo' %}
 						</div>
 					</div>
 				</div>

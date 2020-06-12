@@ -289,7 +289,9 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				if($this->settings->input_name_form_externo || $this->settings->input_email_form_externo || $this->settings->input_email_form_externo){
 					$this->quant_botoes+=1;
 
-					if(!strpos("[".$this->settings->link_form_externo."]", "http://") && !strpos("[".$this->settings->link_form_externo."]", "https://")) $this->settings->link_form_externo='http://'.$this->settings->link_form_externo;
+					if(!strpos("[".$this->settings->link_form_externo."]", "@") && !strpos("[".$this->settings->link_form_externo."]", "http://") && !strpos("[".$this->settings->link_form_externo."]", "https://")) $this->settings->link_form_externo='http://'.$this->settings->link_form_externo;
+
+					if(strpos("[".$this->settings->link_form_externo."]", "@")) $this->settings->link_form_externo_email=1;
 
 				}else $this->settings->ativar_form_externo=0;
 			}
@@ -335,8 +337,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?atualizado7');
-			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?atualizado2');
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css');
+			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?atualizado4');
 		}
 	}
 
@@ -405,7 +407,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $destinos=array();
 		// $destinos[]='suporte@divera.com.br';
 		// $form_enviar->properties['mail_recipients']=$destinos;
-		$this->settings->destino_contato=str_replace(';', ',', $this->settings->destino_contato);
+		$this->settings->destino_contato=str_replace(';', ',', str_replace(' ','',$this->settings->destino_contato));
 		$this->settings->destino_contato=explode(',', $this->settings->destino_contato);
 		$form_enviar->properties['mail_recipients']=$this->settings->destino_contato;
 
@@ -415,7 +417,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			$form_enviar->properties['mail_replyto']='email';
 			$form_enviar->properties['mail_resp_enabled']=1;
 			$form_enviar->properties['mail_resp_field']='email';
-			$form_enviar->properties['mail_resp_from']=$this->settings->mail_resp_from_contato;
+			$form_enviar->properties['mail_resp_from']=str_replace(' ','',$this->settings->mail_resp_from_contato);
 			$form_enviar->properties['mail_resp_subject']=$this->settings->mail_resp_assunto_contato;
 		}else $form_enviar->properties['mail_resp_enabled']=0;
 		$form_enviar->properties['reset_form']=1;
@@ -472,7 +474,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 
 		// $destinos=array();
 		// $destinos[]='suporte@divera.com.br';
-		$this->settings->destino_ligamos=str_replace(';', ',', $this->settings->destino_ligamos);
+		$this->settings->destino_ligamos=str_replace(';', ',', str_replace(' ','',$this->settings->destino_ligamos));
 		$this->settings->destino_ligamos=explode(',', $this->settings->destino_ligamos);
 		$form_enviar->properties['mail_recipients']=$this->settings->destino_ligamos;
 
@@ -499,4 +501,97 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 
 		return $form_enviar->onFormSubmit();
 	}
+
+
+
+
+	public function onFormSubmitExterno() {
+		$this->iniciar_settings();
+		$form_enviar=new formContato();
+
+		// if(!isset($this->settings->mensagem_sucesso_contato) || !$this->settings->mensagem_sucesso_contato) $this->settings->mensagem_sucesso_contato="Sua mensagem foi enviada com sucesso. Obrigado!";
+		// if(!isset($this->settings->grupo_contato) || !$this->settings->grupo_contato) $this->settings->grupo_contato='Fale Conosco';
+		// if(!isset($this->settings->assunto_contato) || !$this->settings->assunto_contato) $this->settings->assunto_contato='Contato';
+
+		// $form_enviar->onRun();
+		// $form_enviar->alias='';
+		$form_enviar->properties['group']=$this->settings->legenda_form_externo;
+
+		$rules=array();
+		$rules_messages=array();
+
+		if($this->settings->input_nome_form_externo){
+			$rules[$this->settings->input_nome_form_externo] = "required|required_if:nome,Seu nome";
+			$rules_messages[$this->settings->input_nome_form_externo.'.required'] = "Informe seu nome";
+			$rules_messages[$this->settings->input_nome_form_externo.'.required_if'] = "Informe seu nome if";
+		}
+
+		if($this->settings->input_email_form_externo){
+			$rules[$this->settings->input_email_form_externo] = "required|email";
+			$rules_messages[$this->settings->input_email_form_externo.'.required'] = "Informe seu e-mail";
+			$rules_messages[$this->settings->input_email_form_externo.'.email'] = "E-mail inválido";
+		}
+
+		if($this->settings->input_telefone_form_externo){
+			$rules[$this->settings->input_telefone_form_externo] = "required";
+			$rules_messages[$this->settings->input_telefone_form_externo.'.required'] = "Informe seu telefone";
+		}
+		// $rules['mensagem'] = "required|min:5";
+		$form_enviar->properties['rules']=$rules;
+
+		
+		// $rules_messages['mensagem.required'] = "Informe sua mensagem";
+		// $rules_messages['mensagem.min'] = "Necessário ao mínimo 5 caracteres";
+		$form_enviar->properties['rules_messages']=$rules_messages;
+
+		$form_enviar->properties['messages_success']='Sua solicitação foi envida com sucesso. Obrigado!';
+		$form_enviar->properties['messages_errors']='Ocorreu um erro no envio. Tente novamente por favor.';
+
+		$form_enviar->properties['mail_enabled']=1;
+		$form_enviar->properties['mail_subject']=$this->settings->legenda_form_externo;
+
+		// n exception has been thrown during the rendering of a template ("Array to string conversion") in "/home2/acrjfc25/public_html/novo/plugins/diveramkt/whatsappfloat/components/whatsappfloat/form_externo.htm" at line 12." on line 421 of /home2/acrjfc25/public_html/novo/vendor/twig/twig/src/Template.php
+
+		// $destinos=array();
+		// $destinos[]='suporte@divera.com.br';
+		// $form_enviar->properties['mail_recipients']=$destinos;
+
+		$destinos=str_replace(';', ',', str_replace(' ','',$this->settings->link_form_externo));
+		$destinos=explode(',', $destinos);
+		$form_enviar->properties['mail_recipients']=$destinos;
+
+		if(isset($this->settings->input_email_form_externo) && $this->settings->input_email_form_externo){
+			// if(!isset($this->settings->mail_resp_assunto_contato) || !$this->settings->mail_resp_assunto_contato) $this->settings->mail_resp_assunto_contato='Recebemos sua mensagem';
+
+			$form_enviar->properties['mail_replyto']=$this->settings->input_email_form_externo;
+			$form_enviar->properties['mail_resp_enabled']=1;
+			$form_enviar->properties['mail_resp_field']=$this->settings->input_email_form_externo;
+			$form_enviar->properties['mail_resp_from']=$destinos[0];
+			$form_enviar->properties['mail_resp_subject']='Recebemos sua mensagem - '.$this->settings->legenda_form_externo;
+		}else $form_enviar->properties['mail_resp_enabled']=0;
+		$form_enviar->properties['reset_form']=1;
+
+		$form_enviar->properties['inline_errors']= "disabled";
+		$form_enviar->properties['sanitize_data']= "disabled";
+		$form_enviar->properties['anonymize_ip']= "disabled";
+		$form_enviar->properties['recaptcha_enabled']= 0;
+		$form_enviar->properties['recaptcha_theme']= "light";
+		$form_enviar->properties['recaptcha_type']= "image";
+		$form_enviar->properties['recaptcha_size']= "normal";
+
+		$form_enviar->alias='faleConoscoWhastappFloat';
+		$form_enviar->name='genericForm';
+		$form_enviar->assetPath='/plugins/diveramkt/whatsappfloat';
+
+		$form_enviar->inline_errors='display';
+
+
+		return $form_enviar->onFormSubmit();
+		// $envio=$form_enviar->onFormSubmit();
+		// if($envio){
+		// 	echo $form_enviar->properties['messages_success'];
+		// }
+	}
+
+
 }

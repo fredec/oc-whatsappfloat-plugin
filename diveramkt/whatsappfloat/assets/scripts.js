@@ -11,6 +11,10 @@
 		// 	})
 		// })
 
+		function limpar_campos(){
+			$('.botoes_floats .input_label input').val('');
+		}
+
 		var interval_whatsapp_floats='';
 		interval_whatsapp_floats=setInterval(function(){
 			if(document.querySelectorAll('.botoes_floats').length){
@@ -20,6 +24,18 @@
 		}, 1);
 
 		function ativar_scripts(){
+
+			if(document.querySelectorAll('input[name="titulo_da_pagina"]').length > 0){
+				for (input of document.querySelectorAll('input[name="titulo_da_pagina"]')) {
+					input.value=document.title;
+				}
+			}
+			if(document.querySelectorAll('input[name="url_da_pagina"]').length > 0){
+				for (input of document.querySelectorAll('input[name="url_da_pagina"]')) {
+					input.value=document.location.href;	
+				}	
+			}
+			
 
 			var Vcenter_float=document.querySelectorAll('.botoes_floats .link_botao_whatsappfloat .Vcenter');
 			var Vcenter_height_float=0;

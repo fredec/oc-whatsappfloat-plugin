@@ -1,32 +1,50 @@
-<form class="validate validate-tooltip externoform_float" data-legenda="form_externo" method="post" action="{{ action }}" target="_blank">
-	<!-- data-request-update="@form/contato: '.atualizar_form_externo_float'" -->
-	{{ form_token() }}
+{% set obj = __SELF__ %}
+{% set action_email=obj.settings.link_form_externo_email %}
+{% set action=obj.settings.link_form_externo %}
+{% set titulo=obj.settings.legenda_form_externo %}
+{% set nome=obj.settings.input_nome_form_externo %}
+{% set email=obj.settings.input_email_form_externo %}
+{% set telefone=obj.settings.input_telefone_form_externo %}
 
-	<h2 class="titulo_">{{ titulo }}</h2>
-	{% if nome %}
-	<label class="input_label">
-		<p>Seu nome</p>
-		<input name="{{nome}}" type="text" id="name" data-validate="required" required="required">
-		<!-- <input class="input_placeholder" type="text" placeholder="Seu nome"> -->
-	</label>
-	{% endif %}
-	{% if telefone %}
-	<label class="input_label">
-		<p>Seu telefone</p>
-		<input type="tel" name="{{telefone}}" data-validate="phone" required="required">
-		<!-- <input class="input_placeholder" type="text" placeholder="Seu telefone"> -->
-	</label>
-	{% endif %}
-	{% if email %}
-	<label class="input_label">
-		<p>Seu e-mail</p>
-		<input name="{{email}}" type="text" id="email" required="required" data-validate="email">
-		<!-- placeholder="Seu Email"  -->
-	</label>
-	{% endif %}
+{% if action_email %}
+<form class="validate validate-tooltip externoform_float" data-legenda="form_externo" data-request="{{ __SELF__ }}::onFormSubmitExterno" data-request-flash data-request-success="limpar_campos();">
+	<!-- data-request-update="'{{ __SELF__ }}::form_externo': '.atualizar_form_externo_float'" -->
+	{% else %}
+	<form class="validate validate-tooltip externoform_float" data-legenda="form_externo" method="post" action="{{ action }}" target="_blank">
+		{% endif %}
 
-	<div class="div_input_loading">
-		<button type="submit" class="button btn"><i class="fa fa-check-circle"></i> Enviar</button>
-		<span data-attach-loading class="lod_"></span>
-	</div>
-</form>
+		<!-- data-request-update="@form/contato: '.atualizar_form_externo_float'" -->
+		{{ form_token() }}
+
+		<input name="pagina" type="hidden" value="{{this.page.title}}">
+		<input name="titulo_da_pagina" type="hidden">
+		<input name="url_da_pagina" type="hidden">
+
+		<h2 class="titulo_">{{ titulo }}</h2>
+		{% if nome %}
+		<label class="input_label">
+			<p>Seu nome</p>
+			<input name="{{nome}}" type="text" id="name" data-validate="required" required="required">
+			<!-- <input class="input_placeholder" type="text" placeholder="Seu nome"> -->
+		</label>
+		{% endif %}
+		{% if telefone %}
+		<label class="input_label">
+			<p>Seu telefone</p>
+			<input type="tel" name="{{telefone}}" data-validate="phone" required="required">
+			<!-- <input class="input_placeholder" type="text" placeholder="Seu telefone"> -->
+		</label>
+		{% endif %}
+		{% if email %}
+		<label class="input_label">
+			<p>Seu e-mail</p>
+			<input name="{{email}}" type="text" id="email" required="required" data-validate="email">
+			<!-- placeholder="Seu Email"  -->
+		</label>
+		{% endif %}
+
+		<div class="div_input_loading">
+			<button type="submit" class="button btn"><i class="fa fa-check-circle"></i> Enviar</button>
+			<span data-attach-loading class="lod_"></span>
+		</div>
+	</form>
