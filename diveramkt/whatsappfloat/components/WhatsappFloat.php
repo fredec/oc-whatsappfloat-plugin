@@ -9,8 +9,10 @@ use Diveramkt\WhatsappFloat\Models\Settings;
 use Diveramkt\WhatsappFloat\Classes\Image;
 
 use Diveramkt\WhatsappFloat\Classes\formContato;
+use System\Models\MailSetting;
 
 use stdclass;
+use Config;
 
 class WhatsappFloat extends \Cms\Classes\ComponentBase
 {
@@ -95,6 +97,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$this->iniciar_settings();
 
 		if(!isset($this->settings->enabled) or !$this->settings->enabled) return;
+
+		if($this->settings->visible_enabled_pages && !$this->veri_pages_visible()) return;
 
 		if(isset($this->settings->enabled_horarios) && $this->settings->enabled_horarios){
 			$horarios='';
@@ -337,9 +341,70 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css');
-			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?atualizado4');
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?'.time());
+			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?'.time());
 		}
+	}
+
+	public function veri_pages_visible(){
+		$retorno=true;
+		$base=Config::get('app.url');
+		$cur_url=$this->currentPageUrl();
+		// $cur_url=$this->prep_url($_SERVER['REQUEST_URI']);
+
+		$link_=false;
+		$links=str_replace(' ','',$this->settings->visible_links);
+		if($links){
+			$links = explode("\n", $links);
+			foreach ($links as $key => $value) {
+				if(trim($this->create_slug($this->prep_url($value))) == trim($this->create_slug($cur_url))) $link_=true;
+			}
+		}
+
+		if(isset($this->settings->visible_links_pages[0]['visible_list_pages'])){
+			foreach ($this->settings->visible_links_pages as $key => $value) {
+				if($this->page->id == $value['visible_list_pages']) $link_=true;
+			}
+		}
+
+		// $this->settings->visible_enabled_pages
+		// $this->settings->visible_tipo_paginas
+		// $this->settings->visible_links
+		// $this->settings->visible_links_pages
+
+		if($this->settings->visible_tipo_paginas == 0 && $link_) $retorno=false;
+		elseif($this->settings->visible_tipo_paginas == 1 && !$link_) $retorno=false;
+
+		// if($this->settings->visible_tipo_paginas == 0 && $link_)
+		// elseif($this->settings->visible_tipo_paginas == 1 && $link_)
+
+		return $retorno;
+	}
+
+	public function create_slug($string) {
+		$table = array(
+			'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
+			'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+			'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+			'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss',
+			'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e',
+			'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
+			'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
+			'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', '/' => '-', ' ' => '-'
+		);
+		$stripped = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $string);
+		return strtolower(strtr($string, $table));
+	}
+	public function prep_url($url) {
+		$base = 'http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . str_replace('//', '/', dirname($_SERVER['SCRIPT_NAME']) . '/');
+
+		if(!strpos("[".$url."]", "http://") && !strpos("[".$url."]", "https://")){
+			$veri=str_replace('www.','',$_SERVER['HTTP_HOST']. str_replace('//', '/', dirname($_SERVER['SCRIPT_NAME'])));
+			if(!strpos("[".$url."]", ".") && !strpos("[".$veri."]", "https://")){
+				$url='http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '') . '://www.'.str_replace(array('//','\/'),array('/','/'),$veri.'/'.$url);
+			}else $url='http://'.$url;
+		}
+		return str_replace('//www.','//',$url);
 	}
 
 	public function mobile(){
@@ -372,6 +437,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 	public function onFormSubmitContato() {
 		$this->iniciar_settings();
 		$form_enviar=new formContato();
+		$mail_setting=MailSetting::instance();
 
 		if(!isset($this->settings->mensagem_sucesso_contato) || !$this->settings->mensagem_sucesso_contato) $this->settings->mensagem_sucesso_contato="Sua mensagem foi enviada com sucesso. Obrigado!";
 		if(!isset($this->settings->grupo_contato) || !$this->settings->grupo_contato) $this->settings->grupo_contato='Fale Conosco';
@@ -417,7 +483,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			$form_enviar->properties['mail_replyto']='email';
 			$form_enviar->properties['mail_resp_enabled']=1;
 			$form_enviar->properties['mail_resp_field']='email';
-			$form_enviar->properties['mail_resp_from']=str_replace(' ','',$this->settings->mail_resp_from_contato);
+			// $form_enviar->properties['mail_resp_from']=str_replace(' ','',$this->settings->mail_resp_from_contato);
+			$form_enviar->properties['mail_resp_from']=$mail_setting->smtp_user;
 			$form_enviar->properties['mail_resp_subject']=$this->settings->mail_resp_assunto_contato;
 		}else $form_enviar->properties['mail_resp_enabled']=0;
 		$form_enviar->properties['reset_form']=1;
@@ -447,6 +514,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 	public function onFormSubmitLigamos() {
 		$this->iniciar_settings();
 		$form_enviar=new formContato();
+		$mail_setting=MailSetting::instance();
 
 		if(!isset($this->settings->mensagem_sucesso_ligamos) || !$this->settings->mensagem_sucesso_ligamos) $this->settings->mensagem_sucesso_ligamos='Sua solicitação foi enviada com sucesso, em breve entraremos em contato. Obrigado!';
 		if(!isset($this->settings->grupo_ligamos) || !$this->settings->grupo_ligamos) $this->settings->grupo_ligamos='Ligamos para você';
@@ -508,6 +576,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 	public function onFormSubmitExterno() {
 		$this->iniciar_settings();
 		$form_enviar=new formContato();
+		$mail_setting=MailSetting::instance();
 
 		// if(!isset($this->settings->mensagem_sucesso_contato) || !$this->settings->mensagem_sucesso_contato) $this->settings->mensagem_sucesso_contato="Sua mensagem foi enviada com sucesso. Obrigado!";
 		// if(!isset($this->settings->grupo_contato) || !$this->settings->grupo_contato) $this->settings->grupo_contato='Fale Conosco';
@@ -539,7 +608,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $rules['mensagem'] = "required|min:5";
 		$form_enviar->properties['rules']=$rules;
 
-		
+
 		// $rules_messages['mensagem.required'] = "Informe sua mensagem";
 		// $rules_messages['mensagem.min'] = "Necessário ao mínimo 5 caracteres";
 		$form_enviar->properties['rules_messages']=$rules_messages;
@@ -566,7 +635,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			$form_enviar->properties['mail_replyto']=$this->settings->input_email_form_externo;
 			$form_enviar->properties['mail_resp_enabled']=1;
 			$form_enviar->properties['mail_resp_field']=$this->settings->input_email_form_externo;
-			$form_enviar->properties['mail_resp_from']=$destinos[0];
+			// $form_enviar->properties['mail_resp_from']=$destinos[0];
+			$form_enviar->properties['mail_resp_from']=$mail_setting->smtp_user;
 			$form_enviar->properties['mail_resp_subject']='Recebemos sua mensagem - '.$this->settings->legenda_form_externo;
 		}else $form_enviar->properties['mail_resp_enabled']=0;
 		$form_enviar->properties['reset_form']=1;

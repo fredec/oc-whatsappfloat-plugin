@@ -1,6 +1,8 @@
 <?php namespace Diveramkt\Whatsappfloat\Models;
 
 use Model;
+use Cms\Classes\Page;
+use Cms\Classes\Theme;
 
 class Settings extends Model
 {
@@ -43,6 +45,25 @@ class Settings extends Model
 	public function getIconeFonteOptions(){
 		$icon=array();
 		return $icon;
+	}
+
+
+	public function getVisibleListPagesOptions(){
+		$theme = Theme::getActiveTheme();
+		$currentTheme = Theme::getEditTheme();
+		$allPages = Page::listInTheme($currentTheme, true);
+
+		// $veri = Db::table($this->table)->get();
+		// $pags=array();
+		// foreach ($veri as $vet) { $pags[$vet->page]=true; }
+
+		$retorno['']='Selecionar Página';
+		foreach ($allPages as $pg) {
+			if(isset($pags[$pg->id])) continue;
+			$retorno[$pg->id]=ucfirst($pg->title);
+		}
+
+		return $retorno;
 	}
 
 }

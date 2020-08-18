@@ -158,9 +158,10 @@
 	position: absolute;
 	left: 0;
 	top: 50%;
-	/*margin-top: -10.5px;*/
-	margin-top: -7.5px;
+	margin-top: -10.5px;
+	/*margin-top: -7.5px;*/
 	color: white;font-size: 135%;
+	margin-right: 0;
 }
 /*.link_botao_whatsappfloat .abrir_link{display: none;}*/
 .link_botao_whatsappfloat .abrir_link{
@@ -363,6 +364,7 @@
 	margin: 0 auto;
 	float: none;
 }
+.botoes_floats span.txt span{font-size: 100%;}
 /*/////////////////FORMATO 2*/
 
 

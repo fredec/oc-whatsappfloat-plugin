@@ -87,60 +87,61 @@
 			}
 		}
 
-		window.onload = function(){
+		// window.onload = function(){
+			$(document).ready(function(){
 
-			function botoes_float_abaixo(){
-				if(window.innerWidth <= 600) document.querySelector('html').style.paddingBottom=(document.querySelector('.botoes_floats').offsetHeight)+'px';
-				else document.querySelector('html').style.paddingBottom=0;
-			}
-			botoes_float_abaixo();
+				function botoes_float_abaixo(){
+					if(window.innerWidth <= 600) document.querySelector('html').style.paddingBottom=(document.querySelector('.botoes_floats').offsetHeight)+'px';
+					else document.querySelector('html').style.paddingBottom=0;
+				}
+				botoes_float_abaixo();
 
-			if(document.querySelector('.box_mensagem') != null){
-				var d = new Date();
-				var balao_mensagem=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+				if(document.querySelector('.box_mensagem') != null){
+					var d = new Date();
+					var balao_mensagem=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
 
-				var balao_mensagemveri=JSON.parse(localStorage.getItem('balao_mensagem_whatsapp')) || [];
-				if(balao_mensagemveri != balao_mensagem) mostrar_balao();
+					var balao_mensagemveri=JSON.parse(localStorage.getItem('balao_mensagem_whatsapp')) || [];
+					if(balao_mensagemveri != balao_mensagem) mostrar_balao();
 
-				document.querySelector('.box_mensagem .link_fechar').onclick = function(e){
-					e.preventDefault();
-					this.closest('div').classList.remove('mostrar_alvo');
+					document.querySelector('.box_mensagem .link_fechar').onclick = function(e){
+						e.preventDefault();
+						this.closest('div').classList.remove('mostrar_alvo');
 
-					localStorage.setItem('balao_mensagem_whatsapp',JSON.stringify(balao_mensagem));
+						localStorage.setItem('balao_mensagem_whatsapp',JSON.stringify(balao_mensagem));
+					}
+
+					function mostrar_balao(){
+						setTimeout(function(){
+							document.querySelector('.box_mensagem').classList.add('mostrar_alvo');
+						}, 1000);
+					}
 				}
 
-				function mostrar_balao(){
-					setTimeout(function(){
-						document.querySelector('.box_mensagem').classList.add('mostrar_alvo');
-					}, 1000);
+				function hasClass(elem, className) {
+					return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
 				}
-			}
 
-			function hasClass(elem, className) {
-				return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
-			}
+				var interval_botoes_mobile='';
+				function botoes_mobile(){
+					if(document.querySelectorAll('.botoes_floats .xslateral') != null){
+						clearInterval(interval_botoes_mobile);
+						interval_botoes_mobile=setTimeout(function(){
+							if(bots_lateral == undefined) var bots_lateral=0;
+							if(height_div == undefined) var height_div=0;
 
-			var interval_botoes_mobile='';
-			function botoes_mobile(){
-				if(document.querySelectorAll('.botoes_floats .xslateral') != null){
-					clearInterval(interval_botoes_mobile);
-					interval_botoes_mobile=setTimeout(function(){
-						if(bots_lateral == undefined) var bots_lateral=0;
-						if(height_div == undefined) var height_div=0;
+							height_div=0;
 
-						height_div=0;
+							for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs12')) {
+								height_div+=cur.offsetHeight;
+							}
 
-						for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs12')) {
-							height_div+=cur.offsetHeight;
-						}
+							pos=0;
+							for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs6')) {
+								if(pos%2 == 0) height_div+=cur.offsetHeight;
+								pos++;
+							}
 
-						pos=0;
-						for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs6')) {
-							if(pos%2 == 0) height_div+=cur.offsetHeight;
-							pos++;
-						}
-
-						bots_lateral=document.querySelectorAll('.botoes_floats .xslateral');
+							bots_lateral=document.querySelectorAll('.botoes_floats .xslateral');
 				// height_div=document.querySelector('.botoes_floats').clientHeight;
 				// document.querySelector('.botoes_floats').style.border='solid blue 1px';
 
@@ -167,17 +168,18 @@
 					}
 				}
 			}, 100);
+					}
 				}
-			}
-			botoes_mobile();
-
-			window.onresize = function (oEvent) {
-				botoes_float_abaixo();
 				botoes_mobile();
-				altura_botoes_mobile();
-			}
+
+				window.onresize = function (oEvent) {
+					botoes_float_abaixo();
+					botoes_mobile();
+					altura_botoes_mobile();
+				}
+
+		// }
+	});
 
 		}
-
-	}
 	// })

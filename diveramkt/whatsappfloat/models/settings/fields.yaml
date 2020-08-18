@@ -85,13 +85,13 @@ tabs:
                     dia:
                         label: 'Dia da semana'
                         options:
-                            domingo: 'Domingo'
+                            domingo: Domingo
                             segunda: 'Segunda Feira'
                             terca: 'Terça Feira'
                             quarta: 'Quarta Feira'
                             quinta: 'Quinta Feira'
                             sexta: 'Sexta Feira'
-                            sabado: 'Sábado'
+                            sabado: Sábado
                         span: full
                         type: dropdown
                     inicio:
@@ -107,7 +107,7 @@ tabs:
                         type: datepicker
                         ignoreTimezone: true
         ativar_whatsapp:
-            label: 'Ativar'
+            label: Ativar
             span: left
             type: switch
             tab: 'Botão de Whatsapp'
@@ -152,13 +152,13 @@ tabs:
                     dia:
                         label: 'Dia da semana'
                         options:
-                            domingo: 'Domingo'
+                            domingo: Domingo
                             segunda: 'Segunda Feira'
                             terca: 'Terça Feira'
                             quarta: 'Quarta Feira'
                             quinta: 'Quinta Feira'
                             sexta: 'Sexta Feira'
-                            sabado: 'Sábado'
+                            sabado: Sábado
                         span: full
                         type: dropdown
                     inicio:
@@ -174,7 +174,7 @@ tabs:
                         type: datepicker
                         ignoreTimezone: true
         ativar_telefone:
-            label: 'Ativar'
+            label: Ativar
             span: left
             type: switch
             tab: 'Botão de Telefone'
@@ -209,13 +209,13 @@ tabs:
                     dia:
                         label: 'Dia da semana'
                         options:
-                            domingo: 'Domingo'
+                            domingo: Domingo
                             segunda: 'Segunda Feira'
                             terca: 'Terça Feira'
                             quarta: 'Quarta Feira'
                             quinta: 'Quinta Feira'
                             sexta: 'Sexta Feira'
-                            sabado: 'Sábado'
+                            sabado: Sábado
                         span: full
                         type: dropdown
                     inicio:
@@ -296,13 +296,13 @@ tabs:
                     dia:
                         label: 'Dia da semana'
                         options:
-                            domingo: 'Domingo'
+                            domingo: Domingo
                             segunda: 'Segunda Feira'
                             terca: 'Terça Feira'
                             quarta: 'Quarta Feira'
                             quinta: 'Quinta Feira'
                             sexta: 'Sexta Feira'
-                            sabado: 'Sábado'
+                            sabado: Sábado
                         span: full
                         type: dropdown
                     inicio:
@@ -372,13 +372,13 @@ tabs:
                     dia:
                         label: 'Dia da semana'
                         options:
-                            domingo: 'Domingo'
+                            domingo: Domingo
                             segunda: 'Segunda Feira'
                             terca: 'Terça Feira'
                             quarta: 'Quarta Feira'
                             quinta: 'Quinta Feira'
                             sexta: 'Sexta Feira'
-                            sabado: 'Sábado'
+                            sabado: Sábado
                         span: full
                         type: dropdown
                     inicio:
@@ -444,13 +444,13 @@ tabs:
                     dia:
                         label: 'Dia da semana'
                         options:
-                            domingo: 'Domingo'
+                            domingo: Domingo
                             segunda: 'Segunda Feira'
                             terca: 'Terça Feira'
                             quarta: 'Quarta Feira'
                             quinta: 'Quinta Feira'
                             sexta: 'Sexta Feira'
-                            sabado: 'Sábado'
+                            sabado: Sábado
                         span: full
                         type: dropdown
                     inicio:
@@ -644,6 +644,40 @@ secondaryTabs:
                         span: auto
                         type: datepicker
                         ignoreTimezone: true
+        visible_enabled_pages:
+            label: Habilitar
+            span: auto
+            type: switch
+            tab: 'Páginas visíveis'
+        visible_tipo_paginas:
+            label: 'Selecionar visualização'
+            options:
+                - 'Páginas que não estará visível'
+                - 'Páginas que estará visível'
+            showSearch: true
+            span: auto
+            default: '0'
+            type: dropdown
+            tab: 'Páginas visíveis'
+        visible_links:
+            label: 'Digite os links em cada linha'
+            size: small
+            span: full
+            type: textarea
+            tab: 'Páginas visíveis'
+        visible_links_pages:
+            label: 'Selecionar Páginas'
+            prompt: 'Acrescentar nova página'
+            span: full
+            type: repeater
+            tab: 'Páginas visíveis'
+            form:
+                fields:
+                    visible_list_pages:
+                        label: Página
+                        showSearch: true
+                        span: full
+                        type: dropdown
         formato_mobile:
             label: 'Formato Mobile'
             options:
