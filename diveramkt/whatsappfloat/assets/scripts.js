@@ -40,29 +40,31 @@
 			var Vcenter_float=document.querySelectorAll('.botoes_floats .link_botao_whatsappfloat .Vcenter');
 			var Vcenter_height_float=0;
 			function altura_botoes_mobile(){
-				if(Vcenter_float.length && window.innerWidth <= 600){
-					for (cur of Vcenter_float) {
-						if(cur.offsetHeight > Vcenter_height_float) Vcenter_height_float=cur.offsetHeight;
+				// if(Vcenter_float.length && window.innerWidth <= 600){
+					if(Vcenter_float.length && window.innerWidth <= 767){
+						for (cur of Vcenter_float) {
+							if(cur.offsetHeight > Vcenter_height_float) Vcenter_height_float=cur.offsetHeight;
+						}
+						for (cur of Vcenter_float) { cur.style.height=Vcenter_height_float+'px'; }
+				// }else{
+					// for (cur of Vcenter_float) { cur.style.height='unset'; }
+					// for (cur of Vcenter_float) { cur.style.height='35px'; }
+				}
+			}
+			if(Vcenter_float.length){
+				altura_botoes_mobile();
+			}
+
+
+			for (bots of document.querySelectorAll('.botoes_floats .clique_modal_float')) {
+				bots.onclick = function(e){
+					e.preventDefault();
+
+					if(document.querySelector(this.getAttribute('data-form')+'.modal_visivel') == null){
+						document.querySelector(this.getAttribute('data-form')).classList.add("modal_visivel");
+					}else{
+						document.querySelector(this.getAttribute('data-form')).classList.remove("modal_visivel");
 					}
-					for (cur of Vcenter_float) { cur.style.height=Vcenter_height_float+'px'; }
-				}else{
-					for (cur of Vcenter_float) { cur.style.height='auto'; }
-				}
-		}
-		if(Vcenter_float.length){
-			altura_botoes_mobile();
-		}
-
-
-		for (bots of document.querySelectorAll('.botoes_floats .clique_modal_float')) {
-			bots.onclick = function(e){
-				e.preventDefault();
-
-				if(document.querySelector(this.getAttribute('data-form')+'.modal_visivel') == null){
-					document.querySelector(this.getAttribute('data-form')).classList.add("modal_visivel");
-				}else{
-					document.querySelector(this.getAttribute('data-form')).classList.remove("modal_visivel");
-				}
 
 				// if(bots.querySelector('.modal_form_float.modal_visivel') == null){
 				// 	this.closest('.link_botao_whatsappfloat').querySelector('.modal_form_float').classList.add("modal_visivel");
@@ -90,6 +92,11 @@
 		// window.onload = function(){
 			$(document).ready(function(){
 
+				function isHidden(el) {
+					var style = window.getComputedStyle(el);
+					return (style.display === 'none')
+				}
+
 				function botoes_float_abaixo(){
 					if(window.innerWidth <= 600) document.querySelector('html').style.paddingBottom=(document.querySelector('.botoes_floats').offsetHeight)+'px';
 					else document.querySelector('html').style.paddingBottom=0;
@@ -101,47 +108,56 @@
 					var balao_mensagem=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
 
 					var balao_mensagemveri=JSON.parse(localStorage.getItem('balao_mensagem_whatsapp')) || [];
-					if(balao_mensagemveri != balao_mensagem) mostrar_balao();
 
-					document.querySelector('.box_mensagem .link_fechar').onclick = function(e){
-						e.preventDefault();
-						this.closest('div').classList.remove('mostrar_alvo');
+					// var bal_men=false;
+					// var veri_btns=document.querySelectorAll('.botoes_floats .link_botao_whatsappfloat');
+					// if(veri_btns.length > 0){
+					// 	for (cur_ of veri_btns) {
+					// 		if(isHidden(cur_)) bal_men=true;
+					// 	}
+					// }
+					 // && bal_men
+					 if(balao_mensagemveri != balao_mensagem) mostrar_balao();
 
-						localStorage.setItem('balao_mensagem_whatsapp',JSON.stringify(balao_mensagem));
+					 document.querySelector('.box_mensagem .link_fechar').onclick = function(e){
+					 	e.preventDefault();
+					 	this.closest('div').classList.remove('mostrar_alvo');
+
+					 	localStorage.setItem('balao_mensagem_whatsapp',JSON.stringify(balao_mensagem));
+					 }
+
+					 function mostrar_balao(){
+					 	setTimeout(function(){
+					 		document.querySelector('.box_mensagem').classList.add('mostrar_alvo');
+					 	}, 1000);
+					 }
 					}
 
-					function mostrar_balao(){
-						setTimeout(function(){
-							document.querySelector('.box_mensagem').classList.add('mostrar_alvo');
-						}, 1000);
+					function hasClass(elem, className) {
+						return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
 					}
-				}
 
-				function hasClass(elem, className) {
-					return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
-				}
+					var interval_botoes_mobile='';
+					function botoes_mobile(){
+						if(document.querySelectorAll('.botoes_floats .xslateral') != null){
+							clearInterval(interval_botoes_mobile);
+							interval_botoes_mobile=setTimeout(function(){
+								if(bots_lateral == undefined) var bots_lateral=0;
+								if(height_div == undefined) var height_div=0;
 
-				var interval_botoes_mobile='';
-				function botoes_mobile(){
-					if(document.querySelectorAll('.botoes_floats .xslateral') != null){
-						clearInterval(interval_botoes_mobile);
-						interval_botoes_mobile=setTimeout(function(){
-							if(bots_lateral == undefined) var bots_lateral=0;
-							if(height_div == undefined) var height_div=0;
+								height_div=0;
 
-							height_div=0;
+								for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs12')) {
+									height_div+=cur.offsetHeight;
+								}
 
-							for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs12')) {
-								height_div+=cur.offsetHeight;
-							}
+								pos=0;
+								for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs6')) {
+									if(pos%2 == 0) height_div+=cur.offsetHeight;
+									pos++;
+								}
 
-							pos=0;
-							for (cur of document.querySelectorAll('.botoes_floats .botoes_ > div.xs6')) {
-								if(pos%2 == 0) height_div+=cur.offsetHeight;
-								pos++;
-							}
-
-							bots_lateral=document.querySelectorAll('.botoes_floats .xslateral');
+								bots_lateral=document.querySelectorAll('.botoes_floats .xslateral');
 				// height_div=document.querySelector('.botoes_floats').clientHeight;
 				// document.querySelector('.botoes_floats').style.border='solid blue 1px';
 
@@ -168,15 +184,15 @@
 					}
 				}
 			}, 100);
+						}
 					}
-				}
-				botoes_mobile();
-
-				window.onresize = function (oEvent) {
-					botoes_float_abaixo();
 					botoes_mobile();
-					altura_botoes_mobile();
-				}
+
+					window.onresize = function (oEvent) {
+						botoes_float_abaixo();
+						botoes_mobile();
+						altura_botoes_mobile();
+					}
 
 		// }
 	});

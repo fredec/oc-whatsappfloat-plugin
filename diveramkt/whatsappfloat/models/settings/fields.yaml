@@ -41,17 +41,28 @@ fields:
         showSearch: true
         span: left
         type: dropdown
+    font_awesome_link:
+        label: 'diveramkt.whatsappfloat::lang.icon.name'
+        span: right
+        default: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'
+        type: text
+    visible_plugin:
+        label: 'Resoluções que será visível'
+        options:
+            576: 'Até 576'
+            767: 'Entre 576 e 767'
+            991: 'Entre 767 e 991'
+            1200: 'Entre 991 e 1200'
+            mais1200: 'Maior que 1200'
+        span: auto
+        type: checkboxlist
+        comment: 'Caso nenhuma marcada, estará visível em todas'
 tabs:
     fields:
         active_mensagem:
             label: 'Ativar mensagem'
             span: auto
             type: switch
-            tab: Mensagem
-        background_balao:
-            label: 'Cor de Fundo do balão'
-            span: auto
-            type: colorpicker
             tab: Mensagem
         foto_mensagem:
             label: Foto
@@ -60,8 +71,18 @@ tabs:
             thumbOptions:
                 mode: crop
                 extension: auto
-            span: auto
+            span: right
             type: fileupload
+            tab: Mensagem
+        background_balao:
+            label: 'Cor de Fundo do balão'
+            span: left
+            type: colorpicker
+            tab: Mensagem
+        colortext_balao:
+            label: 'Cor do texto'
+            span: left
+            type: colorpicker
             tab: Mensagem
         mensagem:
             label: 'Mensagem (Padrão: Precisando de Ajuda ?)'
@@ -111,6 +132,16 @@ tabs:
             span: left
             type: switch
             tab: 'Botão de Whatsapp'
+        visivel_whatsapp:
+            label: Visível
+            options:
+                visible_mobile_desktop: 'Visível no mobile e desktop'
+                visible_desktop: 'Visível no desktop'
+                visible_mobile: 'Visível no mobile'
+            showSearch: true
+            span: right
+            type: dropdown
+            tab: 'Botão de Whatsapp'
         numero:
             label: 'Número do whatsapp'
             span: left
@@ -133,6 +164,11 @@ tabs:
             tab: 'Botão de Whatsapp'
         color_whatsapp:
             label: 'Cor do botão do Whatsapp'
+            span: full
+            type: colorpicker
+            tab: 'Botão de Whatsapp'
+        colortext_whatsapp:
+            label: 'Cor do texto'
             span: full
             type: colorpicker
             tab: 'Botão de Whatsapp'
@@ -178,6 +214,16 @@ tabs:
             span: left
             type: switch
             tab: 'Botão de Telefone'
+        visivel_telefone:
+            label: Visível
+            options:
+                visible_mobile_desktop: 'Visível no mobile e desktop'
+                visible_desktop: 'Visível no desktop'
+                visible_mobile: 'Visível no mobile'
+            showSearch: true
+            span: right
+            type: dropdown
+            tab: 'Botão de Telefone'
         tel:
             label: 'Número do telefone'
             span: left
@@ -190,6 +236,11 @@ tabs:
             tab: 'Botão de Telefone'
         color_tel:
             label: 'Cor do botão do telefone'
+            span: full
+            type: colorpicker
+            tab: 'Botão de Telefone'
+        colortext_tel:
+            label: 'Cor do texto'
             span: full
             type: colorpicker
             tab: 'Botão de Telefone'
@@ -230,15 +281,25 @@ tabs:
                         span: auto
                         type: datepicker
                         ignoreTimezone: true
+        ativar_form_contato:
+            label: Ativar
+            span: left
+            type: switch
+            tab: 'Formulário de contato'
         destino_contato:
             label: 'Destinos(Separar por vírgula)'
             span: left
             type: text
             tab: 'Formulário de contato'
-        ativar_form_contato:
-            label: Ativar
+        visivel_form_contato:
+            label: Visível
+            options:
+                visible_mobile_desktop: 'Visível no mobile e desktop'
+                visible_desktop: 'Visível no desktop'
+                visible_mobile: 'Visível no mobile'
+            showSearch: true
             span: right
-            type: switch
+            type: dropdown
             tab: 'Formulário de contato'
         legenda_contato:
             label: 'Legenda do botão (Padrão: Fale Conosco)'
@@ -280,6 +341,11 @@ tabs:
             span: full
             type: colorpicker
             tab: 'Formulário de contato'
+        colortext_contato:
+            label: 'Cor do texto'
+            span: full
+            type: colorpicker
+            tab: 'Formulário de contato'
         habilitar_programacao_contato:
             label: 'Habilitar programação do contato'
             span: auto
@@ -317,15 +383,25 @@ tabs:
                         span: auto
                         type: datepicker
                         ignoreTimezone: true
+        ativar_form_ligamos:
+            label: Ativar
+            span: left
+            type: switch
+            tab: 'Formulário Ligamos para você'
         destino_ligamos:
             label: 'Destinos(Separar por vírgula)'
             span: left
             type: text
             tab: 'Formulário Ligamos para você'
-        ativar_form_ligamos:
-            label: Ativar
+        visivel_form_ligamos:
+            label: Visível
+            options:
+                visible_mobile_desktop: 'Visível no mobile e desktop'
+                visible_desktop: 'Visível no desktop'
+                visible_mobile: 'Visível no mobile'
+            showSearch: true
             span: right
-            type: switch
+            type: dropdown
             tab: 'Formulário Ligamos para você'
         legenda_ligamos:
             label: 'Legenda do botão (Padrão: Ligamos para você)'
@@ -353,6 +429,11 @@ tabs:
             tab: 'Formulário Ligamos para você'
         color_ligamos:
             label: 'Cor do botão'
+            span: full
+            type: colorpicker
+            tab: 'Formulário Ligamos para você'
+        colortext_ligamos:
+            label: 'Cor do texto'
             span: full
             type: colorpicker
             tab: 'Formulário Ligamos para você'
@@ -393,15 +474,25 @@ tabs:
                         span: auto
                         type: datepicker
                         ignoreTimezone: true
+        ativar_form_externo:
+            label: Ativar
+            span: left
+            type: switch
+            tab: 'Formulário Externo'
         legenda_form_externo:
             label: Legenda
             span: left
             type: text
             tab: 'Formulário Externo'
-        ativar_form_externo:
-            label: Ativar
+        visivel_form_externo:
+            label: Visível
+            options:
+                visible_mobile_desktop: 'Visível no mobile e desktop'
+                visible_desktop: 'Visível no desktop'
+                visible_mobile: 'Visível no mobile'
+            showSearch: true
             span: right
-            type: switch
+            type: dropdown
             tab: 'Formulário Externo'
         link_form_externo:
             label: 'Link externo ou emails de destino'
@@ -423,14 +514,36 @@ tabs:
             span: right
             type: text
             tab: 'Formulário Externo'
+        foto_icone_externo:
+            label: 'Ícone do form externo'
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: left
+            hidden: 0
+            type: fileupload
+            tab: 'Formulário Externo'
+        icone_externo:
+            label: 'Selecionar ícone'
+            type: select_icones
+            placeholder: '-- Selecione o ícone --'
+            span: right
+            tab: 'Formulário Externo'
         color_externo:
             label: 'Cor do botão'
             span: full
             type: colorpicker
             tab: 'Formulário Externo'
+        colortext_externo:
+            label: 'Cor do texto'
+            span: full
+            type: colorpicker
+            tab: 'Formulário Externo'
         habilitar_programacao_externo:
             label: 'Habilitar programação externo'
-            span: auto
+            span: full
             type: switch
             tab: 'Formulário Externo'
         programacao_externo:
@@ -496,6 +609,106 @@ tabs:
                         label: 'Cor do botão'
                         span: full
                         type: colorpicker
+        links_personalizados:
+            label: 'Links Personalizados'
+            prompt: 'Acrescentar novo link'
+            span: full
+            type: repeater
+            tab: 'Links Personalizados'
+            form:
+                fields:
+                    enabled:
+                        label: Habilitado
+                        span: full
+                        type: switch
+                    title:
+                        label: Legenda
+                        span: auto
+                        type: text
+                        comment: 'Legenda do botão'
+                    tipo:
+                        label: Tipo
+                        options:
+                            padrao: Padrão
+                            whatsapp: Whatsapp
+                            telefone: Telefone
+                            facebook: Facebook
+                            instagram: Instagram
+                            twitter: Twitter
+                            youtube: Youtube
+                            linkedin: Linkedin
+                            vimeo: Vimeo
+                        showSearch: true
+                        span: auto
+                        type: dropdown
+                    link:
+                        label: Link
+                        span: left
+                        type: text
+                    visivel:
+                        label: Visível
+                        options:
+                            visible_mobile_desktop: 'Visível no mobile e desktop'
+                            visible_desktop: 'Visível no desktop'
+                            visible_mobile: 'Visível no mobile'
+                        showSearch: true
+                        span: right
+                        type: dropdown
+                    icone:
+                        label: 'Selecionar ícone'
+                        type: select_icones
+                        placeholder: '-- Selecione o ícone --'
+                        span: left
+                        tab: 'Formulário Externo'
+                    icone_externo:
+                        label: 'Ícone de Imagem'
+                        mode: image
+                        imageWidth: '150'
+                        span: right
+                        type: mediafinder
+                    color_button:
+                        label: 'Cor do botão'
+                        span: full
+                        type: colorpicker
+                    color_text:
+                        label: 'Cor do texto'
+                        span: full
+                        type: colorpicker
+                    enabled_programacao:
+                        label: 'Habilitar programção'
+                        span: full
+                        type: switch
+                    programacao:
+                        label: Programacao
+                        prompt: 'Acrescentar novo horário'
+                        span: full
+                        type: repeater
+                        form:
+                            fields:
+                                dia:
+                                    label: 'Dia da semana'
+                                    options:
+                                        domingo: Domingo
+                                        segunda: 'Segunda Feira'
+                                        terca: 'Terça Feira'
+                                        quarta: 'Quarta Feira'
+                                        quinta: 'Quinta Feira'
+                                        sexta: 'Sexta Feira'
+                                        sabado: Sábado
+                                    span: full
+                                    type: dropdown
+                                inicio:
+                                    label: 'Data de Ínicio'
+                                    mode: time
+                                    span: auto
+                                    type: datepicker
+                                    ignoreTimezone: true
+                                fim:
+                                    label: 'Data de Fim'
+                                    mode: time
+                                    span: auto
+                                    type: datepicker
+                                    ignoreTimezone: true
 secondaryTabs:
     fields:
         enabled_horarios:
@@ -691,8 +904,8 @@ secondaryTabs:
         ordem:
             label: 'Ordem dos botões'
             prompt: 'Acrescentar novo item'
-            minItems: '5'
-            maxItems: '5'
+            minItems: '6'
+            maxItems: '6'
             span: full
             disabled: 0
             type: repeater

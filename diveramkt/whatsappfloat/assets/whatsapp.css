@@ -1,3 +1,4 @@
+
 /*SETA PONTOS CADEAIS*/
 .seta_base{ display: inline-block; vertical-align: middle; margin-right: 10px; width: 0; height: 0; }
 .seta_base_esquerda{ border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-right: 5px solid blue; }
@@ -36,7 +37,7 @@
 	right: 0;
 	bottom: 10px;
 	z-index: 9999;
-	display: block!important;
+	display: block;
 	height: auto;
 }
 /*.botoes_floats .botoes_ {position: relative;float: left;width: 100%;}*/
@@ -58,11 +59,11 @@
 /*.botoes_floats .botoes_mult > div:last-child{border-radius: 0 0 15px 15px;}*/
 
 .botoes_floats .botoes_ > div a .img_icone{
-	filter: brightness(0) invert(1);
-	-webkit-filter: brightness(0) invert(1);
-	-moz-filter: brightness(0) invert(1);
-	-ms-filter: brightness(0) invert(1);
-	-o-filter: brightness(0) invert(1);
+	/*filter: brightness(0) invert(1);*/
+	/*-webkit-filter: brightness(0) invert(1);*/
+	/*-moz-filter: brightness(0) invert(1);*/
+	/*-ms-filter: brightness(0) invert(1);*/
+	/*-o-filter: brightness(0) invert(1);*/
 	max-width: 100%;
 	max-width: 20px;
 	max-height: 20px;
@@ -223,7 +224,7 @@
 .modal_form_float .div_input_loading{margin-top: 5px;}
 .modal_form_float label{width: 100%;color: white;}
 .modal_form_float label p{color: white;margin-bottom: 0;}
-.modal_form_float input, .modal_form_float textarea, .input_label label{
+.modal_form_float input, .modal_form_float textarea, .modal_form_float .input_label label{
 	width: 100%;
 	padding: 5px;
 	font-weight: normal;
@@ -232,12 +233,12 @@
 	/*border-radius: 2.5px;*/
 	padding: 5px 10px;
 	border-radius: 2px;
-	/*border: none;*/
+	border: none!important;
 	background: white;
 }
 
 .modal_form_float .div_input_loading button .fa{position: relative;color: black;}
-.modal_form_float .div_input_loading button{padding: 6px 20px;}
+.modal_form_float .div_input_loading button{padding: 6px 20px;color: black!important;}
 .modal_form_float .fa-close, .link_fechar, .modal_form_float .fa-close:hover, .link_fechar:hover{
 	position: absolute;
 	right: -7.5px;
@@ -390,7 +391,12 @@
 .botoes_floats .input_label input:valid+label, .botoes_floats .input_label textarea:valid+label{display: none;}
 
 
+/*.link_botao_whatsappfloat.visible_mobile_desktop*/
+.link_botao_whatsappfloat.visible_mobile{display: none!important;}
+
 @media(max-width: 600px){
+	.link_botao_whatsappfloat.visible_mobile{display: block!important;}
+	.link_botao_whatsappfloat.visible_desktop{display: none!important;}
 
 	.botoes_floats .botoes_ > div{float: left;white-space: normal!important;font-size: 90%;margin-top: 0;}
 
@@ -471,8 +477,8 @@
 		.formato_mobile_aolado .botoes_ > div a, .formato_mobile_aolado .botoes_ > div .link_click{display: inline-grid;}
 		.formato_mobile_aolado .botoes_ > div a span.txt, .formato_mobile_aolado .botoes_ > div .link_click span.txt{display: none;}
 		.formato_mobile_aolado .botoes_ > div a .fa, .formato_mobile_aolado .botoes_ > div .link_click .fa{position: relative;top: 0;margin-top: 0;font-size: 200%;}
-		.formato_mobile_aolado .botoes_quant_2 > div{width: 50%!important;} .formato_mobile_aolado .botoes_quant_3 > div{width: 33.333333%!important;} .formato_mobile_aolado .botoes_quant_4 > div{width: 25%!important;} .formato_mobile_aolado .botoes_quant_5 > div{width: 20%!important;}
-		.formato_mobile_aolado .botoes_quant_6 > div{width: 16.666666%!important;} .formato_mobile_aolado .botoes_quant_7 > div{width: 14.285714%!important;} .formato_mobile_aolado .botoes_quant_8 > div{width: 12.5%!important;} .formato_mobile_aolado .botoes_quant_9 > div{width: 11.111111%!important;} .formato_mobile_aolado .botoes_quant_10 > div{width: 20%!important;}
+		.formato_mobile_aolado .botoes_quant_mobile_2 > div{width: 50%!important;} .formato_mobile_aolado .botoes_quant_mobile_3 > div{width: 33.333333%!important;} .formato_mobile_aolado .botoes_quant_mobile_4 > div{width: 25%!important;} .formato_mobile_aolado .botoes_quant_mobile_5 > div{width: 20%!important;}
+		.formato_mobile_aolado .botoes_quant_mobile_6 > div{width: 16.666666%!important;} .formato_mobile_aolado .botoes_quant_mobile_7 > div{width: 14.285714%!important;} .formato_mobile_aolado .botoes_quant_mobile_8 > div{width: 12.5%!important;} .formato_mobile_aolado .botoes_quant_mobile_9 > div{width: 11.111111%!important;} .formato_mobile_aolado .botoes_quant_mobile_10 > div{width: 20%!important;}
 		.botoes_floats.formato_mobile_aolado .botoes_ > div .img_icone{max-width: 25px;max-height: 25px;transform: translateY(0); -webkit-transform: translateY(0); -moz-transform: translateY(0); -ms-transform: translateY(0); -o-transform: translateY(0);}
 
 		.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{margin-bottom: 0;}
@@ -486,3 +492,28 @@
 	@media(max-width: 350px){
 		/*.link_botao_whatsappfloat.bot_top, .link_botao_whatsappfloat.bot_top + div{width: 100%;}*/
 	}
+
+
+	.botoes_floats.none{display: none;}
+	/*none visible_576 visible_767 visible_991 visible_1200 visible_mais1200*/
+	@media(min-width: 1200px){
+		.botoes_floats.none{display: none;}
+		.botoes_floats.visible_mais1200{display: block;}
+	}
+	@media(max-width: 1200px){
+		.botoes_floats.none{display: none;}
+		.botoes_floats.visible_1200{display: block;}
+	}
+	@media(max-width: 991px){
+		.botoes_floats.none{display: none;}
+		.botoes_floats.visible_991{display: block;}
+	}
+	@media(max-width: 767px){
+		.botoes_floats.none{display: none;}
+		.botoes_floats.visible_767{display: block;}
+	}
+	@media(max-width: 576px){
+		.botoes_floats.none{display: none;}
+		.botoes_floats.visible_576{display: block;}
+	}
+/* visible_767*/

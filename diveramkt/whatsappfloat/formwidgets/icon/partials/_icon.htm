@@ -1,0 +1,16 @@
+<select
+	<?php if($this->previewMode) echo "readonly"; ?>
+	class = "form-control custom-select"
+	id="<?= $id; ?>"
+	name="<?= $name; ?>"
+	>
+	<?php if($placeholder): ?>
+    <option value=""><?= e(trans($placeholder)) ?></option>
+	<?php endif ?>
+	<?php $i = 1; ?>
+    <?php if($icons): foreach ($icons as $icon): ?>
+		<option data-icon="<?php echo $icon ?> zr-icon-option"
+			<?php if($value == $icon) echo "selected" ?> value="<?php echo $icon ?>"> <?= $this->niceNames($icon); ?> 
+		</option>
+    <?php endforeach;endif; ?>
+</select>

@@ -1,0 +1,12 @@
+{% set color='' %} {% if obj.settings.colortext_tel %} {% set color='color: '~obj.settings.colortext_tel %} {% endif %}
+<div class="link_botao_whatsappfloat tel {{obj.settings.visivel_telefone}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_tel?'background: '~obj.settings.color_tel:''}}">
+	<div class="Vcenter center_link">
+		<div>
+			<a class="link_click" href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
+				<i style="{{color}}" class="{{fa_icone.numero}} fa-phone"></i>
+				<span style="{{color}}" class="txt">{{obj.settings.legenda_telefone}}</span>
+			</a>
+		</div>
+	</div>
+	<a class="abrir_link" href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank"></a>
+</div>

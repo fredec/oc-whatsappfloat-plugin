@@ -8,97 +8,54 @@
 {% set telefone=obj.telefone %}
 
 {% set fa_icone=obj.icones_fonte %}
-{% set quant_botoes=obj.quant_botoes %}
+{% set quant_botoes_mobile=obj.quant_botoes_mobile %}
+{% set quant_botoes_desktop=obj.quant_botoes_desktop %}
 
-{% if quant_botoes %}
+{% if quant_botoes_mobile or quant_botoes_desktop %}
 
-<div class="botoes_floats formato_mobile_{{ quant_botoes > 2 ?obj.settings.formato_mobile:''}} formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} " style="display: none;bottom: {{obj.settings.margin_bottom}};">
+<div class="botoes_floats {{obj.settings.visible_plugin}} formato_mobile_{{ quant_botoes_mobile > 2 ?obj.settings.formato_mobile:''}} formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} " style="bottom: {{obj.settings.margin_bottom}};">
 
+	<!-- ///////////////////BALÃO MENSAGEM -->
 	{% if obj.settings.active_mensagem %}
-	<div class="box_mensagem blocos esconder_alvo" style="{{obj.settings.background_balao?'background: '~obj.settings.background_balao:''}}">
-		<a href="#" class="fa fa-close link_fechar"></a>
-		<div class="seta_base seta_base_baixo" style="{{obj.settings.background_balao?'border-top-color: '~obj.settings.background_balao:''}}"></div>
-		{% if obj.settings.foto_mensagem.path %}
-		<div class="foto_mensagem">
-			{% if obj.settings.foto_mensagem.path_resize %}
-			<img src="{{obj.settings.foto_mensagem.path_resize}}" />
-			{% else %}
-			<img src="{{obj.settings.foto_mensagem.path|resize(60,60,{mode: 'crop'})}}" />
-			{% endif %}
-		</div>
-		{% endif %}
-		<div class="texto_mensagem">
-			<div class="Vcenter">
-				<div>
-					<p>{{obj.settings.mensagem|raw}}</p>
-				</div>
-			</div>
-		</div>
-		
-	</div>
+	{% partial __SELF__~'::balao_mensagem' obj=obj %}
 	{% endif %}
+	<!-- ///////////////////BALÃO MENSAGEM -->
 
-	<div class="botoes_ botoes_quant_{{quant_botoes}} botoes_{{quant_botoes==1?'one':'mult'}}">
+	<div class="botoes_ botoes_quant_mobile_{{quant_botoes_mobile}} botoes_quant_{{quant_botoes_desktop}} ">
+		<!-- botoes_{{quant_botoes==1?'one':'mult'}} -->
 		{% set text_whats='&text='~obj.settings.text_padrao %}
 
 		{% for bot in obj.settings.ordem %}
 
 		{% if obj.settings.formato_mobile == 'aolado' %}
 		
-		{% if quant_botoes == 1 %} {% set tamanho_mobile='12' %} {% elseif quant_botoes == 2 %} {% set tamanho_mobile='6' %} {% else %} {% set tamanho_mobile='' %} {% endif %}
+		{% if quant_botoes_mobile == 1 %} {% set tamanho_mobile='12' %} {% elseif quant_botoes_mobile == 2 %} {% set tamanho_mobile='6' %} {% else %} {% set tamanho_mobile='' %} {% endif %}
 
 		{% else %}
 		{% set tamanho_mobile=bot.tamanho_mobile %}
 		{% endif %}
 
-		{% if numero_whats and bot.botao == 'Whatsapp' and obj.settings.ativar_whatsapp %}
-		{% if obj.device == 'mobile' %}
-		{% set link_whats='https://api.whatsapp.com/send?phone=55' %}
-		{% else %}
-		{% set link_whats='https://web.whatsapp.com/send?phone=55' %}
+		{% if bot.botao == 'Link_personalizados' and obj.links_personalizados.count %}
+		{% partial __SELF__~'::botoes_personalizados' tamanho_mobile=tamanho_mobile links=obj.links_personalizados.botoes %}
 		{% endif %}
 
-		{% set link_whats=link_whats~numero_whats~text_whats %}
-
-		<div class="link_botao_whatsappfloat whats {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
-			<div class="Vcenter center_link">
-				<div>
-					<a class="link_click" href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
-						<i class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
-						<span class="txt">
-							<span class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
-							<span class="desk">{{obj.settings.legenda_whats}}</span>
-						</span>
-					</a>
-				</div>
-			</div>
-			<a class="abrir_link" href="{{link_whats}}" title="Atendimento via WhatsApp" target="_blank"></a>
-		</div>
-
+		{% if numero_whats and bot.botao == 'Whatsapp' and obj.settings.ativar_whatsapp %}
+		{% partial __SELF__~'::botao_whatsapp' tamanho_mobile=tamanho_mobile obj=obj fa_icone=fa_icone numero_whats=numero_whats text_whats=text_whats %}
 		{% endif %}
 
 		{% if telefone and bot.botao == 'Telefone' and obj.settings.ativar_telefone %}
-		<div class="link_botao_whatsappfloat tel {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_tel?'background: '~obj.settings.color_tel:''}}">
-			<div class="Vcenter center_link">
-				<div>
-					<a class="link_click" href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank">
-						<i class="{{fa_icone.numero}} fa-phone"></i>
-						<span class="txt">{{obj.settings.legenda_telefone}}</span>
-					</a>
-				</div>
-			</div>
-			<a class="abrir_link" href="tel:+55{{telefone}}" title="{{obj.settings.tel}}" target="_blank"></a>
-		</div>
+		{% partial __SELF__~'::botao_telefone' tamanho_mobile=tamanho_mobile obj=obj telefone=telefone fa_icone=fa_icone %}
 		{% endif %}
 
 		{% if form_contato and bot.botao == 'Contato' %}
-		<div class="link_botao_whatsappfloat botao_form_contato {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
+		{% set color='' %} {% if obj.settings.colortext_contato %} {% set color='color: '~obj.settings.colortext_contato %} {% endif %}
+		<div class="link_botao_whatsappfloat botao_form_contato {{obj.settings.visivel_form_contato}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_contato?'background: '~obj.settings.color_contato:''}}">
 			<div class="Vcenter center_link">
 				<div>
 					<!-- <label class="link_click" title="{{obj.legenda_contato}}"> -->
 						<a class="clique_modal_float" data-form=".modal_form_contato" href="#" title="{{obj.legenda_contato}}">
-							<i class="{{fa_icone.numero}} fa-envelope"></i>
-							<span class="txt">{{obj.settings.legenda_contato}}</span>
+							<i style="{{color}}" class="{{fa_icone.numero}} fa-envelope"></i>
+							<span style="{{color}}" class="txt">{{obj.settings.legenda_contato}}</span>
 						</a>
 						<!-- </label> -->
 					</div>
@@ -108,7 +65,8 @@
 			{% endif %}
 
 			{% if form_ligamos and bot.botao == 'Ligamos' %}
-			<div class="link_botao_whatsappfloat botao_form_ligamos {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
+			{% set color='' %} {% if obj.settings.colortext_ligamos %} {% set color='color: '~obj.settings.colortext_ligamos %} {% endif %}
+			<div class="link_botao_whatsappfloat botao_form_ligamos {{obj.settings.visivel_form_ligamos}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_ligamos?'background: '~obj.settings.color_ligamos:''}}">
 				<div class="Vcenter center_link">
 					<div>
 						<a class="clique_modal_float" data-form=".modal_form_ligamos" href="#" title="{{obj.legenda_ligamos}}">
@@ -116,10 +74,8 @@
 
 							{% if obj.settings.icone_ligamos.path_resize %}
 							<img src="{{ obj.settings.icone_ligamos.path_resize }}" class="fa img_icone" />
-							{% else %}
-							<img src="{{ obj.settings.icone_ligamos.path|resize(30,auto,{quality: 80,extension: 'png'}) }}" class="fa img_icone" />
 							{% endif %}
-							<span class="txt">{{obj.settings.legenda_ligamos}}</span>
+							<span class="txt" style="{{color}}">{{obj.settings.legenda_ligamos}}</span>
 						</a>
 					</div>
 				</div>
@@ -129,11 +85,17 @@
 			{% endif %}
 
 			{% if form_externo and bot.botao == 'Form_externo' %}
-			<div class="link_botao_whatsappfloat botao_form_externo {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+			<div class="link_botao_whatsappfloat botao_form_externo {{obj.settings.visivel_form_externo}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+				{% set icone_externo='fa-calculator' %}
+				{% if obj.settings.icone_externo %} {% set icone_externo=obj.settings.icone_externo %} {% endif %}
 				<div class="Vcenter center_link">
 					<div>
 						<a class="clique_modal_float" data-form=".modal_form_externo" href="#" title="{{obj.legenda_form_externo}}">
-							<i class="{{fa_icone.numero}} fa-calculator"></i>
+							{% if obj.settings.icone_externo_path_resize %}
+							<img src="{{ obj.settings.icone_externo_path_resize }}" class="fa img_icone" />
+							{% else %}
+							<i class="{{fa_icone.numero}} {{icone_externo}}"></i>
+							{% endif %}
 							<span class="txt"> {{obj.settings.legenda_form_externo}}</span>
 						</a>
 					</div>

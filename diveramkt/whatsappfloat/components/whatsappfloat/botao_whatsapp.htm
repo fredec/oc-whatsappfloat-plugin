@@ -1,0 +1,23 @@
+{% if obj.device == 'mobile' %}
+{% set link_whats='https://api.whatsapp.com/send?phone=55' %}
+{% else %}
+{% set link_whats='https://web.whatsapp.com/send?phone=55' %}
+{% endif %}
+
+{% set link_whats=link_whats~numero_whats~text_whats %}
+{% set color='' %} {% if obj.settings.colortext_whatsapp %} {% set color='color: '~obj.settings.colortext_whatsapp %} {% endif %}
+
+<div class="link_botao_whatsappfloat whats {{obj.settings.visivel_whatsapp}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
+	<div class="Vcenter center_link">
+		<div>
+			<a class="link_click" href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
+				<i style="{{color}}" class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
+				<span class="txt">
+					<span style="{{color}}" class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
+					<span style="{{color}}" class="desk">{{obj.settings.legenda_whats}}</span>
+				</span>
+			</a>
+		</div>
+	</div>
+	<a class="abrir_link" href="{{link_whats}}" title="Atendimento via WhatsApp" target="_blank"></a>
+</div>

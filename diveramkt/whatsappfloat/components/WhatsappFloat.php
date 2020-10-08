@@ -9,6 +9,7 @@ use Diveramkt\WhatsappFloat\Models\Settings;
 use Diveramkt\WhatsappFloat\Classes\Image;
 
 use Diveramkt\WhatsappFloat\Classes\formContato;
+use Diveramkt\WhatsappFloat\Classes\Configsfloat;
 use System\Models\MailSetting;
 
 use stdclass;
@@ -30,7 +31,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$uploadedFile = $settings->foto_mensagem;
 		// return;
 		$defaultFields = $settings->toArray();
-		$class=get_declared_classes();
+		$this->class=get_declared_classes();
 
 		if (!empty($defaultFields)) {
 			if(isset($defaultFields['value'])){
@@ -48,15 +49,16 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			// $this->settings->foto_mensagem=$uploadedFile->attributes;
 			$this->settings->foto_mensagem->path=$foto;
 
-			if(!in_array('ToughDeveloper\ImageResizer\Plugin', $class)){
-				$image = new Image($foto);
-				$options = [];
-				$options['extension']='jpg';
-				$options['mode']='crop';
-			// $foto=$image->resize(60, 60, $options)->render();
-				// $this->settings['foto_mensagem']['path_resize']=$image->resize(60, 60, $options);
-				$this->settings->foto_mensagem->path_resize=$image->resize(60, 60, $options);
-			}
+			// if(!in_array('ToughDeveloper\ImageResizer\Plugin', $this->class)){
+			// 	$image = new Image($foto);
+			// 	$options = [];
+			// 	$options['extension']='jpg';
+			// 	$options['mode']='crop';
+			// // $foto=$image->resize(60, 60, $options)->render();
+			// 	// $this->settings['foto_mensagem']['path_resize']=$image->resize(60, 60, $options);
+			// 	$this->settings->foto_mensagem->path_resize=$image->resize(60, 60, $options);
+			// }
+			$this->settings->foto_mensagem->path_resize=$this->resize_image($foto, 60, 60);
 		}
 
 		switch($this->diasemana(date('Y-m-d'))) {
@@ -79,22 +81,16 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$diasemana = date("w", mktime(0,0,0,$mes,$dia,$ano) );
 
 		return $diasemana;
-		// switch($diasemana) {
-		// 	case"0": $diasemana = "Domingo";       break;
-		// 	case"1": $diasemana = "Segunda-Feira"; break;
-		// 	case"2": $diasemana = "Terça-Feira";   break;
-		// 	case"3": $diasemana = "Quarta-Feira";  break;
-		// 	case"4": $diasemana = "Quinta-Feira";  break;
-		// 	case"5": $diasemana = "Sexta-Feira";   break;
-		// 	case"6": $diasemana = "Sábado";        break;
-		// }
-		// return $diasemana;
 	}
 
 	public function onRun(){
 		$setin = new Settings;
 		$class=get_declared_classes();
 		$this->iniciar_settings();
+
+		if($this->settings->visible_plugin && count($this->settings->visible_plugin)){
+			$this->settings->visible_plugin=' none visible_'.implode(' visible_', $this->settings->visible_plugin).' ';
+		}
 
 		if(!isset($this->settings->enabled) or !$this->settings->enabled) return;
 
@@ -124,17 +120,37 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		}
 
 		if(!isset($this->settings->formato_mobile) or !$this->settings->formato_mobile) $this->settings->formato_mobile='aolado';
-		if(!isset($this->settings->ordem) or !$this->settings->ordem or $this->settings->ordem[0]['botao'] == ''){
-			$ordem_padrao=array();
-			$id=0; $ordem_padrao[$id]['botao']='Whatsapp'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=1; $ordem_padrao[$id]['botao']='Telefone'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=2; $ordem_padrao[$id]['botao']='Contato'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=3; $ordem_padrao[$id]['botao']='Ligamos'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=4; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
+
+		// $this->settings->ordem=false;
+		$ordem_padrao=array();
+		$id=0; $ordem_padrao[$id]['botao']='Whatsapp'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Telefone'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Contato'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Ligamos'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Link_personalizados'; $ordem_padrao[$id]['tamanho_mobile']='12';
+
+		if((!isset($this->settings->ordem) or !$this->settings->ordem or $this->settings->ordem[0]['botao'] == '') or (count($ordem_padrao) != count($this->settings->ordem))){
 			$this->settings->ordem=$ordem_padrao;
+			$this->settings->font_awesome_link='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css';
 			$this->settings->save();
-			$this->settings->ordem=$ordem_padrao;
 		}
+
+		// /////////////BOTÕES PERSONALIZADOS
+		if(count($this->settings->links_personalizados) > 0){
+			$this->links_personalizados=array();
+			$retorno=Configsfloat::personalizados($this->settings);
+			if($retorno['total'] > 0){
+				$this->quant_botoes_mobile+=$retorno['total_mobile'];
+				$this->quant_botoes_desktop+=$retorno['total_desktop'];
+			}
+			if(isset($retorno['itens'])){
+				$this->links_personalizados['botoes']=$retorno['itens'];
+				$this->links_personalizados['count']=count($retorno['itens']);
+			}
+		}
+
+		// /////////////BOTÕES PERSONALIZADOS
 
 		// //////////////BOTÃO WHATSAPP
 		$this->numero_whats=''; $this->telefone='';
@@ -157,7 +173,9 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			}
 
 			if($this->settings->ativar_whatsapp){
-				$this->quant_botoes+=1;
+				$veri_quant=Configsfloat::veri_visible($this->settings->visivel_whatsapp);
+				$this->quant_botoes_mobile+=$veri_quant['mobile']; $this->quant_botoes_desktop+=$veri_quant['desktop'];
+
 				$this->numero_whats=preg_replace("/[^0-9]/", "", $this->settings->numero);
 
 				if(!isset($this->settings->legenda_whats) || str_replace(' ', '', $this->settings->legenda_whats) == ''){
@@ -193,7 +211,10 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				}
 			}
 			if($this->settings->ativar_telefone){
-				$this->quant_botoes+=1;
+				
+				$veri_quant=Configsfloat::veri_visible($this->settings->visivel_telefone);
+				$this->quant_botoes_mobile+=$veri_quant['mobile']; $this->quant_botoes_desktop+=$veri_quant['desktop'];
+
 				$this->settings->legenda_telefone=$this->settings->tel;
 				$this->telefone=preg_replace("/[^0-9]/", "", $this->settings->tel);
 
@@ -223,7 +244,9 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			}
 
 			if($this->settings->ativar_form_contato){
-				$this->quant_botoes+=1;
+				$veri_quant=Configsfloat::veri_visible($this->settings->visivel_form_contato);
+				$this->quant_botoes_mobile+=$veri_quant['mobile']; $this->quant_botoes_desktop+=$veri_quant['desktop'];
+
 				if(!isset($this->settings->legenda_contato) || !$this->settings->legenda_contato) $this->settings->legenda_contato='Fale Conosco';
 			}
 		}else $this->settings->ativar_form_contato=0;
@@ -248,20 +271,15 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			}
 
 			if($this->settings->ativar_form_ligamos){			
-				$this->quant_botoes+=1;
+
+				$veri_quant=Configsfloat::veri_visible($this->settings->visivel_form_ligamos);
+				$this->quant_botoes_mobile+=$veri_quant['mobile']; $this->quant_botoes_desktop+=$veri_quant['desktop'];
+
 				if(!isset($this->settings->legenda_ligamos) || !$this->settings->legenda_ligamos) $this->settings->legenda_ligamos='Ligamos para você';
 
 				$this->settings->icone_ligamos=new stdclass;
-				$this->settings->icone_ligamos->path='/plugins/diveramkt/whatsappfloat/assets/imagens/tel-ligamos.png';
-
-				if(!in_array('ToughDeveloper\ImageResizer\Plugin', $class)){
-					$image = new Image($this->settings->icone_ligamos);
-					$options = [];
-					$options['extension']='png';
-				// $options['mode']='crop';
-					$this->settings->icone_ligamos->path_resize=$image->resize(30, auto, $options);
-				// $this->settings->icone_ligamos->path_resize=$image->resize(30, auto);
-				}
+				$this->settings->icone_ligamos->path='/plugins/diveramkt/whatsappfloat/assets/imagens/telLigamos.png';
+				$this->settings->icone_ligamos->path_resize=$this->resize_image($this->settings->icone_ligamos->path, 30, 'auto');
 			}
 
 		}else $this->settings->ativar_form_ligamos=0;
@@ -291,11 +309,22 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				if(!isset($this->settings->input_telefone_form_externo) || !$this->settings->input_telefone_form_externo) $this->settings->input_telefone_form_externo=false;
 
 				if($this->settings->input_name_form_externo || $this->settings->input_email_form_externo || $this->settings->input_email_form_externo){
-					$this->quant_botoes+=1;
+
+					$veri_quant=Configsfloat::veri_visible($this->settings->visivel_form_externo);
+					$this->quant_botoes_mobile+=$veri_quant['mobile']; $this->quant_botoes_desktop+=$veri_quant['desktop'];
 
 					if(!strpos("[".$this->settings->link_form_externo."]", "@") && !strpos("[".$this->settings->link_form_externo."]", "http://") && !strpos("[".$this->settings->link_form_externo."]", "https://")) $this->settings->link_form_externo='http://'.$this->settings->link_form_externo;
 
 					if(strpos("[".$this->settings->link_form_externo."]", "@")) $this->settings->link_form_externo_email=1;
+
+					if(isset($this->settings->foto_icone_externo->path) && $this->settings->foto_icone_externo->path){
+						$this->settings->icone_externo_path_resize=$this->resize_image($this->settings->foto_icone_externo->path);
+						// if(!$this->settings->icone_externo_path_resize) $this->settings->icone_externo_path=$this->settings->foto_icone_externo->path;
+
+						// echo '<img src="'.$this->settings->icone_externo_path_resize.'" />';
+						// print_r($this->settings->icone_externo_path);
+					}
+					// print_r($this->settings->icone_externo);
 
 				}else $this->settings->ativar_form_externo=0;
 			}
@@ -303,23 +332,27 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// //////////////BOTÃO FORMULÁRIO LIGAMOS PARA VOCÊ
 
 		// /////////MENSAGEM PADRÃO BALÃO
-		if($this->settings->habilitar_programacao_mensagem){
-			if(!count($this->settings->programacao_mensagem)) $this->settings->active_mensagem=0;
-			else{
-				$this->settings->active_mensagem=0;
-				foreach ($this->settings->programacao_mensagem as $key => $value) {
-					if($this->settings->active_mensagem) continue;
-					if($this->settings->dia_semana == $value['dia']){
-						$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
-						$fim=explode(' ', $value['fim']); $fim=end($fim);
-						if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->active_mensagem=1;
+		// if($this->quant_botoes_mobile or $this->quant_botoes_desktop){
+
+		if($this->quant_botoes_desktop){
+			if($this->settings->habilitar_programacao_mensagem){
+				if(!count($this->settings->programacao_mensagem)) $this->settings->active_mensagem=0;
+				else{
+					$this->settings->active_mensagem=0;
+					foreach ($this->settings->programacao_mensagem as $key => $value) {
+						if($this->settings->active_mensagem) continue;
+						if($this->settings->dia_semana == $value['dia']){
+							$inicio=explode(' ', $value['inicio']); $inicio=end($inicio);
+							$fim=explode(' ', $value['fim']); $fim=end($fim);
+							if($inicio <= date('H:i:s') && $fim >= date('H:i:s')) $this->settings->active_mensagem=1;
+						}
 					}
 				}
 			}
-		}
-		if((isset($this->settings->mensagem) && str_replace(' ','',$this->settings->mensagem) == '') || !isset($this->settings->mensagem)){
-			$this->settings->mensagem='Precisando de Ajuda ?';
-		}
+			if((isset($this->settings->mensagem) && str_replace(' ','',$this->settings->mensagem) == '') || !isset($this->settings->mensagem)){
+				$this->settings->mensagem='Precisando de Ajuda ?';
+			}
+		}else $this->settings->active_mensagem=0;
 		// /////////MENSAGEM PADRÃO BALÃO
 
 		// /////////////////////CONFIGURAÇÕES
@@ -340,8 +373,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $detect = new Mobile_Detect;
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
-		if($this->quant_botoes){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css?'.time());
+		if($this->quant_botoes_mobile or $this->quant_botoes_desktop){
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.0.1');
 			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?'.time());
 		}
 	}
@@ -427,10 +460,10 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 
 	public $device;
 	public $settings;
-	public $numero_whats, $telefone;
-	public $quant_botoes=0;
+	public $numero_whats, $telefone, $links_personalizados;
+	public $quant_botoes_mobile=0, $quant_botoes_desktop=0;
 	public $icones_fonte;
-
+	public $class='';
 	public $GenericForm_;
 
 
@@ -661,6 +694,19 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// if($envio){
 		// 	echo $form_enviar->properties['messages_success'];
 		// }
+	}
+
+
+	public function resize_image($image=false, $width=30, $height=30){
+		if(!$image) return false;
+		// if(!in_array('ToughDeveloper\ImageResizer\Plugin', $this->class)){
+		$image = new Image($image);
+		$options = [];
+		$options['extension']='png';
+		$options['mode']='crop';
+		// $options['quality']=80;
+		return $image->resize($width, $height, $options);
+		// }else return false;
 	}
 
 

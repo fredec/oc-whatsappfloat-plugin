@@ -1,0 +1,20 @@
+
+{% for cur in links %}
+<div class="link_botao_whatsappfloat personalizados {{cur.visivel}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{cur.color_button?'background: '~cur.color_button:''}}">
+	<div class="Vcenter center_link">
+		<div>
+			<a class="link_click" href="{{cur.link}}" title="{{cur.title}}" {{cur.target}}>
+				{% if cur.icone_externo %}
+				<img src="{{ cur.icone_externo }}" class="fa img_icone" />
+				{% else %}
+				<i class="fab {{cur.icone}}" style="{{cur.color_text?' color: '~cur.color_text:''}}"></i>
+				{% endif %}
+				<span class="txt" style="{{cur.color_text?' color: '~cur.color_text:''}}" >
+					{{cur.title}}
+				</span>
+			</a>
+		</div>
+	</div>
+	<a class="abrir_link" href="{{cur.link}}" title="{{cur.title}}" target="_blank"></a>
+</div>
+{% endfor %}

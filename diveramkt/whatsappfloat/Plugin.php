@@ -6,6 +6,8 @@ use Diveramkt\Whatsappfloat\Components\Whatsappfloat;
 
 use System\Classes\PluginBase;
 use Diveramkt\WhatsappFloat\Models\Settings;
+use Event;
+use App;
 
 class Plugin extends PluginBase
 {
@@ -65,17 +67,35 @@ class Plugin extends PluginBase
 		// });
 
 		$settings = Settings::instance();
-		if(!isset($settings->ordem) or !$settings->ordem){
-			$ordem_padrao=array();
-			$id=0; $ordem_padrao[$id]['botao']='Whatsapp'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=1; $ordem_padrao[$id]['botao']='Telefone'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=2; $ordem_padrao[$id]['botao']='Contato'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=3; $ordem_padrao[$id]['botao']='Ligamos'; $ordem_padrao[$id]['tamanho_mobile']='12';
-			$id=4; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		
+		$ordem_padrao=array();
+		$id=0; $ordem_padrao[$id]['botao']='Whatsapp'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Telefone'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Contato'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Ligamos'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		$id++; $ordem_padrao[$id]['botao']='Link_personalizados'; $ordem_padrao[$id]['tamanho_mobile']='12';
+
+		if((!isset($settings->ordem) or !$settings->ordem) or (count($ordem_padrao) != count($settings->ordem))){
 			$settings->ordem=$ordem_padrao;
+			$settings->font_awesome_link='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css';
 			$settings->save();
 		}
 
+
+		if (App::runningInBackend()) {
+			Event::listen('backend.page.beforeDisplay', function($controller, $action, $params) {
+				$controller->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts_settings.js');
+			});
+		}
+
+	}
+
+	public function registerFormWidgets()
+	{
+		return [
+			'\Diveramkt\Whatsappfloat\FormWidgets\Icon' => 'select_icones',
+		];
 	}
 
 }
