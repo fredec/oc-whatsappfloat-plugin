@@ -8,19 +8,12 @@
 {% set telefone=obj.telefone %}
 
 {% set fa_icone=obj.icones_fonte %}
-{% set img_icone=obj.icones_image %}
 {% set quant_botoes_mobile=obj.quant_botoes_mobile %}
 {% set quant_botoes_desktop=obj.quant_botoes_desktop %}
 
 {% if quant_botoes_mobile or quant_botoes_desktop %}
 
-{% put scripts %}
-<script src="{{url('/')}}/plugins/diveramkt/whatsappfloat/assets/scripts.js?0.0.3" defer></script>
-<!-- <script src="{{url('/')}}/plugins/diveramkt/whatsappfloat/assets/upload/dropzone.js?0.0.0" defer></script> -->
-<!-- <script src="{{url('/')}}/plugins/diveramkt/whatsappfloat/assets/upload/uploader.js?0.0.0" defer></script> -->
-{% endput %}
-
-<div class="botoes_floats {{obj.settings.visible_plugin}} formato_mobile_{{ quant_botoes_mobile > 2 ?obj.settings.formato_mobile:''}} formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} legendas_mobile_{{obj.settings.legendas_mobile?'sim':'nao'}} " style="{{obj.settings.margin_bottom?'bottom: '~obj.settings.margin_bottom~'px':''}};">
+<div class="botoes_floats {{obj.settings.visible_plugin}} formato_mobile_{{ quant_botoes_mobile > 2 ?obj.settings.formato_mobile:''}} formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} legendas_mobile_{{obj.settings.legendas_mobile?'sim':'nao'}} " style="bottom: {{obj.settings.margin_bottom}};">
 
 	<!-- ///////////////////BALÃO MENSAGEM -->
 	{% if obj.settings.active_mensagem %}
@@ -47,11 +40,11 @@
 		{% endif %}
 
 		{% if numero_whats and bot.botao == 'Whatsapp' and obj.settings.ativar_whatsapp %}
-		{% partial __SELF__~'::botao_whatsapp' tamanho_mobile=tamanho_mobile img_icone=img_icone obj=obj fa_icone=fa_icone numero_whats=numero_whats text_whats=text_whats %}
+		{% partial __SELF__~'::botao_whatsapp' tamanho_mobile=tamanho_mobile obj=obj fa_icone=fa_icone numero_whats=numero_whats text_whats=text_whats %}
 		{% endif %}
 
 		{% if telefone and bot.botao == 'Telefone' and obj.settings.ativar_telefone %}
-		{% partial __SELF__~'::botao_telefone' tamanho_mobile=tamanho_mobile img_icone=img_icone obj=obj telefone=telefone fa_icone=fa_icone %}
+		{% partial __SELF__~'::botao_telefone' tamanho_mobile=tamanho_mobile obj=obj telefone=telefone fa_icone=fa_icone %}
 		{% endif %}
 
 		{% if form_contato and bot.botao == 'Contato' %}
@@ -91,6 +84,26 @@
 			</div>
 			{% endif %}
 
+			{% if form_externo and bot.botao == 'Form_externo' %}
+			<div class="link_botao_whatsappfloat botao_form_externo {{obj.settings.visivel_form_externo}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+				{% set icone_externo='fa-calculator' %}
+				{% if obj.settings.icone_externo %} {% set icone_externo=obj.settings.icone_externo %} {% endif %}
+				<div class="Vcenter center_link">
+					<div>
+						<a class="clique_modal_float" data-form=".modal_form_externo" href="#" title="{{obj.legenda_form_externo}}">
+							{% if obj.settings.icone_externo_path_resize %}
+							<img src="{{ obj.settings.icone_externo_path_resize }}" class="fa img_icone" />
+							{% else %}
+							<i class="{{fa_icone.numero}} {{icone_externo}}"></i>
+							{% endif %}
+							<span class="txt"> {{obj.settings.legenda_form_externo}}</span>
+						</a>
+					</div>
+				</div>
+				<a class="abrir_link clique_modal_float" data-form=".modal_form_externo" href="#" title="{{obj.settings.legenda_form_externo}}"></a>
+			</div>
+			{% endif %}
+
 			{% endfor %}
 
 		</div>
@@ -113,6 +126,20 @@
 						<!--  partial '@form/contato'  -->
 						<div class="atualizar_form_contato_float">
 							{% partial __SELF__~'::form_contato' %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal_form_float modal_form_externo">
+			<div class="fundo abrir_link"></div>
+			<div class="Vcenter">
+				<div>
+					<div class="blocos" style="{{obj.settings.color_externo?'background: '~obj.settings.color_externo:''}}">
+						<a href="#" class="fa fa-close" title="Fechar"></a>
+						<div class="atualizar_form_externo_float">
+							{% partial __SELF__~'::form_externo' %}
 						</div>
 					</div>
 				</div>

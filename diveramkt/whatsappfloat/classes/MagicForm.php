@@ -199,7 +199,8 @@ abstract class MagicForm extends ComponentBase {
 
         // $arquivo = "valores_campos.txt";
         // $fp = fopen($arquivo, "w+");
-        // fwrite($fp, serialize($this->getProperties()).' - '.serialize($post));
+        // // fwrite($fp, serialize($this->getProperties()).' - '.serialize($post));
+        // fwrite($fp, serialize($record));
         // fclose($fp);
 
         // SEND NOTIFICATION EMAIL

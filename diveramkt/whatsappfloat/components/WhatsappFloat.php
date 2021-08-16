@@ -15,8 +15,18 @@ use System\Models\MailSetting;
 use stdclass;
 use Config;
 
+// use System\Models\File;
+
+// use October\Rain\Filesystem\Definitions;
+// use Martin\Forms\Classes\MagicForm;
+// use Martin\Forms\Models\Record;
+
 class WhatsappFloat extends \Cms\Classes\ComponentBase
 {
+
+	use \Diveramkt\WhatsappFloat\Traits\FileUploader;
+	// use \Martin\Forms\Traits\FileUploader;
+
 	public function componentDetails()
 	{
 		return [
@@ -29,9 +39,24 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $defaultFields = Settings::instance();
 		$settings = Settings::instance();
 		$uploadedFile = $settings->foto_mensagem;
-		// return;
 		$defaultFields = $settings->toArray();
 		$this->class=get_declared_classes();
+
+		if(in_array('RainLab\Translate\Plugin', $this->class) || in_array('RainLab\Translate\Classes\Translator', $this->class)){
+			$locale=\RainLab\Translate\Classes\Translator::instance();
+			$words=\RainLab\Translate\Models\Attribute::where('model_type','Diveramkt\Whatsappfloat\Models\Settings')->where('locale',$locale->getLocale())->first();
+
+			if(isset($words->attribute_data)){
+				$words=(array) json_decode($words->attribute_data);
+				if(count($words) > 1){
+					foreach ($words as $key => $value) {
+						if(isset($settings->$key) && str_replace(' ', '', $value) != '') $settings->$key=$value;
+					}
+				}
+			}
+			// ->lang('fr')->
+			// $user->getAttributeTranslated('name', 'fr')
+		}
 
 		if (!empty($defaultFields)) {
 			if(isset($defaultFields['value'])){
@@ -42,6 +67,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		}
 
 		$this->settings = $settings;
+
+		if(!isset($this->settings->legendas_mobile)) $this->settings->legendas_mobile=1;
 
 		if(isset($uploadedFile->attributes)){
 			$foto=$uploadedFile->getPath();
@@ -88,7 +115,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$class=get_declared_classes();
 		$this->iniciar_settings();
 
-		if($this->settings->visible_plugin && count($this->settings->visible_plugin)){
+		if($this->settings->visible_plugin && is_array($this->settings->visible_plugin) && count($this->settings->visible_plugin)){
 			$this->settings->visible_plugin=' none visible_'.implode(' visible_', $this->settings->visible_plugin).' ';
 		}
 
@@ -127,7 +154,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$id++; $ordem_padrao[$id]['botao']='Telefone'; $ordem_padrao[$id]['tamanho_mobile']='12';
 		$id++; $ordem_padrao[$id]['botao']='Contato'; $ordem_padrao[$id]['tamanho_mobile']='12';
 		$id++; $ordem_padrao[$id]['botao']='Ligamos'; $ordem_padrao[$id]['tamanho_mobile']='12';
-		$id++; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
+		// $id++; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
 		$id++; $ordem_padrao[$id]['botao']='Link_personalizados'; $ordem_padrao[$id]['tamanho_mobile']='12';
 
 		if((!isset($this->settings->ordem) or !$this->settings->ordem or $this->settings->ordem[0]['botao'] == '') or (count($ordem_padrao) != count($this->settings->ordem))){
@@ -137,9 +164,12 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		}
 
 		// /////////////BOTÕES PERSONALIZADOS
-		if(count($this->settings->links_personalizados) > 0){
+		if(isset($this->settings->links_personalizados) && is_array($this->settings->links_personalizados) && count($this->settings->links_personalizados) > 0){
 			$this->links_personalizados=array();
 			$retorno=Configsfloat::personalizados($this->settings);
+
+			// print_r($retorno);
+
 			if($retorno['total'] > 0){
 				$this->quant_botoes_mobile+=$retorno['total_mobile'];
 				$this->quant_botoes_desktop+=$retorno['total_desktop'];
@@ -149,13 +179,13 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				$this->links_personalizados['count']=count($retorno['itens']);
 			}
 		}
-
 		// /////////////BOTÕES PERSONALIZADOS
 
 		// //////////////BOTÃO WHATSAPP
 		$this->numero_whats=''; $this->telefone='';
 		// $this->settings->ativar_whatsapp=1;
 		if(isset($this->settings->numero) && $this->settings->numero && $this->settings->ativar_whatsapp){
+			if($this->settings->formato == 4) $this->settings->color_whatsapp=false;
 
 			if($this->settings->habilitar_programacao_whatsapp){
 				if(!count($this->settings->programacao_whatsapp)) $this->settings->ativar_whatsapp=0;
@@ -187,7 +217,18 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				if(!isset($this->settings->text_padrao) || str_replace(' ', '', $this->settings->text_padrao) == ''){
 					$this->settings->text_padrao='';
 				}
+
+				// $this->addComponent('Martin\Forms\Components\GenericForm', 'formBalaoWhats', ['formCode' => 'formIdCode'], true); 
+				// $this->addComponent('Diveramkt\WhatsappFloat\Components\GenericForm', 'formBalaoWhats', ['formCode' => 'formIdCode'], true);
+
+				// $cmsController->addComponent(
+				// 	$componentInfo['class'],
+				// 	$componentInfo['alias'],
+				// 	$componentInfo['properties']
+				// );
+
 			}
+
 		}
 		// //////////////BOTÃO WHATSAPP
 
@@ -349,6 +390,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 					}
 				}
 			}
+
 			if((isset($this->settings->mensagem) && str_replace(' ','',$this->settings->mensagem) == '') || !isset($this->settings->mensagem)){
 				$this->settings->mensagem='Precisando de Ajuda ?';
 			}
@@ -360,12 +402,14 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		$this->icones_fonte['numero']='fa'; $this->icones_fonte['whatsapp']='fa';
 		$versao_icones='4.7.0'; if(isset($this->settings->versao_awesome)) $versao_icones=$this->settings->versao_awesome;
 		if($versao_icones == '5.1.0') $this->icones_fonte['whatsapp']='fab';
+
+		$this->icones_image['whatsapp']='/plugins/diveramkt/whatsappfloat/assets/imagens/icone-whatsapp-default.png';
 		// /////////////CLASS ICONES BOTÕES
 
 		if(!isset($this->settings->formato)) $this->settings->formato=1;
 		if(!isset($this->settings->posicao_horizontal)) $this->settings->posicao_horizontal='right';
-		if(!isset($this->settings->margin_bottom)) $this->settings->margin_bottom='10px';
-		else $this->settings->margin_bottom.='px';
+		if(!isset($this->settings->margin_bottom)) $this->settings->margin_bottom='10';
+		// else $this->settings->margin_bottom.='px';
 		// /////////////////////CONFIGURAÇÕES
 
 		if($this->mobile()) $this->device = 'mobile'; else $this->device = 'desktop';
@@ -374,10 +418,36 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes_mobile or $this->quant_botoes_desktop){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.0.1');
-			$this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js?'.time());
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.0.9');
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/efeitos.css','0.0.1');
+			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js','0.0.3');
+
+			$this->uploader_enable=1; $this->uploader_multi=1;
+			// $this->isMulti = $this->property('uploader_multi');
+            // if($result = $this->checkUploadAction()) { return $result; }
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/upload/uploader.css','0.0.0');
+			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/upload/dropzone.js','0.0.0');
+			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/upload/uploader.js','0.0.0');
 		}
+
 	}
+
+	public function onFormPadrao(){
+		return Configsfloat::formPadrao();
+	}
+
+	// protected function decorateFileAttributes($file)
+	// {
+	// 	$file->pathUrl = $file->thumbUrl = $file->getPath();
+	// 	return $file;
+	// }
+
+	// public function onRemoveAttachment()
+	// {
+	// 	if (($file_id = post('file_id')) && ($file = File::find($file_id))) {
+	// 		$this->model->{$this->attribute}()->remove($file, $this->getSessionKey());
+	// 	}
+	// }
 
 	public function veri_pages_visible(){
 		$retorno=true;
@@ -462,9 +532,105 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 	public $settings;
 	public $numero_whats, $telefone, $links_personalizados;
 	public $quant_botoes_mobile=0, $quant_botoes_desktop=0;
-	public $icones_fonte;
+	public $icones_fonte, $icones_image;
 	public $class='';
 	public $GenericForm_;
+	public $uploader_enable=1, $uploader_multi=1;
+
+	public function onFormSubmitPersonalizados() {
+		$this->iniciar_settings();
+		$form_enviar=new formContato();
+		$mail_setting=MailSetting::instance();
+
+		$post=post();
+
+		$infos=false;
+		foreach ($this->settings->links_personalizados as $key => $value) {
+			if($value['title'] == $post['form_titulo']){
+				$infos=$value;
+			}
+		}
+
+		if(!$infos && isset($infos['destino_form']) && str_replace(' ', '', $infos['destino_form']) != ''){
+			Flash::error('Ocorreu um erro no envio, tente novamente.');
+			return;
+		}
+
+		// $arquivo = "posts.txt";
+		// $fp = fopen($arquivo, "w+");
+		// fwrite($fp, json_encode($infos));
+		// fclose($fp);
+		// return;
+
+		$this->settings->mensagem_sucesso_contato="Sua mensagem foi enviada com sucesso. Obrigado!";
+
+		// $form_enviar->onRun();
+		// $form_enviar->alias='';
+		$form_enviar->properties['group']=$post['form_titulo'];
+
+		// $rules=array();
+		// $rules['nome'] = "required|required_if:nome,Seu nome";
+		// $rules['email'] = "required|email";
+		// $rules['telefone'] = "required";
+		// $rules['mensagem'] = "required|min:5";
+		// $form_enviar->properties['rules']=$rules;
+
+		// $rules_messages=array();
+		// $rules_messages['nome.required'] = "Informe seu nome";
+		// $rules_messages['nome.required_if'] = "Informe seu nome if";
+		// $rules_messages['email.required'] = "Informe seu e-mail";
+		// $rules_messages['email.email'] = "E-mail inválido";
+		// $rules_messages['telefone.required'] = "Informe seu telefone";
+		// $rules_messages['mensagem.required'] = "Informe sua mensagem";
+		// $rules_messages['mensagem.min'] = "Necessário ao mínimo 5 caracteres";
+		// $form_enviar->properties['rules_messages']=$rules_messages;
+
+		$form_enviar->properties['messages_success']=$this->settings->mensagem_sucesso_contato;
+		$form_enviar->properties['messages_errors']='Ocorreu um erro no envio. Tente novamente por favor.';
+
+		$form_enviar->properties['mail_enabled']=1;
+		$form_enviar->properties['mail_subject']=$post['form_titulo'];
+
+		// $destinos=array();
+		// $destinos[]='suporte@divera.com.br';
+		// $form_enviar->properties['mail_recipients']=$destinos;
+		$infos['destino_form']=str_replace(';', ',', str_replace(' ','',$infos['destino_form']));
+		$infos['destino_form']=explode(',', $infos['destino_form']);
+		$form_enviar->properties['mail_recipients']=$infos['destino_form'];
+
+		if(isset($post['email']) && $post['email']){
+			// if(!isset($this->settings->mail_resp_assunto_contato) || !$this->settings->mail_resp_assunto_contato) $this->settings->mail_resp_assunto_contato='Recebemos sua mensagem';
+
+			$form_enviar->properties['mail_replyto']='email';
+			$form_enviar->properties['mail_resp_enabled']=1;
+			$form_enviar->properties['mail_resp_field']='email';
+			// $form_enviar->properties['mail_resp_from']=str_replace(' ','',$this->settings->mail_resp_from_contato);
+			$form_enviar->properties['mail_resp_from']=$mail_setting->smtp_user;
+			$form_enviar->properties['mail_resp_subject']='Recebemos sua mensagem - '.$post['form_titulo'];
+		}else $form_enviar->properties['mail_resp_enabled']=0;
+		$form_enviar->properties['reset_form']=1;
+
+		$form_enviar->properties['inline_errors']= "disabled";
+		$form_enviar->properties['sanitize_data']= "disabled";
+		$form_enviar->properties['anonymize_ip']= "disabled";
+		$form_enviar->properties['recaptcha_enabled']= 0;
+		$form_enviar->properties['recaptcha_theme']= "light";
+		$form_enviar->properties['recaptcha_type']= "image";
+		$form_enviar->properties['recaptcha_size']= "normal";
+
+		$form_enviar->alias='faleConoscoWhastappFloat';
+		$form_enviar->name='genericForm';
+		$form_enviar->assetPath='/plugins/diveramkt/whatsappfloat';
+
+		$form_enviar->inline_errors='display';
+
+
+		return $form_enviar->onFormSubmit();
+		// $envio=$form_enviar->onFormSubmit();
+		// if($envio){
+		// 	echo $form_enviar->properties['messages_success'];
+		// }
+	}
 
 
 	public function onFormSubmitContato() {
@@ -697,17 +863,32 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 	}
 
 
-	public function resize_image($image=false, $width=30, $height=30){
+	public function resize_image($image=false, $width=30, $height=30, $options=false){
 		if(!$image) return false;
 		// if(!in_array('ToughDeveloper\ImageResizer\Plugin', $this->class)){
 		$image = new Image($image);
-		$options = [];
-		$options['extension']='png';
-		$options['mode']='crop';
+		if(!$options){
+			$options = [];
+			$options['extension']='png';
+			$options['mode']='crop';
+		}
 		// $options['quality']=80;
 		return $image->resize($width, $height, $options);
 		// }else return false;
 	}
+
+
+
+    /**
+     * Add Twig extensions.
+     *
+     * @see Text extensions http://twig.sensiolabs.org/doc/extensions/text.html
+     * @see Intl extensions http://twig.sensiolabs.org/doc/extensions/intl.html
+     * @see Array extension http://twig.sensiolabs.org/doc/extensions/array.html
+     * @see Time extension http://twig.sensiolabs.org/doc/extensions/date.html
+     *
+     * @return array
+     */
 
 
 }

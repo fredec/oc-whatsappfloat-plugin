@@ -9,16 +9,27 @@ fields:
         options:
             1: Fechado
             2: Aberto
-            3: Float
-            4: 'Float ícone'
         showSearch: true
         span: left
+        type: dropdown
+    versao_awesome:
+        label: 'Versão ícones awesome'
+        options:
+            4.7.0: '<= 4.7.0'
+            5.1.0: 5.1.0
+        showSearch: true
+        span: right
         type: dropdown
     margin_bottom:
         label: 'Margin de baixo em px (padrão: 10)'
         span: right
         type: text
         default: 10
+    font_awesome_link:
+        label: 'diveramkt.whatsappfloat::lang.icon.name'
+        span: left
+        default: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'
+        type: text
     visible_plugin:
         label: 'Resoluções que será visível'
         options:
@@ -31,7 +42,7 @@ fields:
         type: checkboxlist
         comment: 'Caso nenhuma marcada, estará visível em todas'
     legendas_mobile:
-        label: 'Legendas nos botões visível no mobile'
+        label: 'Legendas do botões visível no mobile'
         span: right
         type: switch
         default: 1
@@ -52,22 +63,6 @@ fields:
         showSearch: true
         span: right
         type: dropdown
-    title_site:
-        label: 'Título do site'
-        span: auto
-        type: text
-        comment: 'Pega do thema caso esteja vazio'
-    logo_site:
-        label: 'Logo do site'
-        mode: image
-        imageWidth: '100'
-        useCaption: true
-        thumbOptions:
-            mode: crop
-            extension: auto
-        span: auto
-        type: fileupload
-        comment: 'Pega no thema caso esteja vazio'
 tabs:
     fields:
         active_mensagem:
@@ -103,21 +98,13 @@ tabs:
             tab: Mensagem
         habilitar_programacao_mensagem:
             label: 'Habilitar programação da mensagem'
-            options:
-                - Não
-                - Sim
-            showSearch: true
             span: auto
-            type: dropdown
+            type: switch
             tab: Mensagem
         programacao_mensagem:
             label: 'Programação Mensagem'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: habilitar_programacao_mensagem
-                condition: 'value[1]'
             type: repeater
             tab: Mensagem
             form:
@@ -149,11 +136,6 @@ tabs:
         ativar_whatsapp:
             label: Ativar
             span: left
-            type: switch
-            tab: 'Botão de Whatsapp'
-        icone_image_whatsapp:
-            label: 'Ícone como imagem'
-            span: right
             type: switch
             tab: 'Botão de Whatsapp'
         visivel_whatsapp:
@@ -196,63 +178,15 @@ tabs:
             span: full
             type: colorpicker
             tab: 'Botão de Whatsapp'
-        form_whatsapp:
-            label: 'Formulário ao abrir conversa'
-            prompt: 'Acrescentar form'
-            maxItems: '1'
-            span: full
-            type: repeater
-            tab: 'Botão de Whatsapp'
-            form:
-                fields:
-                    mensagem:
-                        label: Mensagem
-                        size: small
-                        span: auto
-                        type: textarea
-                    mensagem_offline:
-                        label: 'Mensagem quando offline'
-                        size: small
-                        span: auto
-                        type: textarea
-                    campos:
-                        label: Campos
-                        prompt: 'Acrescentar novo campo'
-                        span: full
-                        type: repeater
-                        form:
-                            fields:
-                                nome:
-                                    label: Nome
-                                    span: auto
-                                    type: text
-                                tipo:
-                                    label: Tipo
-                                    options:
-                                        text: Texto
-                                        email: E-mail
-                                        tel: Telefone
-                                        textarea: Mensagem
-                                    showSearch: true
-                                    span: auto
-                                    type: dropdown
         habilitar_programacao_whatsapp:
             label: 'Habilitar programação do whatsapp'
-            options:
-                - Não
-                - Sim
-            showSearch: true
             span: auto
-            type: dropdown
+            type: switch
             tab: 'Botão de Whatsapp'
         programacao_whatsapp:
             label: 'Programação Whatsapp'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: habilitar_programacao_whatsapp
-                condition: 'value[1]'
             type: repeater
             tab: 'Botão de Whatsapp'
             form:
@@ -546,6 +480,141 @@ tabs:
                         span: auto
                         type: datepicker
                         ignoreTimezone: true
+        ativar_form_externo:
+            label: Ativar
+            span: left
+            type: switch
+            tab: 'Formulário Externo'
+        legenda_form_externo:
+            label: Legenda
+            span: left
+            type: text
+            tab: 'Formulário Externo'
+        visivel_form_externo:
+            label: Visível
+            options:
+                visible_mobile_desktop: 'Visível no mobile e desktop'
+                visible_desktop: 'Visível no desktop'
+                visible_mobile: 'Visível no mobile'
+            showSearch: true
+            span: right
+            type: dropdown
+            tab: 'Formulário Externo'
+        link_form_externo:
+            label: 'Link externo ou emails de destino'
+            span: left
+            type: text
+            tab: 'Formulário Externo'
+        input_nome_form_externo:
+            label: 'Campo Nome'
+            span: right
+            type: text
+            tab: 'Formulário Externo'
+        input_email_form_externo:
+            label: 'Campo E-mail'
+            span: left
+            type: text
+            tab: 'Formulário Externo'
+        input_telefone_form_externo:
+            label: 'Campo Telefone'
+            span: right
+            type: text
+            tab: 'Formulário Externo'
+        foto_icone_externo:
+            label: 'Ícone do form externo'
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: left
+            hidden: 0
+            type: fileupload
+            tab: 'Formulário Externo'
+        icone_externo:
+            label: 'Selecionar ícone'
+            type: select_icones
+            placeholder: '-- Selecione o ícone --'
+            span: right
+            tab: 'Formulário Externo'
+        color_externo:
+            label: 'Cor do botão'
+            span: full
+            type: colorpicker
+            tab: 'Formulário Externo'
+        colortext_externo:
+            label: 'Cor do texto'
+            span: full
+            type: colorpicker
+            tab: 'Formulário Externo'
+        habilitar_programacao_externo:
+            label: 'Habilitar programação externo'
+            span: full
+            type: switch
+            tab: 'Formulário Externo'
+        programacao_externo:
+            label: 'Programação Externo'
+            prompt: 'Acrescentar novo horário'
+            span: full
+            type: repeater
+            tab: 'Formulário Externo'
+            form:
+                fields:
+                    dia:
+                        label: 'Dia da semana'
+                        options:
+                            domingo: Domingo
+                            segunda: 'Segunda Feira'
+                            terca: 'Terça Feira'
+                            quarta: 'Quarta Feira'
+                            quinta: 'Quinta Feira'
+                            sexta: 'Sexta Feira'
+                            sabado: Sábado
+                        span: full
+                        type: dropdown
+                    inicio:
+                        label: 'Data de Ínicio'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+                    fim:
+                        label: 'Data de Fim'
+                        mode: time
+                        span: auto
+                        type: datepicker
+                        ignoreTimezone: true
+        repeater1:
+            label: 'Botões link'
+            prompt: 'Acrescentar novo botão'
+            span: full
+            type: repeater
+            hidden: 1
+            tab: 'Botões Links'
+            form:
+                fields:
+                    legenda:
+                        label: Legenda
+                        span: auto
+                        type: text
+                    link:
+                        label: Link
+                        span: auto
+                        type: text
+                    icone_fonte:
+                        label: 'Ícone Fonte'
+                        showSearch: true
+                        span: auto
+                        type: dropdown
+                    icone_media:
+                        label: 'Ícone imagem'
+                        mode: image
+                        span: right
+                        type: mediafinder
+                    color:
+                        label: 'Cor do botão'
+                        span: full
+                        type: colorpicker
         links_personalizados:
             label: 'Links Personalizados'
             prompt: 'Acrescentar novo link'
@@ -612,15 +681,14 @@ tabs:
                         label: 'Cor do texto'
                         span: full
                         type: colorpicker
-                    description_modal:
-                        label: 'Descrição do Formulário'
+                    title_modal:
+                        label: 'Título do Formulário'
                         span: full
                         trigger:
                             action: show
                             field: tipo
                             condition: 'value[form]'
-                        size: tiny
-                        type: textarea
+                        type: text
                     destino_form:
                         label: Destinos
                         span: full
@@ -641,11 +709,6 @@ tabs:
                         type: repeater
                         form:
                             fields:
-                                required:
-                                    label: Obrigatório
-                                    span: full
-                                    type: switch
-                                    default: 1
                                 name:
                                     label: Nome
                                     span: left
@@ -656,7 +719,6 @@ tabs:
                                         text: Texto
                                         tel: Telefone
                                         textarea: Textarea
-                                    showSearch: true
                                     span: right
                                     type: dropdown
                     enabled_programacao:
@@ -698,21 +760,14 @@ secondaryTabs:
     fields:
         enabled_horarios:
             label: 'Habilitar Horários'
-            options:
-                - Não
-                - Sim
-            showSearch: true
-            span: auto
-            type: dropdown
+            span: left
+            default: 0
+            type: switch
             tab: 'Programação Geral'
         horarios_domingo:
             label: 'Horários de Domingo'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: enabled_horarios
-                condition: 'value[1]'
             type: repeater
             tab: 'Programação Geral'
             form:
@@ -733,10 +788,6 @@ secondaryTabs:
             label: 'Horários de Segunda Feira'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: enabled_horarios
-                condition: 'value[1]'
             type: repeater
             tab: 'Programação Geral'
             form:
@@ -757,10 +808,6 @@ secondaryTabs:
             label: 'Horários de Terça Feira'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: enabled_horarios
-                condition: 'value[1]'
             type: repeater
             tab: 'Programação Geral'
             form:
@@ -781,10 +828,6 @@ secondaryTabs:
             label: 'Horários de Quarta Feira'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: enabled_horarios
-                condition: 'value[1]'
             type: repeater
             tab: 'Programação Geral'
             form:
@@ -805,10 +848,6 @@ secondaryTabs:
             label: 'Horários de Quinta Feira'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: enabled_horarios
-                condition: 'value[1]'
             type: repeater
             tab: 'Programação Geral'
             form:
@@ -829,10 +868,6 @@ secondaryTabs:
             label: 'Horários de Sexta Feira'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: enabled_horarios
-                condition: 'value[1]'
             type: repeater
             tab: 'Programação Geral'
             form:
@@ -853,10 +888,6 @@ secondaryTabs:
             label: 'Horários de Sábado'
             prompt: 'Acrescentar novo horário'
             span: full
-            trigger:
-                action: show
-                field: enabled_horarios
-                condition: 'value[1]'
             type: repeater
             tab: 'Programação Geral'
             form:
@@ -920,8 +951,8 @@ secondaryTabs:
         ordem:
             label: 'Ordem dos botões'
             prompt: 'Acrescentar novo item'
-            minItems: '5'
-            maxItems: '5'
+            minItems: '6'
+            maxItems: '6'
             span: full
             disabled: 0
             type: repeater
@@ -944,18 +975,3 @@ secondaryTabs:
                         showSearch: true
                         span: auto
                         type: dropdown
-        versao_awesome:
-            label: 'Versão ícones awesome'
-            options:
-                4.7.0: '<= 4.7.0'
-                5.1.0: 5.1.0
-            showSearch: true
-            span: auto
-            type: dropdown
-            tab: 'Configurações padrão'
-        font_awesome_link:
-            label: 'diveramkt.whatsappfloat::lang.icon.name'
-            span: auto
-            default: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'
-            type: text
-            tab: 'Configurações padrão'

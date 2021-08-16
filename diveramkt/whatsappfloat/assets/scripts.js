@@ -11,6 +11,11 @@
 		// 	})
 		// })
 
+		function limpar_form(){
+			$('.modal_form_float .atualizar_form .input_label input').val('');
+			$('.modal_form_float .atualizar_form .input_label textarea').val('');
+		}
+
 		function limpar_campos(){
 			$('.botoes_floats .input_label input').val('');
 		}
@@ -25,6 +30,14 @@
 
 		function ativar_scripts(){
 
+			// var bot=document.querySelectorAll('.botoes_floats .botoes_>div.vibrar');
+			// setInterval(function(){
+			// 	for(cur of bot){
+			// 		if(cur.classList.contains('vibrar')) cur.classList.remove('vibrar');
+			// 		else cur.classList.add('vibrar');
+			// 	}
+			// }, 2000);
+
 			if(document.querySelectorAll('input[name="titulo_da_pagina"]').length > 0){
 				for (input of document.querySelectorAll('input[name="titulo_da_pagina"]')) {
 					input.value=document.title;
@@ -37,7 +50,7 @@
 			}
 			
 
-			var Vcenter_float=document.querySelectorAll('.botoes_floats .link_botao_whatsappfloat .Vcenter');
+			var Vcenter_float=document.querySelectorAll('.botoes_floats.formato_3 .link_botao_whatsappfloat .Vcenter');
 			var Vcenter_height_float=0;
 			function altura_botoes_mobile(){
 				// if(Vcenter_float.length && window.innerWidth <= 600){
@@ -61,7 +74,7 @@
 					e.preventDefault();
 
 					if(document.querySelector(this.getAttribute('data-form')+'.modal_visivel') == null){
-						document.querySelector(this.getAttribute('data-form')).classList.add("modal_visivel");
+						if(document.querySelector(this.getAttribute('data-form')) != null) document.querySelector(this.getAttribute('data-form')).classList.add("modal_visivel");
 					}else{
 						document.querySelector(this.getAttribute('data-form')).classList.remove("modal_visivel");
 					}
@@ -77,6 +90,7 @@
 		}
 
 		for (bots of document.querySelectorAll('.botoes_floats .modal_form_float .fa-close')) {
+			bots.closest('.modal_form_float').style.display='block';
 			bots.onclick = function(e){
 				e.preventDefault();
 				this.closest('.modal_form_float').classList.remove('modal_visivel');
@@ -87,6 +101,18 @@
 				e.preventDefault();
 				this.closest('.modal_form_float').classList.remove('modal_visivel');
 			}
+
+			if(bots.closest('.modal_form_float').getAttribute('id')){
+				if(document.querySelectorAll('a[href="#'+bots.closest('.modal_form_float').getAttribute('id')+'"]').length){
+					for( link of document.querySelectorAll('a[href="#'+bots.closest('.modal_form_float').getAttribute('id')+'"]')){
+						link.onclick = function(e){
+							e.preventDefault();
+							document.querySelector(link.getAttribute('href')).classList.add('modal_visivel');
+						}
+					}
+				}
+			}
+
 		}
 
 		// window.onload = function(){
@@ -98,8 +124,11 @@
 				}
 
 				function botoes_float_abaixo(){
-					if(window.innerWidth <= 600) document.querySelector('html').style.paddingBottom=(document.querySelector('.botoes_floats').offsetHeight)+'px';
-					else document.querySelector('html').style.paddingBottom=0;
+					if(document.querySelector('.botoes_floats.formato_2') || document.querySelector('.botoes_floats.formato_1')){
+						if(window.innerWidth <= 600){
+							document.querySelector('html').style.paddingBottom=(document.querySelector('.botoes_floats').offsetHeight)+'px';
+						}else document.querySelector('html').style.paddingBottom=0;
+					}
 				}
 				botoes_float_abaixo();
 

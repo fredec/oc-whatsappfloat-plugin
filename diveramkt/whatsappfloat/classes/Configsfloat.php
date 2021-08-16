@@ -1,11 +1,16 @@
 <?php
 
 namespace Diveramkt\WhatsappFloat\Classes;
-
+use Diveramkt\WhatsappFloat\Classes\formContato;
 // use Martin\Forms\Classes\MagicForm;
+
 // use Diveramkt\WhatsappFloat\Classes\MagicForm;
 use Diveramkt\WhatsappFloat\Classes\Image;
 use Config;
+use Flash;
+
+use Diveramkt\WhatsappFloat\Models\Settings;
+use System\Models\MailSetting;
 
 class Configsfloat {
 
@@ -25,7 +30,7 @@ class Configsfloat {
 
 		foreach ($settings->links_personalizados as $key => $value) {
 			if(isset($value['enabled']) && !$value['enabled']) continue;
-			if(!$value['link'] or !$value['title']) continue;
+			if((!$value['link'] && (!isset($value['tipo']) or $value['tipo'] != 'form')) or !$value['title']) continue;
 
 			if($value['enabled_programacao']){
 				$value['ativar']=0;
@@ -43,20 +48,20 @@ class Configsfloat {
 			}
 
 			if($value['tipo'] == 'whatsapp'){
-				$value['link']=self::whats_link($value['link']);
+				if($value['link']) $value['link']=self::whats_link($value['link']);
 				if(!$value['icone']) $value['icone']='fa fa-whatsapp';
 				if(!$value['color_button']) $value['color_button']='#0DC152';
 			}elseif($value['tipo'] == 'telefone'){
 				// $value['title']=$value['link'];
-				$value['link']=self::phone_link($value['link']);
+				if($value['link']) $value['link']=self::phone_link($value['link']);
 				if(!$value['icone']) $value['icone']='fa fa-phone';
 				if(!$value['color_button']) $value['color_button']='#007bff';
 			}else{
-				$value['link']=self::prep_url($value['link']);
+				if($value['link']) $value['link']=self::prep_url($value['link']);
 
 				if(!$value['icone']) $value['icone']='fa fa-'.$value['tipo'];
 				if($value['tipo'] == 'padrao'){
-					$value['icone']='fa fa-link';
+					if(!isset($value['icone']) or !$value['icone']) $value['icone']='fa fa-link';
 					if(!$value['color_button']) $value['color_button']='#007bff';
 				}elseif($value['tipo'] == 'facebook'){
 					if(!$value['color_button']) $value['color_button']='#465791';
@@ -81,7 +86,7 @@ class Configsfloat {
 				}
 
 			}
-			$value['target']=self::target($value['link']);
+			if($value['link']) $value['target']=self::target($value['link']);
 
 			$total++;
 			if($value['visivel'] == 'visible_desktop'){
@@ -189,10 +194,98 @@ class Configsfloat {
 		$image = new Image($image);
 		$options = [];
 		$options['extension']='png';
-		$options['mode']='crop';
-		// $options['quality']=80;
+		// $options['mode']='crop';
+		$options['quality']=80;
 		return $image->resize($width, $height, $options);
 		// }else return false;
+	}
+
+	public static function create_slug($string) {
+		$table = array(
+			'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z', 'Č'=>'C', 'č'=>'c', 'Ć'=>'C', 'ć'=>'c',
+			'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A', 'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E',
+			'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I', 'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O',
+			'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U', 'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss',
+			'à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a', 'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e',
+			'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i', 'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o',
+			'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u', 'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b',
+			'ÿ'=>'y', 'Ŕ'=>'R', 'ŕ'=>'r', '/' => '-', ' ' => '-'
+		);
+		$stripped = preg_replace(array('/\s{2,}/', '/[\t\n]/'), ' ', $string);
+		return strtolower(strtr($string, $table));
+	}
+
+	public static function formPadrao(){
+
+		$settings = Settings::instance();
+		$form_enviar=new formContato();
+		$mail_setting=MailSetting::instance();
+		$post=post();
+		// Flash::success(serialize($form_enviar));
+
+
+		$infos=false;
+		$infos=array();
+		$infos['destino_form']='suporte@divera.com.br';
+		// foreach ($settings->links_personalizados as $key => $value) {
+		// 	if($value['title'] == $post['form_titulo']){
+		// 		$infos=$value;
+		// 	}
+		// }
+
+		// if(!$infos && isset($infos['destino_form']) && str_replace(' ', '', $infos['destino_form']) != ''){
+		// 	Flash::error('Ocorreu um erro no envio, tente novamente.');
+		// 	return;
+		// }
+
+		// $arquivo = "posts.txt";
+		// $fp = fopen($arquivo, "w+");
+		// fwrite($fp, json_encode($infos));
+		// fclose($fp);
+		// return;
+
+
+		$post['form_titulo']='Form WhatsappFloat Float';
+		$settings->mensagem_sucesso_contato="Sua mensagem foi enviada com sucesso. Obrigado!";
+
+		$properties=$form_enviar->getProperties();
+		$properties['group']=$post['form_titulo'];
+		$properties['messages_success']=$settings->mensagem_sucesso_contato;
+		$properties['messages_errors']='Ocorreu um erro no envio. Tente novamente por favor.';
+
+		$properties['mail_enabled']=1;
+		$properties['mail_subject']=$post['form_titulo'];
+
+
+		$infos['destino_form']=str_replace(';', ',', str_replace(' ','',$infos['destino_form']));
+		$infos['destino_form']=explode(',', $infos['destino_form']);
+		$properties['mail_recipients']=$infos['destino_form'];
+
+		if(isset($post['email']) && $post['email']){
+			$properties['mail_replyto']='email';
+			$properties['mail_resp_enabled']=1;
+			$properties['mail_resp_field']='email';
+			$properties['mail_resp_from']=$mail_setting->smtp_user;
+			$properties['mail_resp_subject']='Recebemos sua mensagem - '.$post['form_titulo'];
+		}else $properties['mail_resp_enabled']=0;
+		$properties['reset_form']=1;
+
+		$properties['inline_errors']= "disabled";
+		$properties['sanitize_data']= "disabled";
+		$properties['anonymize_ip']= "disabled";
+		$properties['recaptcha_enabled']= 0;
+		$properties['recaptcha_theme']= "light";
+		$properties['recaptcha_type']= "image";
+		$properties['recaptcha_size']= "normal";
+		$form_enviar->setProperties($properties);
+
+		$form_enviar->alias='faleConoscoWhastappFloat';
+		$form_enviar->name='genericForm';
+		$form_enviar->assetPath='/plugins/diveramkt/whatsappfloat';
+
+		$form_enviar->inline_errors='display';
+
+		return $form_enviar->onFormSubmit();
 	}
 
 	// public function componentDetails() {

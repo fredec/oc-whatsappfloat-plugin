@@ -1,0 +1,73 @@
+
+
+{% if obj.links_personalizados.count %}
+
+{% for key,cur in obj.links_personalizados.botoes %}
+{% if cur.tipo == 'form' and cur.destino_form and cur.destino_form|create_slug != '' %}
+<div class="modal_form_float modal_form_personalizado_{{key}}" id="whatsappfloat_{{cur.title|create_slug}}">
+	<div class="fundo abrir_link"></div>
+	<div class="Vcenter">
+		<div>
+			<div class="blocos" style="{{cur.color_button?'background: '~cur.color_button:''}}">
+				<a href="#" class="fa fa-close" title="Fechar"></a>
+				<!--  partial '@form/contato'  -->
+				<div class="atualizar_form_personalizado_{{key}}_float atualizar_form">
+
+					{% if cur.link and cur.link != '' %}
+					<form class="validate validate-tooltip contactform_float" action="{{cur.link}}" {{cur.link|target}} >
+						{% else %}
+						<form class="validate validate-tooltip contactform_float" data-legenda="form_contato" 
+						data-request-flash data-request-success=" limpar_form(); " data-request="{{ __SELF__ }}::onFormSubmitPersonalizados" >
+						{% endif %}
+						<!-- data-request-update="'{{ __SELF__ }}::form_personalizados': '.atualizar_form_personalizado_{{key}}_float'" -->
+						{{ form_token() }}
+
+						<input name="pagina" type="hidden" value="{{this.page.title}}">
+						<input name="form_titulo" type="hidden" value="{{cur.title}}">
+						<input name="titulo_da_pagina" type="hidden">
+						<input name="url_da_pagina" type="hidden">
+						<!-- <input name="form_" type="hidden" value="{{key}}"> -->
+
+						<h2 class="titulo_" style="{{cur.color_text?' color: '~cur.color_text:''}}">{{cur.title}}</h2>
+
+						{% if cur.description_modal %}
+						<p class="txt_">{{cur.description_modal}}</p>
+						{% endif %}
+
+						{% for field in cur.fields_form %}
+
+						{% set validate='required' %}
+						{% if field.tipo == 'tel' %} {% set validate='phone' %} {% endif %}
+						<label class="input_label">
+							<p style="{{cur.color_text?' color: '~cur.color_text:''}}">{{field.name}} {{field.required?'*':''}}</p>
+							{% if field.tipo == 'textarea' %}
+							<!-- style="{{cur.color_text?' color: '~cur.color_text:''}}" -->
+							<textarea rows="4" name="{{field.name|create_slug}}" {{field.required?' required=required data-validate=required ':' data-validate=success '}}></textarea>
+							{% elseif field.tipo == 'anexo' %}
+							<!--  partial __SELF__~'::uploadform/file-upload'  -->
+							<!--  partial __SELF__~'::uploadform/file-single'  -->
+							{% else %}
+							<!-- style="{{cur.color_text?' background: '~cur.color_text:''}}" -->
+							<input name="{{field.name|create_slug}}" type="{{field.tipo}}" {{field.required?' data-validate='~validate~' required=required ':' data-validate=success data-mask='~validate~' '}} >
+							{% endif %}
+						</label>
+						{% endfor %}
+
+						<div id="{{ __SELF__ }}_forms_flash"></div>
+						<!-- <div class="alert alert-danger" data-validate-error><p data-message></p></div> -->
+						<div class="div_input_loading">
+							<span data-attach-loading class="lod_"></span>
+							<button type="submit" class="button btn"><i class="fa fa-send"></i> Enviar</button>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% endif %}

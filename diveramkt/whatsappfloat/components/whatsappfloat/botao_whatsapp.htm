@@ -5,19 +5,93 @@
 {% endif %}
 
 {% set link_whats=link_whats~numero_whats~text_whats %}
-{% set color='' %} {% if obj.settings.colortext_whatsapp %} {% set color='color: '~obj.settings.colortext_whatsapp %} {% endif %}
+{% set color='' %} {% if obj.settings.colortext_whatsapp %} {% set color='color: '~obj.settings.colortext_whatsapp %} {% elseif obj.settings.formato == 4 %}
+{% set color='color: #32BB46' %}
+{% endif %} 
 
 <div class="link_botao_whatsappfloat whats {{obj.settings.visivel_whatsapp}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{obj.settings.color_whatsapp?'background: '~obj.settings.color_whatsapp:''}}">
-	<div class="Vcenter center_link">
+
+	{% set tag_link='a' %}
+	{% if obj.settings.form_whatsapp[0].campos[0].nome and obj.settings.formato == 3 %}
+	{% set tag_link='label' %}
+	{% set form=obj.settings.form_whatsapp[0] %}
+
+	<!-- form.mensagem_offline -->
+	{% set mensagem=form.mensagem %}
+	<input type="checkbox" id="mostrar_balao_form_whatsapp">
+	<div class="balao_form_whatsapp">
 		<div>
-			<a class="link_click" href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
-				<i style="{{color}}" class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
-				<span class="txt">
-					<span style="{{color}}" class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
-					<span style="{{color}}" class="desk">{{obj.settings.legenda_whats}}</span>
-				</span>
-			</a>
+			<div class="head_form">
+				{% if this.theme.site_logo.path %}
+				{% set logo=this.theme.site_logo.path %}
+				{% endif %}
+
+				{% if logo %}
+				<div class="icone_logo Vcenter">
+					<div><img src="{{logo}}" alt="Logo" /></div>
+				</div>
+				{% endif %}
+				<h3>Título de teste</h3>
+				<p>online</p>
+
+				<label for="mostrar_balao_form_whatsapp"><i class="fa fa-close"></i></label>
+				<div class="clear"></div>
+			</div>
+			<div class="cont_form">
+
+				{% if mensagem %} <div class="msg"> <p>{{mensagem|raw}}</p> </div> {% endif %}
+				
+				<form class="validate validate-tooltip" data-request="{{ __SELF__ }}::onFormPadrao" data-request-flash >
+					{{ form_token() }}
+					{% for key,cur in form.campos %}
+					<div class="input_label">
+						{% set type=cur.tipo %}
+						{% set validate='required' %}
+
+						{% if type == 'email' %}
+						{% set type='text' %}
+						{% set validate='email' %}
+
+						{% elseif type == 'tel' %}
+						{% set validate='phone' %}
+
+						{% endif %}
+
+						{% set id=key~'_form2_nome_contato_float' %}
+
+						{% if type == 'textarea' %}
+						<textarea name="{{cur.nome}}" id="{{id}}" data-validate="{{validate}}" required="required"></textarea>
+						{% else %}
+						<input name="{{cur.nome}}" type="{{type}}" id="{{id}}" data-validate="{{validate}}" required="required">
+						{% endif %}
+
+						<label for="{{key}}_form2_nome_contato_float">{{cur.nome}}</label>
+					</div>
+					{% endfor %}
+					<button type="submit">Iniciar Conversa</button>
+				</form>
+				<div class="clear"></div>
+
+			</div>
 		</div>
 	</div>
-	<a class="abrir_link" href="{{link_whats}}" title="Atendimento via WhatsApp" target="_blank"></a>
+	{% endif %}
+
+	<div class="Vcenter center_link">
+		<div>
+			<{{tag_link}} for="mostrar_balao_form_whatsapp" class="link_click" href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
+			{% if obj.settings.icone_image_whatsapp %}
+			<i style="background-image: url({{img_icone.whatsapp|resize_image(50)}})" class="icone_image"></i>
+			{% else %}
+			<i style="{{color}}" class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
+			{% endif %}
+			<span class="txt">
+				<span style="{{color}}" class="mobi">{{obj.settings.legenda_whats_mobile}}</span>
+				<span style="{{color}}" class="desk">{{obj.settings.legenda_whats}}</span>
+			</span>
+
+			</{{tag_link}}>
+		</div>
+	</div>
+	<{{tag_link}} for="mostrar_balao_form_whatsapp" class="abrir_link" href="{{link_whats}}" title="Atendimento via WhatsApp" target="_blank"></{{tag_link}}>
 </div>
