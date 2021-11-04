@@ -12,7 +12,8 @@ use ApplicationException;
 trait FileUploader
 {
 
-    use \Martin\Forms\Traits\ComponentUtils;
+    // use \Martin\Forms\Traits\ComponentUtils;
+    use \Diveramkt\WhatsappFloat\Traits\ComponentUtils;
 
     public $maxSize;
     public $placeholderText;
