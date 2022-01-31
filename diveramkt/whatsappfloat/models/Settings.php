@@ -83,7 +83,6 @@ class Settings extends Model
      */
     private function extractFontAwesome(){
         $url = $this->value['font_awesome_link'];
-
         $parsed_file = $this->parseCssFile($url);
         preg_match_all("/fa\-([\w-]+):before/", $parsed_file, $matches);
         if(!$matches || !$matches[0]){

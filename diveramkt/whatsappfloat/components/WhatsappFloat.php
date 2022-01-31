@@ -157,18 +157,18 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $id++; $ordem_padrao[$id]['botao']='Form_externo'; $ordem_padrao[$id]['tamanho_mobile']='12';
 		$id++; $ordem_padrao[$id]['botao']='Link_personalizados'; $ordem_padrao[$id]['tamanho_mobile']='12';
 
-		if((!isset($this->settings->ordem) or !$this->settings->ordem or $this->settings->ordem[0]['botao'] == '') or (count($ordem_padrao) != count($this->settings->ordem))){
+		if((!isset($this->settings->ordem) or !$this->settings->ordem or $this->settings->ordem[0]['botao'] == '') or (serialize($ordem_padrao) != serialize($this->settings->ordem))){
 			$this->settings->ordem=$ordem_padrao;
 			$this->settings->font_awesome_link='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css';
 			$this->settings->save();
+			// $this->onRun();
+			// return;
 		}
 
 		// /////////////BOTÕES PERSONALIZADOS
 		if(isset($this->settings->links_personalizados) && is_array($this->settings->links_personalizados) && count($this->settings->links_personalizados) > 0){
 			$this->links_personalizados=array();
 			$retorno=Configsfloat::personalizados($this->settings);
-
-			// print_r($retorno);
 
 			if($retorno['total'] > 0){
 				$this->quant_botoes_mobile+=$retorno['total_mobile'];
@@ -418,7 +418,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes_mobile or $this->quant_botoes_desktop){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.0.9');
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.1.0');
 			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/efeitos.css','0.0.1');
 			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js','0.0.3');
 

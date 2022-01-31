@@ -417,7 +417,10 @@
 /*/////////////////FORMATO 1*/
 
 /*/////////////////FORMATO 2*/
-.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{position: relative;left: 0;top: 0;text-align: center;width: 100%;margin-bottom: 5px;}
+.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{
+	position: relative;left: 0;top: 0;text-align: center;width: 100%;margin-bottom: 5px;
+	transform: translateY(0); -webkit-transform: translateY(0); -moz-transform: translateY(0); -ms-transform: translateY(0); -o-transform: translateY(0);
+}
 .botoes_floats.formato_2 .botoes_ > div{width: 90px;display: block;padding: 5px 0;}
 .botoes_floats.formato_2.horizontal_right .botoes_ > div:hover{padding-right: 10px;width: 100px;margin-left: -10px;}
 .botoes_floats.formato_2.horizontal_left .botoes_ > div:hover{width: 100px;margin-right: -10px;padding-left: 10px;}

@@ -44,12 +44,12 @@ class Icon extends FormWidgetBase
      */
     public function prepareVars()
     {
-		$this->vars['id'] = $this->getId();
-		$this->vars['name'] = $this->getFieldName();
-		$this->vars['placeholder'] = $this->placeholder;
-		$this->vars['value'] = $this->getLoadValue();
-		$this->vars['icons'] = $this->getFontIcons();
-    }
+      $this->vars['id'] = $this->getId();
+      $this->vars['name'] = $this->getFieldName();
+      $this->vars['placeholder'] = $this->placeholder;
+      $this->vars['value'] = $this->getLoadValue();
+      $this->vars['icons'] = $this->getFontIcons();
+  }
 
     /**
      * @inheritDoc
@@ -58,10 +58,10 @@ class Icon extends FormWidgetBase
     {
         $settings = Settings::instance();
         if(!empty($settings->font_awesome_link)){
-	        $this->addCss($settings->font_awesome_link);
-        }
-        $this->addCss('css/icon.css');
-    }
+           $this->addCss($settings->font_awesome_link);
+       }
+       $this->addCss('css/icon.css');
+   }
 
     /**
      * @inheritDoc
