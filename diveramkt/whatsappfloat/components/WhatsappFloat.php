@@ -418,7 +418,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes_mobile or $this->quant_botoes_desktop){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.1.0');
+			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.1.1');
 			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/efeitos.css','0.0.1');
 			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js','0.0.3');
 

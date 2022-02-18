@@ -217,14 +217,27 @@
 					}
 					botoes_mobile();
 
+					function widthWindow(){
+						return window.innerWidth
+						|| document.documentElement.clientWidth
+						|| document.body.clientWidth;
+					}
+
+					var onresize_whastappfloat=widthWindow(), interval_whatsappfloat='';
 					window.onresize = function (oEvent) {
-						botoes_float_abaixo();
-						botoes_mobile();
-						altura_botoes_mobile();
+						clearInterval(interval_whatsappfloat);
+						interval_whatsappfloat=setTimeout(function(){
+							if(onresize_whastappfloat != widthWindow()){
+								onresize_whastappfloat=widthWindow();
+								botoes_float_abaixo();
+								botoes_mobile();
+								altura_botoes_mobile();
+							}
+						}, 100);
 					}
 
 		// }
 	});
 
-		}
+}
 	// })
