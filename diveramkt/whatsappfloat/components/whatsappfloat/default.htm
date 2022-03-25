@@ -79,8 +79,8 @@
 						<a class="clique_modal_float" data-form=".modal_form_ligamos" href="#" title="{{obj.legenda_ligamos}}">
 							<!-- <i class="{{fa_icone.numero}} fa-phone-square"></i> -->
 
-							{% if obj.settings.icone_ligamos.path_resize %}
-							<img src="{{ obj.settings.icone_ligamos.path_resize }}" class="fa img_icone" />
+							{% if obj.settings.icone_ligamos.path %}
+							<img src="{{ obj.settings.icone_ligamos.path|resize(30) }}" class="fa img_icone" />
 							{% endif %}
 							<span class="txt" style="{{color}}">{{obj.settings.legenda_ligamos}}</span>
 						</a>

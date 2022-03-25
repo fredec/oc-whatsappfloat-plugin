@@ -115,7 +115,7 @@ class Plugin extends PluginBase
      *
      * @return array
      */
-	    private function getPhpFunctions()
+	    private function getPhpFunctionsNoMiscelanious()
 	    {
 	    	return [
 	    		'create_slug' => function($string) {
@@ -138,7 +138,14 @@ class Plugin extends PluginBase
 	    			if(!strpos("[".$link."]", $url)) return 'target="_blank"';
 	    			else return 'target="_parent"';
 	    		},
-	    		'resize_image' => function ($image=false, $width=false, $height=false, $options=false) {
+	    	];
+	    }
+
+
+	    private function getPhpFunctionsNoUpload()
+	    {
+	    	return [
+	    		'resize' => function ($image=false, $width=false, $height=false, $options=false) {
 	    			if(!$image) return false;
 	    			$image = new Image($image);
 	    			return $image->resize($width, $height, $options);
@@ -150,7 +157,8 @@ class Plugin extends PluginBase
 	    {
 	    	$filters = [];
         // add PHP functions
-	    	$filters += $this->getPhpFunctions();
+	    	if(!Helpers::isUploadsPlugin()) $filters += $this->getPhpFunctionsNoMiscelanious();
+	    	if(!Helpers::isMiscelaniousPlugin()) $filters += $this->getPhpFunctionsNoUpload();
 
 	    	return [
 	    		'filters'   => $filters,

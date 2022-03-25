@@ -85,7 +85,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			// 	// $this->settings['foto_mensagem']['path_resize']=$image->resize(60, 60, $options);
 			// 	$this->settings->foto_mensagem->path_resize=$image->resize(60, 60, $options);
 			// }
-			$this->settings->foto_mensagem->path_resize=$this->resize_image($foto, 60, 60);
+			// $this->settings->foto_mensagem->path_resize=$this->resize_image($foto, 60, 60);
 		}
 
 		switch($this->diasemana(date('Y-m-d'))) {
@@ -320,7 +320,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 
 				$this->settings->icone_ligamos=new stdclass;
 				$this->settings->icone_ligamos->path='/plugins/diveramkt/whatsappfloat/assets/imagens/telLigamos.png';
-				$this->settings->icone_ligamos->path_resize=$this->resize_image($this->settings->icone_ligamos->path, 30, 'auto');
+				// $this->settings->icone_ligamos->path_resize=$this->resize_image($this->settings->icone_ligamos->path, 30, 'auto');
 			}
 
 		}else $this->settings->ativar_form_ligamos=0;
@@ -359,7 +359,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 					if(strpos("[".$this->settings->link_form_externo."]", "@")) $this->settings->link_form_externo_email=1;
 
 					if(isset($this->settings->foto_icone_externo->path) && $this->settings->foto_icone_externo->path){
-						$this->settings->icone_externo_path_resize=$this->resize_image($this->settings->foto_icone_externo->path);
+						// $this->settings->icone_externo_path_resize=$this->resize_image($this->settings->foto_icone_externo->path);
 						// if(!$this->settings->icone_externo_path_resize) $this->settings->icone_externo_path=$this->settings->foto_icone_externo->path;
 
 						// echo '<img src="'.$this->settings->icone_externo_path_resize.'" />';
@@ -863,19 +863,19 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 	}
 
 
-	public function resize_image($image=false, $width=30, $height=30, $options=false){
-		if(!$image) return false;
-		// if(!in_array('ToughDeveloper\ImageResizer\Plugin', $this->class)){
-		$image = new Image($image);
-		if(!$options){
-			$options = [];
-			$options['extension']='png';
-			$options['mode']='crop';
-		}
-		// $options['quality']=80;
-		return $image->resize($width, $height, $options);
-		// }else return false;
-	}
+	// public function resize_image($image=false, $width=30, $height=30, $options=false){
+	// 	if(!$image) return false;
+	// 	// if(!in_array('ToughDeveloper\ImageResizer\Plugin', $this->class)){
+	// 	$image = new Image($image);
+	// 	if(!$options){
+	// 		$options = [];
+	// 		$options['extension']='png';
+	// 		$options['mode']='crop';
+	// 	}
+	// 	// $options['quality']=80;
+	// 	return $image->resize($width, $height, $options);
+	// 	// }else return false;
+	// }
 
 
 
