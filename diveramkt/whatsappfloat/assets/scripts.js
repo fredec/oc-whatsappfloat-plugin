@@ -117,7 +117,8 @@
 
 		// window.onload = function(){
 			$(document).ready(function(){
-
+				// jQuery($('.botoes_floats')).detach().appendTo('body');
+				
 				function isHidden(el) {
 					var style = window.getComputedStyle(el);
 					return (style.display === 'none')
@@ -126,8 +127,8 @@
 				function botoes_float_abaixo(){
 					if(document.querySelector('.botoes_floats.formato_2') || document.querySelector('.botoes_floats.formato_1')){
 						if(window.innerWidth <= 600){
-							document.querySelector('html').style.paddingBottom=(document.querySelector('.botoes_floats').offsetHeight)+'px';
-						}else document.querySelector('html').style.paddingBottom=0;
+							document.querySelector('body').style.paddingBottom=(document.querySelector('.botoes_floats').offsetHeight)+'px';
+						}else document.querySelector('body').style.paddingBottom=0;
 					}
 				}
 				botoes_float_abaixo();
