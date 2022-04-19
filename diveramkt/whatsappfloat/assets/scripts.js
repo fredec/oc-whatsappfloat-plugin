@@ -59,6 +59,7 @@
 							if(cur.offsetHeight > Vcenter_height_float) Vcenter_height_float=cur.offsetHeight;
 						}
 						for (cur of Vcenter_float) { cur.style.height=Vcenter_height_float+'px'; }
+
 				// }else{
 					// for (cur of Vcenter_float) { cur.style.height='unset'; }
 					// for (cur of Vcenter_float) { cur.style.height='35px'; }
@@ -118,7 +119,7 @@
 		// window.onload = function(){
 			$(document).ready(function(){
 				// jQuery($('.botoes_floats')).detach().appendTo('body');
-				
+
 				function isHidden(el) {
 					var style = window.getComputedStyle(el);
 					return (style.display === 'none')

@@ -81,7 +81,7 @@
 		<div>
 			<{{tag_link}} for="mostrar_balao_form_whatsapp" class="link_click" href="{{link_whats }}" title="Atendimento via WhatsApp" target="_blank">
 			{% if obj.settings.icone_image_whatsapp %}
-			<i style="background-image: url({{img_icone.whatsapp|resize(50)}})" class="icone_image"></i>
+			<i style="background-image: url({{img_icone.whatsapp|resize_image(50)}})" class="icone_image"></i>
 			{% else %}
 			<i style="{{color}}" class="{{fa_icone.whatsapp}} fab fa-whatsapp"></i>
 			{% endif %}

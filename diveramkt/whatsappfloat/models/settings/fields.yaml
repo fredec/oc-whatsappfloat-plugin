@@ -56,6 +56,7 @@ fields:
         label: 'Título do site'
         span: auto
         type: text
+        hidden: 1
         comment: 'Pega do thema caso esteja vazio'
     logo_site:
         label: 'Logo do site'
@@ -67,6 +68,7 @@ fields:
             extension: auto
         span: auto
         type: fileupload
+        hidden: 1
         comment: 'Pega no thema caso esteja vazio'
 tabs:
     fields:
@@ -203,6 +205,7 @@ tabs:
             span: full
             type: repeater
             tab: 'Botão de Whatsapp'
+            hidden: 1
             form:
                 fields:
                     mensagem:
@@ -916,6 +919,7 @@ secondaryTabs:
             default: aolado
             span: auto
             type: dropdown
+            hidden: 1
             tab: 'Ordem dos botões'
         ordem:
             label: 'Ordem dos botões'
@@ -944,6 +948,7 @@ secondaryTabs:
                         showSearch: true
                         span: auto
                         type: dropdown
+                        hidden: 1
         versao_awesome:
             label: 'Versão ícones awesome'
             options:
