@@ -1,0 +1,33 @@
+
+{% for key,cur in links %}
+{% if cur.tipo != 'form' or cur.tipo == 'form' and cur.destino_form and cur.destino_form|create_slug != '' %}
+
+{% set class='' %}
+{% set dataform='' %}
+{% if cur.tipo == 'form' %}
+{% set class=' clique_modal_float ' %}
+{% set dataform='.modal_form_personalizado_'~key %}
+{% endif %}
+
+{% set dataform='.modal_form_personalizado_'~key %}
+
+<div class="link_botao_whatsappfloat personalizados {{cur.visivel}} {{tamanho_mobile != 'lateral'?' botao_mobile_aberto ':''}} xs{{tamanho_mobile}}" style="{{cur.color_button?'background: '~cur.color_button:''}}">
+	<div class="Vcenter center_link">
+		<div>
+			<a class="link_click {{class}} " {{dataform?' data-form='~dataform~' ':''}} href="{{cur.link}}" title="{{cur.title}}" {{cur.target}}>
+				{% if cur.icone_externo %}
+				<img src="{{ cur.icone_externo }}" class="fa img_icone" />
+				<!-- <i class="fab fa img_icone icone_back" style="{{cur.color_text?' color: '~cur.color_text:''}};background-image: url({{ cur.icone_externo }});"></i> -->
+				{% else %}
+				<i class="fab {{cur.icone}}" style="{{cur.color_text?' color: '~cur.color_text:''}}"></i>
+				{% endif %}
+				<span class="txt" style="{{cur.color_text?' color: '~cur.color_text:''}}" >
+					{{cur.title}}
+				</span>
+			</a>
+		</div>
+	</div>
+	<a class="abrir_link {{class}}" {{dataform?' data-form='~dataform~' ':''}} href="{{cur.link}}" title="{{cur.title}}" target="_blank"></a>
+</div>
+{% endif %}
+{% endfor %}
