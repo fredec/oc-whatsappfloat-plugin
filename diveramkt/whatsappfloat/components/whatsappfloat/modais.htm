@@ -14,10 +14,10 @@
 				<div class="atualizar_form_personalizado_{{key}}_float atualizar_form">
 
 					{% if cur.link and cur.link != '' %}
-					<form class="validate validate-tooltip contactform_float" action="{{cur.link}}" {{cur.link|target}} >
+					<form class="validate validate-tooltip contactform_float" action="{{cur.link}}" {{cur.link|target}} id="form-{{cur.title|create_slug}}-whatsappfloat">
 						{% else %}
 						<form class="validate validate-tooltip contactform_float" data-legenda="form_contato" 
-						data-request-flash data-request-success=" limpar_form(); " data-request="{{ __SELF__ }}::onFormSubmitPersonalizados" >
+						data-request-flash data-request-success=" limpar_form(); " data-request="{{ __SELF__ }}::onFormSubmitPersonalizados" id="form-{{cur.title|create_slug}}-whatsappfloat">
 						{% endif %}
 						<!-- data-request-update="'{{ __SELF__ }}::form_personalizados': '.atualizar_form_personalizado_{{key}}_float'" -->
 						{{ form_token() }}

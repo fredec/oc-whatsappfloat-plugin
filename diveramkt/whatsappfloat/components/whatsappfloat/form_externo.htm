@@ -7,7 +7,7 @@
 {% set telefone=obj.settings.input_telefone_form_externo %}
 
 {% if action_email %}
-<form class="validate validate-tooltip externoform_float" data-legenda="form_externo" data-request="{{ __SELF__ }}::onFormSubmitExterno" data-request-flash data-request-success="limpar_campos();">
+<form class="validate validate-tooltip externoform_float" data-legenda="form_externo" data-request="{{ __SELF__ }}::onFormSubmitExterno" data-request-flash data-request-success="limpar_campos();" id="form-contato-whatsappfloat">
 	<!-- data-request-update="'{{ __SELF__ }}::form_externo': '.atualizar_form_externo_float'" -->
 	{% else %}
 	<form class="validate validate-tooltip externoform_float" data-legenda="form_externo" method="post" action="{{ action }}" target="_blank">
