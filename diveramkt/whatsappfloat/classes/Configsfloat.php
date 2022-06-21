@@ -8,6 +8,7 @@ use Diveramkt\WhatsappFloat\Classes\formContato;
 use Diveramkt\WhatsappFloat\Classes\Image;
 use Config;
 use Flash;
+use Request;
 
 use Diveramkt\WhatsappFloat\Models\Settings;
 use System\Models\MailSetting;
@@ -130,16 +131,26 @@ class Configsfloat {
 		return $retorno;
 	}
 
-	public static function prep_url($url) {
-		$base = 'http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . str_replace('//', '/', dirname($_SERVER['SCRIPT_NAME']) . '/');
+	// public static function prep_url($url) {
+	// 	$base = 'http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '') . '://' . $_SERVER['HTTP_HOST'] . str_replace('//', '/', dirname($_SERVER['SCRIPT_NAME']) . '/');
 
+	// 	if(!strpos("[".$url."]", "http://") && !strpos("[".$url."]", "https://")){
+	// 		$veri=str_replace('www.','',$_SERVER['HTTP_HOST']. str_replace('//', '/', dirname($_SERVER['SCRIPT_NAME'])));
+	// 		if(!strpos("[".$url."]", ".") && !strpos("[".$veri."]", "https://")){
+	// 			$url='http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '') . '://www.'.str_replace(array('//','\/'),array('/','/'),$veri.'/'.$url);
+	// 		}else $url='http://'.$url;
+	// 	}
+	// 	return str_replace('//www.','//',$url);
+	// }
+
+	public static function prep_url($url) {
 		if(!strpos("[".$url."]", "http://") && !strpos("[".$url."]", "https://")){
-			$veri=str_replace('www.','',$_SERVER['HTTP_HOST']. str_replace('//', '/', dirname($_SERVER['SCRIPT_NAME'])));
-			if(!strpos("[".$url."]", ".") && !strpos("[".$veri."]", "https://")){
-				$url='http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '') . '://www.'.str_replace(array('//','\/'),array('/','/'),$veri.'/'.$url);
+			if(!strpos("[".$url."]", ".") && !strpos("[".url('/')."]", "https://")){
+				$url=url($url);
+				if(Request::server('HTTPS') == 'on') $url=str_replace('http://', 'https://', $url);
 			}else $url='http://'.$url;
 		}
-		return str_replace('//www.','//',$url);
+		return $url;
 	}
 
 	public static function mobile(){
