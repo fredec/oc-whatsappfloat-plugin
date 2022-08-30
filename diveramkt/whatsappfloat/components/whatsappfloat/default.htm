@@ -15,12 +15,19 @@
 {% if quant_botoes_mobile or quant_botoes_desktop %}
 
 {% put scripts %}
-<script src="{{url('/')}}/plugins/diveramkt/whatsappfloat/assets/scripts.js?0.0.4" defer></script>
+<script src="{{url('plugins/diveramkt/whatsappfloat/assets/scripts.js')}}?0.0.4" defer></script>
 <!-- <script src="{{url('/')}}/plugins/diveramkt/whatsappfloat/assets/upload/dropzone.js?0.0.0" defer></script> -->
 <!-- <script src="{{url('/')}}/plugins/diveramkt/whatsappfloat/assets/upload/uploader.js?0.0.0" defer></script> -->
 {% endput %}
 
-<div class=" botoes_floats botoes_floats {{obj.settings.visible_plugin}} formato_mobile_{{ quant_botoes_mobile > 2 ?obj.settings.formato_mobile:''}} formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} legendas_mobile_{{obj.settings.legendas_mobile?'sim':'nao'}} " style="{{obj.settings.margin_bottom?'bottom: '~obj.settings.margin_bottom~'px':''}};">
+{% if __SELF__.addFilesCss[0] %}
+{% for file in __SELF__.addFilesCss %}
+<link href="{{file}}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{file}}"></noscript>
+{% endfor %}
+{% endif %}
+
+<div class=" botoes_floats botoes_floats {{obj.settings.visible_plugin}} formato_mobile_{{ quant_botoes_mobile > 2 ?obj.settings.formato_mobile:''}} formato_{{obj.settings.formato}} horizontal_{{obj.settings.posicao_horizontal}} {{obj.settings.formato_botoes?obj.settings.formato_botoes:''}} legendas_mobile_{{obj.settings.legendas_mobile?'sim':'nao'}} " style="{{obj.settings.margin_bottom?'bottom: '~obj.settings.margin_bottom~'px':''}};display: none;">
 
 	<!-- ///////////////////BALÃO MENSAGEM -->
 	{% if obj.settings.active_mensagem %}
@@ -134,3 +141,4 @@
 
 	</div>
 	{% endif %}
+

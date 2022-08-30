@@ -156,7 +156,11 @@ tabs:
         icone_image_whatsapp:
             label: 'Ícone como imagem'
             span: right
-            type: switch
+            type: dropdown
+            options:
+                0: 'Com fonte'
+                1: 'Com imagem/PNG'
+                2: 'Com imagem/WEBP'
             tab: 'Botão de Whatsapp'
         visivel_whatsapp:
             label: Visível

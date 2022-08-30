@@ -404,6 +404,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		if($versao_icones == '5.1.0') $this->icones_fonte['whatsapp']='fab';
 
 		$this->icones_image['whatsapp']='/plugins/diveramkt/whatsappfloat/assets/imagens/icone-whatsapp-default.png';
+		if(isset($this->settings->icone_image_whatsapp) && $this->settings->icone_image_whatsapp == 2) $this->icones_image['whatsapp']='/plugins/diveramkt/whatsappfloat/assets/imagens/icone-whatsapp-default.webp';
 		// /////////////CLASS ICONES BOTÕES
 
 		if(!isset($this->settings->formato)) $this->settings->formato=1;
@@ -418,19 +419,45 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		// $this->device = 'desktop'; if ($detect->isMobile()) $this->device = 'mobile';
 
 		if($this->quant_botoes_mobile or $this->quant_botoes_desktop){
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/whatsapp.css','0.1.6');
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/efeitos.css','0.0.1');
+			$attributes=[
+				'rel' => 'preload',
+				'as' => 'style',
+				'onload' => "this.onload=null;this.rel='stylesheet'",
+			];
+			// <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+			$this->addFilesCss=[
+				url('plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.0.2'),
+				url('plugins/diveramkt/whatsappfloat/assets/css/efeitos.css?v=0.0.1'),
+				url('plugins/diveramkt/whatsappfloat/assets/css/uploader.css?v=0.0.1'),
+			];
+				// url('plugins/diveramkt/whatsappfloat/assets/scripts.js?v=0.0.1'),
+			// $this->addCss('/plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.1.6',$attributes);
+			// $this->addCss('/plugins/diveramkt/whatsappfloat/assets/css/efeitos.css?v=0.0.1',$attributes);
+
+			// $this->combineAssets(['assets/css']);
+
 			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js','0.0.3');
 
 			$this->uploader_enable=1; $this->uploader_multi=1;
 			// $this->isMulti = $this->property('uploader_multi');
             // if($result = $this->checkUploadAction()) { return $result; }
-			$this->addCss('/plugins/diveramkt/whatsappfloat/assets/upload/uploader.css','0.0.0');
+			
+			// $this->addCss('/plugins/diveramkt/whatsappfloat/assets/upload/uploader.css?v=0.0.0',$attributes);
+
 			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/upload/dropzone.js','0.0.0');
 			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/upload/uploader.js','0.0.0');
+
+			// $url=$this->makeAssets();
+			// // echo 'teste';
+			// print_r($url);
+
 		}
 
+
 	}
+
+	public $addFilesCss=[];
 
 	public function onFormPadrao(){
 		return Configsfloat::formPadrao();
