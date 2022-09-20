@@ -52,6 +52,16 @@ fields:
         showSearch: true
         span: right
         type: dropdown
+    tamanho_botoes:
+        label: 'Tamanho dos botões'
+        options:
+            1: 'Normal'
+            2: 'Médio'
+            3: 'Grande'
+        showSearch: false
+        comment: 'Aumentar o tamanhos dos icones e textos no formato aberto ou fechado'
+        span: right
+        type: dropdown
     title_site:
         label: 'Título do site'
         span: auto

@@ -222,20 +222,27 @@
 	padding-left: 30px;
 	line-height: 20px;
 	font-weight: normal;
+
+	display: flex; -webkit-display: flex; -moz-display: flex; -ms-display: flex; -o-display: flex;
+	flex-wrap: wrap; -webkit-flex-wrap: wrap; -moz-flex-wrap: wrap; -ms-flex-wrap: wrap; -o-flex-wrap: wrap;
+	align-items: center; -webkit-align-items: center; -moz-align-items: center; -ms-align-items: center; -o-align-items: center;
+	justify-content: center; -webkit-justify-content: center; -moz-justify-content: center; -ms-justify-content: center; -o-justify-content: center;
+	height: 100%;
 }
-.link_botao_whatsappfloat a .fa, .link_botao_whatsappfloat a .fab,
-.link_botao_whatsappfloat .link_click .fa, .link_botao_whatsappfloat .link_click .fab{
-	position: absolute;
-	left: 0;
-	top: 50%;
-	/*margin-top: -10.5px;*/
-	transform: translateY(-50%); -webkit-transform: translateY(-50%); -moz-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%);
-	/*margin-top: -7.5px;*/
-	color: white;font-size: 135%;
-	margin-right: 0;
-	min-width: 15px;
-	text-align: center;
-}
+/*.link_botao_whatsappfloat a .fa, .link_botao_whatsappfloat a .fab,
+.link_botao_whatsappfloat .link_click .fa, .link_botao_whatsappfloat .link_click .fab{*/
+	.link_botao_whatsappfloat a>i{
+		position: absolute;
+		left: 0;
+		top: 50%;
+		/*margin-top: -10.5px;*/
+		transform: translateY(-50%); -webkit-transform: translateY(-50%); -moz-transform: translateY(-50%); -ms-transform: translateY(-50%); -o-transform: translateY(-50%);
+		/*margin-top: -7.5px;*/
+		color: white;font-size: 135%;
+		margin-right: 0;
+		min-width: 15px;
+		text-align: center;
+	}
 /*.link_botao_whatsappfloat .abrir_link{display: none;}*/
 .link_botao_whatsappfloat .abrir_link{
 	position: absolute;
@@ -381,6 +388,7 @@
 }
 
 /*/////////////////FORMATO 1*/
+/*.botoes_floats_tamanho_2*/
 .botoes_floats.formato_1{
 	/*left: 100%;right: auto;*/
 	/*left: 100%;*/
@@ -407,23 +415,51 @@
 	transform: translateX(-100%); -webkit-transform: translateX(-100%); -moz-transform: translateX(-100%); -ms-transform: translateX(-100%); -o-transform: translateX(-100%);
 	float: left;
 }
-.botoes_floats.formato_1 .botoes_ > div:hover{
-	right: 0;
-	margin-left: 0;
-	margin-right: 0;
-	transform: translateX(0%); -webkit-transform: translateX(0%); -moz-transform: translateX(0%); -ms-transform: translateX(0%); -o-transform: translateX(0%);
-}
 
 .botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat .center_link .fa,.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat .center_link .fab{
 	right: 0;
 	left: auto;
 }
 .link_botao_whatsappfloat a span.txt, .link_botao_whatsappfloat .link_click span.txt{text-align: left;}
-.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat a span.txt,
-.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat .link_click span.txt{padding-right: 30px;padding-left: 0;text-align: right;}
+/*.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat a span.txt,*/
+/*.botoes_floats.formato_1.horizontal_left .link_botao_whatsappfloat .link_click span.txt*/
+.botoes_floats.formato_1.horizontal_left span.txt{padding-right: 30px;padding-left: 0;text-align: right;}
 .formato_1.horizontal_left .link_botao_whatsappfloat a,.formato_1.horizontal_left .link_botao_whatsappfloat a span,
 .formato_1.horizontal_left .link_botao_whatsappfloat .link_click,.formato_1.horizontal_left .link_botao_whatsappfloat .link_click span{
 	float: right;
+}
+
+/*///////////TAMANHO 2*/
+.botoes_floats.formato_1.botoes_floats_tamanho_2 a>i{font-size: 250%;}
+.botoes_floats.formato_1.botoes_floats_tamanho_2 span.txt{ font-size: 125%; }
+.botoes_floats.formato_1.botoes_floats_tamanho_2 span.txt span{font-size: 100%;}
+.botoes_floats.formato_1.botoes_floats_tamanho_2 .link_botao_whatsappfloat a{height: 40px;}
+.botoes_floats.formato_1.botoes_floats_tamanho_2 a>i{min-width: 45px;}
+.botoes_floats.formato_1.horizontal_left.botoes_floats_tamanho_2 span.txt{ padding-right: 55px; }
+.botoes_floats.formato_1.botoes_floats_tamanho_2 span.txt{ padding-left: 55px; }
+.botoes_floats.formato_1.botoes_floats_tamanho_2 span.txt span{ font-size: 100%; }
+.botoes_floats.formato_1.botoes_floats_tamanho_2 .botoes_ > div{margin-right: 70px;}
+.botoes_floats.formato_1.horizontal_left.botoes_floats_tamanho_2 .botoes_ > div{margin-left: 70px;}
+/*///////////TAMANHO 2*/
+
+/*///////////TAMANHO 3*/
+.botoes_floats.formato_1.botoes_floats_tamanho_3 a>i{font-size: 350%;}
+.botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt{ font-size: 150%; }
+.botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt span{font-size: 100%;}
+.botoes_floats.formato_1.botoes_floats_tamanho_3 .link_botao_whatsappfloat a{height: 60px;}
+.botoes_floats.formato_1.botoes_floats_tamanho_3 a>i{min-width: 60px;}
+.botoes_floats.formato_1.horizontal_left.botoes_floats_tamanho_3 span.txt{ padding-right: 70px; }
+.botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt{ padding-left: 70px; }
+.botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt span{font-size: 100%;}
+.botoes_floats.formato_1.botoes_floats_tamanho_3 .botoes_ > div{margin-right: 85px;}
+.botoes_floats.formato_1.horizontal_left.botoes_floats_tamanho_3 .botoes_ > div{margin-left: 85px;}
+/*///////////TAMANHO 3*/
+
+.botoes_floats.formato_1 .botoes_ > div:hover, .botoes_floats.formato_1.horizontal_left .botoes_ > div:hover{
+	right: 0;
+	margin-left: 0;
+	margin-right: 0;
+	transform: translateX(0%); -webkit-transform: translateX(0%); -moz-transform: translateX(0%); -ms-transform: translateX(0%); -o-transform: translateX(0%);
 }
 /*/////////////////FORMATO 1*/
 
@@ -439,8 +475,7 @@
 .botoes_floats.formato_2 .botoes_ .Vcenter{min-height: 60px;}
 .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link a, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .link_click{width: 100%;}
 .botoes_floats.formato_2 .link_botao_whatsappfloat a, .botoes_floats.formato_2 .link_botao_whatsappfloat .link_click{text-align: center;}
-.botoes_floats.formato_2 .link_botao_whatsappfloat a span.txt, .botoes_floats.formato_2 .link_botao_whatsappfloat .link_click span.txt{padding: 5px;text-align: center;font-size: 70%;width: 100%;}
-.botoes_floats.formato_2 .link_botao_whatsappfloat span.txt{line-height: 10px;}
+.botoes_floats.formato_2 a span.txt{padding: 5px;text-align: center;font-size: 70%;width: 100%;line-height: 10px;}
 .botoes_floats.formato_2 .botoes_ > div a .img_icone, .botoes_floats.formato_2 .botoes_ > div .link_click .img_icone{
 	position: relative;
 	top: 0;
@@ -449,6 +484,27 @@
 	float: none;
 }
 .botoes_floats span.txt span{font-size: 100%;}
+
+/*///////////TAMANHO 2*/
+.botoes_floats.botoes_floats_tamanho_2 a>i{font-size: 200%;}
+.botoes_floats.botoes_floats_tamanho_2 span.txt, .botoes_floats.botoes_floats_tamanho_2.formato_2 span.txt{ font-size: 100%; }
+.botoes_floats.botoes_floats_tamanho_2 span.txt span{font-size: 100%;}
+.botoes_floats.formato_2.botoes_floats_tamanho_2 span.txt{line-height: initial;}
+.botoes_floats.formato_2.botoes_floats_tamanho_2 .botoes_ > div{width: 170px;padding: 20px 0;}
+.botoes_floats.formato_2.botoes_floats_tamanho_2.horizontal_right .botoes_ > div:hover{padding-right: 10px;width: 180px;margin-left: -10px;}
+.botoes_floats.formato_2.botoes_floats_tamanho_2.horizontal_left .botoes_ > div:hover{width: 180px;margin-right: -10px;padding-left: 10px;}
+/*///////////TAMANHO 2*/
+
+/*///////////TAMANHO 3*/
+.botoes_floats.botoes_floats_tamanho_3 a>i{font-size: 350%;}
+.botoes_floats.botoes_floats_tamanho_3 span.txt, .botoes_floats.botoes_floats_tamanho_3.formato_2 span.txt{ font-size: 150%; }
+.botoes_floats.botoes_floats_tamanho_3 span.txt span{font-size: 100%;}
+.botoes_floats.formato_2.botoes_floats_tamanho_3 span.txt{line-height: initial;}
+.botoes_floats.formato_2.botoes_floats_tamanho_3 .botoes_ > div{width: 180px;padding: 20px 0;}
+.botoes_floats.formato_2.botoes_floats_tamanho_3.horizontal_right .botoes_ > div:hover{padding-right: 10px;width: 190px;margin-left: -10px;}
+.botoes_floats.formato_2.botoes_floats_tamanho_3.horizontal_left .botoes_ > div:hover{width: 190px;margin-right: -10px;padding-left: 10px;}
+/*///////////TAMANHO 3*/
+
 /*/////////////////FORMATO 2*/
 
 
@@ -665,10 +721,19 @@
 	.botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fa, .botoes_floats.formato_2 .link_botao_whatsappfloat .center_link .fab{margin-bottom: 0;}
 
 	.botoes_floats.formato_2.horizontal_left .botoes_ > div:hover, .botoes_floats.formato_2.horizontal_right .botoes_ > div:hover{
-		margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;
+		margin-left: 0!important; margin-right: 0!important; padding-left: 0!important; padding-right: 0!important;
 		margin-top: -5px;
 		padding-bottom: 10px;
 	}
+	.botoes_floats.formato_2.botoes_floats_tamanho_2 .botoes_ > div:hover, .botoes_floats.formato_2.botoes_floats_tamanho_3 .botoes_ > div:hover{
+		padding-bottom: 25px!important;
+	}
+
+	.botoes_floats_tamanho_2 a>i, .botoes_floats_tamanho_3 a>i{font-size: 300%!important;}
+	.botoes_floats.botoes_floats_tamanho_2 .link_botao_whatsappfloat a, .botoes_floats.botoes_floats_tamanho_3 .link_botao_whatsappfloat a{height: 60px;}
+	.botoes_floats_tamanho_2 a>span.txt, .botoes_floats_tamanho_3 a>span.txt{margin-top: 0!important; font-size: 100%!important;padding-right: 0!important;}
+	.botoes_floats.botoes_floats_tamanho_2 span.txt, .botoes_floats.botoes_floats_tamanho_3 span.txt{height: 35px;padding: 0!important;}
+	.botoes_floats.formato_3 .botoes_ > div+div, .botoes_floats.formato_4 .botoes_ > div+div{margin-top: 0;}
 }
 
 @media(max-width: 400px){
