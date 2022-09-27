@@ -10,6 +10,7 @@ use Event;
 use App;
 use Request;
 use Diveramkt\WhatsappFloat\Classes\Image;
+use Diveramkt\WhatsappFloat\Classes\BackendHelpers;
 
 class Plugin extends PluginBase
 {
@@ -146,11 +147,24 @@ class Plugin extends PluginBase
 	    	];
 	    }
 
+	    private function getPhpFunctionsMiscelanious()
+	    {
+	    	return [
+	    		'icon_settings' => function($icon) {
+	    			return ' fab '.$icon;
+	    		},
+	    	];
+	    }
+
 	    public function registerMarkupTags()
 	    {
 	    	$filters = [];
         // add PHP functions
 	    	$filters += $this->getPhpFunctions();
+
+	    	if(!BackendHelpers::isMiscelanious() or !method_exists('\Diveramkt\Miscelanious\Classes\Functions','getIconClass')){
+	    		$filters += $this->getPhpFunctionsMiscelanious();	    		
+	    	}
 
 	    	return [
 	    		'filters'   => $filters,

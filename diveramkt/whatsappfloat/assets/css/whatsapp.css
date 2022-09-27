@@ -219,7 +219,7 @@
 
 .link_botao_whatsappfloat a span.txt, .link_botao_whatsappfloat .link_click span.txt{
 	position: relative;
-	padding-left: 30px;
+	padding-left: 35px;
 	line-height: 20px;
 	font-weight: normal;
 
@@ -402,7 +402,7 @@
 	/*right: 45px;*/
 	/*margin-left: -45px;*/
 	/*right: -100%;*/
-	margin-right: 45px;
+	margin-right: 50px;
 	width: auto;
 	float: right;
 	clear: both;
@@ -411,7 +411,8 @@
 
 .botoes_floats.formato_1.horizontal_left > div.box_mensagem{left: 0;}
 .botoes_floats.formato_1.horizontal_left .botoes_ > div{
-	margin-left: 40px;
+	margin-left: 45px;
+	margin-right: 0;
 	transform: translateX(-100%); -webkit-transform: translateX(-100%); -moz-transform: translateX(-100%); -ms-transform: translateX(-100%); -o-transform: translateX(-100%);
 	float: left;
 }
@@ -713,6 +714,13 @@
 		text-align: center;
 		max-height: 20px;
 	}
+	.botoes_floats .botoes_ > div a span.txt, .botoes_floats .botoes_ > div .link_click span.txt{
+		display: none;
+	}
+	.botoes_floats.legendas_mobile_sim .botoes_ > div a span.txt, .botoes_floats.legendas_mobile_sim .botoes_ > div .link_click span.txt{
+		display: block;
+	}
+
 	.formato_mobile_aolado .botoes_ > div a .fa, .formato_mobile_aolado .botoes_ > div .link_click .fa{position: relative;top: 0;margin-top: 0;font-size: 200%;transform: none;}
 	.formato_mobile_aolado .botoes_quant_mobile_2 > div{width: 50%!important;} .formato_mobile_aolado .botoes_quant_mobile_3 > div{width: 33.333333%!important;} .formato_mobile_aolado .botoes_quant_mobile_4 > div{width: 25%!important;} .formato_mobile_aolado .botoes_quant_mobile_5 > div{width: 20%!important;}
 	.formato_mobile_aolado .botoes_quant_mobile_6 > div{width: 16.666666%!important;} .formato_mobile_aolado .botoes_quant_mobile_7 > div{width: 14.285714%!important;} .formato_mobile_aolado .botoes_quant_mobile_8 > div{width: 12.5%!important;} .formato_mobile_aolado .botoes_quant_mobile_9 > div{width: 11.111111%!important;} .formato_mobile_aolado .botoes_quant_mobile_10 > div{width: 20%!important;}

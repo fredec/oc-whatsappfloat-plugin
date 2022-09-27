@@ -12,18 +12,15 @@ use Request;
 
 use Diveramkt\WhatsappFloat\Models\Settings;
 use System\Models\MailSetting;
+use Diveramkt\Miscelanious\Classes\Functions as functions_miscelanious;
+use Diveramkt\WhatsappFloat\Classes\BackendHelpers;
 
 class Configsfloat {
 
 	function __construct(){}
 
 	public static function personalizados($settings){
-
 		$retorno=array();
-
-		// $itens=array();
-		// if(is_array($settings)) $itens=$settings;
-		// else $itens[]=$settings;
 
 		$total=0;
 		$total_mobile=0;
@@ -57,6 +54,10 @@ class Configsfloat {
 				if($value['link']) $value['link']=self::phone_link($value['link']);
 				if(!$value['icone']) $value['icone']='fa fa-phone';
 				if(!$value['color_button']) $value['color_button']='#007bff';
+			}elseif($value['tipo'] == 'email'){
+				if($value['link']) $value['link']='mailto:'.$value['link'];
+				if(!$value['icone']) $value['icone']='fa fa-envelope';
+				if(!$value['color_button']) $value['color_button']='#3498DB';
 			}else{
 				if($value['link']) $value['link']=self::prep_url($value['link']);
 
@@ -99,6 +100,9 @@ class Configsfloat {
 				$total_desktop++;
 			}
 
+			if(isset($value['icone']) && BackendHelpers::isMiscelanious() && method_exists('\Diveramkt\Miscelanious\Classes\Functions','getIconClass')){
+				$value['icone']=functions_miscelanious::getIconClass(trim(str_replace([' fa ','fa-',], ['',''], ' '.$value['icone'].' ')));
+			}
 			$retorno['itens'][]=$value;
 		}
 

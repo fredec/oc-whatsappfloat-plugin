@@ -584,6 +584,7 @@ tabs:
                         label: Tipo
                         options:
                             padrao: Padrão
+                            email: E-mail
                             form: Formulário
                             whatsapp: Whatsapp
                             telefone: Telefone
