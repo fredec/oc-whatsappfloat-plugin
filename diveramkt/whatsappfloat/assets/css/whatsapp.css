@@ -701,7 +701,7 @@
 	.legendas_mobile_nao span.txt{display: none;}
 	/*.formato_mobile_aolado .botoes_ .Vcenter{height: 50px!important;}*/
 	.legendas_mobile_sim .botoes_ .Vcenter{height: 50px!important;}
-	.legendas_mobile_sim .botoes_.botoes_quant_mobile_1 .Vcenter, .legendas_mobile_sim .botoes_.botoes_quant_mobile_2 .Vcenter, .legendas_mobile_nao .botoes_ .Vcenter{height: 30px!important;}
+	.legendas_mobile_sim .botoes_.botoes_quant_mobile_1 .Vcenter, .legendas_mobile_sim .botoes_.botoes_quant_mobile_2 .Vcenter, .legendas_mobile_nao .botoes_ .Vcenter{height: 50px!important;}
 	.formato_mobile_aolado .botoes_ > div a span.txt, .formato_mobile_aolado .botoes_ > div .link_click span.txt{
 		/*display: none;*/
 		padding-left: 0;
