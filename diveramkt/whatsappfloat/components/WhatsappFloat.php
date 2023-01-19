@@ -427,7 +427,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			// <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
 			$this->addFilesCss=[
-				url('plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.0.8'),
+				url('plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.0.9'),
 				url('plugins/diveramkt/whatsappfloat/assets/css/efeitos.css?v=0.0.1'),
 				url('plugins/diveramkt/whatsappfloat/assets/css/uploader.css?v=0.0.1'),
 			];

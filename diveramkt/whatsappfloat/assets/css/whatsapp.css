@@ -448,7 +448,7 @@
 .botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt{ font-size: 150%; }
 .botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt span{font-size: 100%;}
 .botoes_floats.formato_1.botoes_floats_tamanho_3 .link_botao_whatsappfloat a{height: 60px;}
-.botoes_floats.formato_1.botoes_floats_tamanho_3 a>i{min-width: 60px;}
+.botoes_floats.formato_1.botoes_floats_tamanho_3 a>i{min-width: 60px;position: relative;}
 .botoes_floats.formato_1.horizontal_left.botoes_floats_tamanho_3 span.txt{ padding-right: 70px; }
 .botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt{ padding-left: 70px; }
 .botoes_floats.formato_1.botoes_floats_tamanho_3 span.txt span{font-size: 100%;}
@@ -644,6 +644,13 @@
 	.botoes_floats .botoes_ > div .Vcenter{height: 35px;width: auto;margin: 0 auto;min-height: 0!important;}
 	.botoes_floats .botoes_ > div.xs12 .Vcenter{height: auto;}
 	.botoes_floats.botoes_redondos .botoes_ > div{border-radius: 0;}
+	.link_botao_whatsappfloat a{height: auto!important;}
+	.link_botao_whatsappfloat a .fa{
+		font-size: 300%!important;
+		position: relative;
+		top: 0; left: 0;
+		transform: unset;
+	}
 	.link_botao_whatsappfloat a span.txt{padding-left: 25px;line-height: 15px;font-size: 90%;
 		word-break: break-word;
 	}
@@ -664,7 +671,7 @@
 	.botoes_floats.formato_3 .botoes_ > div{border-radius: 50%!important;}
 
 	.botoes_floats.formato_1 .botoes_ > div{clear: none;float: left;}
-	.botoes_floats.formato_1 .botoes_ > div.xs12{padding: 12.5px!important;}
+	.botoes_floats.formato_1 .botoes_ > div.xs12{padding: 6px 12.5px!important;}
 	.botoes_floats .botoes_ > div.xs12{width: 100%!important;}
 	.botoes_floats .botoes_ > div.xs11{width: 91.666666%!important;} .botoes_floats .botoes_ > div.xs10{width: 83.333333%!important;} .botoes_floats .botoes_ > div.xs9{width: 75%!important;} .botoes_floats .botoes_ > div.xs8{width: 66.666666%!important;} .botoes_floats .botoes_ > div.xs7{width: 58.333333%!important;}
 	.botoes_floats .botoes_ > div.xs6{width: 50%!important;} .botoes_floats .botoes_ > div.xs4{width: 33.333333%!important;} .botoes_floats .botoes_ > div.xs3{width: 25%!important;} .botoes_floats .botoes_ > div.xs2{width: 16.666666%!important;} .botoes_floats .botoes_ > div.xs1{width: 8.333333%!important;}
