@@ -85,7 +85,7 @@
 					<div>
 						<a class="clique_modal_float" data-form=".modal_form_ligamos" href="#" title="{{obj.legenda_ligamos}}">
 							{% if obj.settings.icone_ligamos.path_resize %}
-							<img src="{{ obj.settings.icone_ligamos.path_resize }}" class="fa img_icone" />
+							<img src="{{ obj.settings.icone_ligamos.path_resize }}" class="fa img_icone" loading="lazy" width="60" height="60" alt="{{obj.settings.legenda_ligamos}}" />
 							{% endif %}
 							<span class="txt" style="{{color}}">{{obj.settings.legenda_ligamos}}</span>
 						</a>
