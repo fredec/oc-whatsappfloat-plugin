@@ -58,7 +58,7 @@
 .botoes_floats.formato_3 .botoes_ .Vcenter .txt, .botoes_floats.formato_4 .botoes_ .Vcenter .txt{display: none!important;}
 .botoes_floats.formato_3, .botoes_floats.formato_4{padding-right: 15px;padding-left: 15px;}
 .botoes_floats.formato_3 .botoes_ .Vcenter i, .botoes_floats.formato_4 .botoes_ .Vcenter i{position: relative;font-size: 250%;display: inline;line-height: 45px;}
-.botoes_floats.formato_3 .botoes_ > div, .botoes_floats.formato_4 .botoes_ > div{padding: 12px;width: 50px;height: 50px;}
+.botoes_floats.formato_3 .botoes_ > div, .botoes_floats.formato_4 .botoes_ > div{padding: 12px;width: 75px;height: 75px;display: inline-block;}
 .botoes_floats.formato_3 .botoes_ .center_link, .botoes_floats.formato_4 .botoes_ .center_link{text-align: center;width: 50px;height: 50px;}
 /*, .botoes_floats.formato_3 .blocos*/
 .botoes_floats.formato_3 .botoes_ > div+div, .botoes_floats.formato_4 .botoes_ > div+div{margin-top: 10px;}
@@ -673,6 +673,8 @@
 	.botoes_floats.formato_1 .botoes_ > div{clear: none;float: left;}
 	.botoes_floats.formato_1 .botoes_ > div.xs12{padding: 6px 12.5px!important;}
 	.botoes_floats .botoes_ > div.xs12{width: 100%!important;}
+	.botoes_floats.formato_3 .botoes_ > div, .botoes_floats.formato_4 .botoes_ > div{width: 75px!important;height: 75px!important;padding: 0;}
+	.botoes_floats.formato_3 .botoes_ .Vcenter, .botoes_floats.formato_4 .botoes_ .Vcenter{ width: 75px!important; height: 75px!important; }
 	.botoes_floats .botoes_ > div.xs11{width: 91.666666%!important;} .botoes_floats .botoes_ > div.xs10{width: 83.333333%!important;} .botoes_floats .botoes_ > div.xs9{width: 75%!important;} .botoes_floats .botoes_ > div.xs8{width: 66.666666%!important;} .botoes_floats .botoes_ > div.xs7{width: 58.333333%!important;}
 	.botoes_floats .botoes_ > div.xs6{width: 50%!important;} .botoes_floats .botoes_ > div.xs4{width: 33.333333%!important;} .botoes_floats .botoes_ > div.xs3{width: 25%!important;} .botoes_floats .botoes_ > div.xs2{width: 16.666666%!important;} .botoes_floats .botoes_ > div.xs1{width: 8.333333%!important;}
 
