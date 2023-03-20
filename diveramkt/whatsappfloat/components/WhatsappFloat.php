@@ -426,11 +426,18 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 			];
 			// <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
+			// $this->addFilesCss=[
+			// 	url('plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.0.17'),
+			// 	url('plugins/diveramkt/whatsappfloat/assets/css/efeitos.css?v=0.0.1'),
+			// 	url('plugins/diveramkt/whatsappfloat/assets/css/uploader.css?v=0.0.1'),
+			// ];
 			$this->addFilesCss=[
-				url('plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.0.17'),
-				url('plugins/diveramkt/whatsappfloat/assets/css/efeitos.css?v=0.0.1'),
-				url('plugins/diveramkt/whatsappfloat/assets/css/uploader.css?v=0.0.1'),
+				'/plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css',
+				'/plugins/diveramkt/whatsappfloat/assets/css/efeitos.css',
+				'/plugins/diveramkt/whatsappfloat/assets/css/uploader.css',
 			];
+			$combine=\System\Classes\CombineAssets::combine($this->addFilesCss, base_path());
+			$this->addCss(url($combine.'.css'));
 				// url('plugins/diveramkt/whatsappfloat/assets/scripts.js?v=0.0.1'),
 			// $this->addCss('/plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.1.6',$attributes);
 			// $this->addCss('/plugins/diveramkt/whatsappfloat/assets/css/efeitos.css?v=0.0.1',$attributes);

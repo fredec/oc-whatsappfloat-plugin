@@ -22,8 +22,8 @@
 
 {% if __SELF__.addFilesCss[0] %}
 {% for file in __SELF__.addFilesCss %}
-<link href="{{file}}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="{{file}}"></noscript>
+<!-- <link href="{{file}}" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"> -->
+<!-- <noscript><link rel="stylesheet" href="{{file}}"></noscript> -->
 {% endfor %}
 {% endif %}
 
