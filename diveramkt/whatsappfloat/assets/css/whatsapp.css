@@ -751,6 +751,11 @@
 	.botoes_floats_tamanho_2 a>span.txt, .botoes_floats_tamanho_3 a>span.txt{margin-top: 0!important; font-size: 100%!important;padding-right: 0!important;}
 	.botoes_floats.botoes_floats_tamanho_2 span.txt, .botoes_floats.botoes_floats_tamanho_3 span.txt{height: 35px;padding: 0!important;}
 	.botoes_floats.formato_3 .botoes_ > div+div, .botoes_floats.formato_4 .botoes_ > div+div{margin-top: 0;}
+
+	.botoes_floats .botoes_{
+		display: flex; -webkit-display: flex; -moz-display: flex; -ms-display: flex; -o-display: flex;
+		flex-wrap: wrap; -webkit-flex-wrap: wrap; -moz-flex-wrap: wrap; -ms-flex-wrap: wrap; -o-flex-wrap: wrap;
+	}
 }
 
 @media(max-width: 400px){
