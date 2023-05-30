@@ -27,6 +27,7 @@ class Configsfloat {
 		$total_desktop=0;
 
 		foreach ($settings->links_personalizados as $key => $value) {
+			if(!is_array($value)) $value=(array)$value;
 			if(isset($value['enabled']) && !$value['enabled']) continue;
 			if((!$value['link'] && (!isset($value['tipo']) or $value['tipo'] != 'form')) or !$value['title']) continue;
 
