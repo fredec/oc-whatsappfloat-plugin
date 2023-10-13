@@ -47,7 +47,9 @@ class Configsfloat {
 			}
 
 			if($value['tipo'] == 'whatsapp'){
-				if($value['link']) $value['link']=self::whats_link($value['link']);
+				if(isset($value['message_default'])) $message=$value['message_default'];
+				else $message='';
+				if($value['link']) $value['link']=self::whats_link($value['link'], $message);
 				if(!$value['icone']) $value['icone']='fa fa-whatsapp';
 				if(!$value['color_button']) $value['color_button']='#0DC152';
 			}elseif($value['tipo'] == 'telefone'){
@@ -189,7 +191,7 @@ class Configsfloat {
 		return 'tel:+55'.preg_replace("/[^0-9]/", "", $string);
 	}
 
-	public static function whats_link($tel) {
+	public static function whats_link($tel, $msg) {
 		$iphone = strpos($_SERVER['HTTP_USER_AGENT'],"iPhone");
 		$android = strpos($_SERVER['HTTP_USER_AGENT'],"Android");
 		$palmpre = strpos($_SERVER['HTTP_USER_AGENT'],"webOS");
@@ -201,7 +203,9 @@ class Configsfloat {
 		} else {
 			$link='https://web.whatsapp.com/send?phone=55';
 		}
-		return $link.preg_replace("/[^0-9]/", "", $tel);
+		$link.=preg_replace("/[^0-9]/", "", $tel);
+		if($msg) $link.='&text='.$msg;
+		return $link;
 	}
 
 	public static function resize_image($image=false, $width=30, $height=30){

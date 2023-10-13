@@ -35,6 +35,23 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 		];
 	}
 
+	public function defineProperties(){
+		return [
+			'js_manual' => [
+				'title' => 'JS Manual',
+				'description' => 'Adicionar o js manual, variável: addFilesJs',
+				'default' => false,
+				'type' => 'checkbox',
+			],
+			'css_manual' => [
+				'title' => 'CSS Manual',
+				'description' => 'Adicionar o css manual, variável: addFilesCss',
+				'default' => false,
+				'type' => 'checkbox',
+			],
+		];
+	}
+
 	public function iniciar_settings(){
 		// $defaultFields = Settings::instance();
 		$settings = Settings::instance();
@@ -437,14 +454,17 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				'/plugins/diveramkt/whatsappfloat/assets/css/uploader.css',
 			];
 			$combine=\System\Classes\CombineAssets::combine($this->addFilesCss, base_path());
-			$this->addCss(url($combine.'.css'));
+			if(!$this->property('css_manual')) $this->addCss(url($combine.'.css'));
 				// url('plugins/diveramkt/whatsappfloat/assets/scripts.js?v=0.0.1'),
 			// $this->addCss('/plugins/diveramkt/whatsappfloat/assets/css/whatsapp.css?v=0.1.6',$attributes);
 			// $this->addCss('/plugins/diveramkt/whatsappfloat/assets/css/efeitos.css?v=0.0.1',$attributes);
 
 			// $this->combineAssets(['assets/css']);
 
-			// $this->addJs('/plugins/diveramkt/whatsappfloat/assets/scripts.js','0.0.3');
+			$this->addFilesJs=[
+				'/plugins/diveramkt/whatsappfloat/assets/scripts.js',
+			];
+			if(!$this->property('js_manual')) $this->addJs($this->addFilesJs[0].'?v=0.0.3',['defer'=>true]);
 
 			$this->uploader_enable=1; $this->uploader_multi=1;
 			// $this->isMulti = $this->property('uploader_multi');
@@ -464,7 +484,7 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 
 	}
 
-	public $addFilesCss=[];
+	public $addFilesCss=[], $addFilesJs=[];
 
 	public function onFormPadrao(){
 		return Configsfloat::formPadrao();

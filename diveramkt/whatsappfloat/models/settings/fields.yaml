@@ -610,6 +610,10 @@ tabs:
                         showSearch: true
                         span: right
                         type: dropdown
+                    message_default:
+                        label: 'Mensagem padrão'
+                        span: full
+                        type: text
                     icone:
                         label: 'Selecionar ícone'
                         type: select_icones
