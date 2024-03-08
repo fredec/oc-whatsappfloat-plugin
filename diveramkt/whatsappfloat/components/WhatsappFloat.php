@@ -67,7 +67,8 @@ class WhatsappFloat extends \Cms\Classes\ComponentBase
 				$words=(array) json_decode($words->attribute_data);
 				if(count($words) > 1){
 					foreach ($words as $key => $value) {
-						if(isset($settings->$key) && str_replace(' ', '', $value) != '') $settings->$key=$value;
+						if(!$value) continue;
+						$settings->$key=$value;
 					}
 				}
 			}
